@@ -1,0 +1,151 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Article;
+use App\Models\Element;
+use Illuminate\Http\Request;
+
+class ArticleController extends Controller
+{
+    public function create(Request $request)
+    {
+        
+        $article = new Article();
+        $article->name = $request->name;
+
+        // $article->time = 0;
+        // $article->price = 0;
+
+        $article->save();
+
+        return redirect()->route('article.list')->with('message', 'Pomyślnie dodano nowy artykuł.');
+
+    }
+
+
+    public function edit($id)
+    {
+        $article = Article::find($id);
+        return view('article-edit', compact('article'));
+    }
+
+
+    public function update(Request $request)
+    {
+        $article = Article::find($request->id);
+        $article->name = $request->name;
+        $article->save();
+
+
+
+
+
+        return redirect()->route('article.list')->with('message', 'Pomyślnie edytowano artykuł.');
+
+    }
+
+    public function articles_elements_new($article_id)
+    {
+        $article = Article::find($article_id);
+
+
+        return view('article-element-add', compact('article'));
+
+
+
+    }
+
+
+    public function articles_elements_add(Request $request)
+    {
+
+        $article = Article::find($request->article_id);
+        
+        $article->elements()->attach($request->element_id, array('amount' => $request->amount));
+        
+        $element = Element::find($request->element_id);
+        $price_now = ($element->weight * $element->material->price)*$request->amount;
+
+        $article = Article::find($request->article_id);
+        $article->price = $article->price + $price_now;
+        $article->save();
+    
+        
+        
+
+
+
+
+        $article_elements = $article->elements;
+
+        return view('article-details', compact('article_elements'), compact('article'));
+
+            
+
+    }
+
+    public function articles_elements_show($id)
+    {
+        $article = Article::find($id);
+        $article_elements = $article->elements;
+        
+        return view('article-details', compact('article_elements'), compact('article'));
+
+
+    }
+
+    public function articles_elements_delete($article_id, $element_id, $amount)
+    {
+
+
+        $article = Article::find($article_id);
+        $article->elements()->where('id', $element_id)->wherePivot('element_id', $element_id)->wherePivot('amount', $amount)->detach();
+        $article->save();
+        
+        ArticleController::rekalkulacja_wyceny_artykylu($article_id);
+    
+        $article = Article::find($article_id);
+        $article_elements = $article->elements;
+
+
+        return view('article-details', compact('article_elements'), compact('article'));
+
+
+    }
+
+    public function rekalkulacja_wyceny_artykylu($article_id)
+    {
+        $article = Article::find($article_id);
+        $article->price = 0;
+        $article_elements = $article->elements;
+        
+        
+        foreach ($article_elements as $element)
+        {
+            
+            $price_for_element = $element->weight * $element->material->price * $element->pivot->amount;
+            
+            $article->price = $article->price + $price_for_element;
+            
+
+        }
+        
+        $article->save();
+        
+    }
+
+
+
+    public function article_delete($id)
+    {
+      
+        Article::where('id', $id)->delete();
+
+        return view('article-list')->with('message', 'Usunięto artykuł.');
+
+    }
+
+
+
+}

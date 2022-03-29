@@ -1,0 +1,25 @@
+dziękujemy za użycie faviconit!
+skopiuj te pliki do katalogu głównego swojej strony i dodaj poniższy kod do tagu <HEAD> w pliku HTML:
+
+	<!-- ****** favicony faviconit.com ****** -->
+	<link rel="shortcut icon" href="favicon/fleximapp.ico">
+	<link rel="icon" sizes="16x16 32x32 64x64" href="favicon/fleximapp.ico">
+	<link rel="icon" type="image/png" sizes="196x196" href="favicon/fleximapp-192.png">
+	<link rel="icon" type="image/png" sizes="160x160" href="favicon/fleximapp-160.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="favicon/fleximapp-96.png">
+	<link rel="icon" type="image/png" sizes="64x64" href="favicon/fleximapp-64.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon/fleximapp-32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon/fleximapp-16.png">
+	<link rel="apple-touch-icon" href="favicon/fleximapp-57.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="favicon/fleximapp-114.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="favicon/fleximapp-72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="favicon/fleximapp-144.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="favicon/fleximapp-60.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="favicon/fleximapp-120.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="favicon/fleximapp-76.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="favicon/fleximapp-152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="favicon/fleximapp-180.png">
+	<meta name="msapplication-TileColor" content="#FFFFFF">
+	<meta name="msapplication-TileImage" content="favicon/fleximapp-144.png">
+	<meta name="msapplication-config" content="favicon/browserconfig.xml">
+	<!-- ****** favicony faviconit.com ****** -->
