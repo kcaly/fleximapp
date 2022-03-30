@@ -18,7 +18,6 @@ class ProductionController extends Controller
                     $orders = Order::where('date_production', $request->date)->get();
                     foreach ($orders as $single_order)
                     {
-    
                         $order = Order::find($single_order->id);
                         $order->status = 0;
                         $order->save();
@@ -89,7 +88,7 @@ class ProductionController extends Controller
                         $amount_suma = $amount_product * $amount_article * $amount_element;
                         
                         
-                        
+                       
                         $element_production_record = new ElementProduction();
                         $element_production_record->amount = $amount_suma;
                         $element_production_record->element_id = $element->id;
