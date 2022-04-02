@@ -230,6 +230,7 @@
                         @csrf
                         @method('get')
                         <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-ban"></i> Usuń trwale element</button>
+
                     </form>
                 
                 <tbody>

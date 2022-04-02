@@ -31,18 +31,6 @@
                             @enderror
                 </div>
 
-                {{-- <div class="form-floating mb-4">
-                    <input id="date" type="text" class="form-control @error('date') is-invalid @enderror" name="date" value="{{ old('date') }}" placeholder="Data (RRRR-MM-DD)" autofocus />
-                    <label for="date">Data (RRRR-MM-DD)</label>
-                            @error('date')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
-                </div> --}}
-
-
-
                 <div class="form-floating mb-4">
                     
                     <input id="date" type="date" class="form-control @error('date') is-invalid @enderror" name="date" value="{{ old('date') ?? date("Y-m-d")}}" placeholder="Data (RRRR-MM-DD)" autofocus />
@@ -52,17 +40,25 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                             @enderror
-                    
-                   
+                                  
                 </div>
 
+                <div class="row mb-3">
+                    
+                    <div class="col-md-9">
+                        
+                        <input id="csv" name="csv" type="file" class="form-control" placeholder="Plik CSV" />
+                        
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Import CSV</label>
+                          </div>
+                    </div>
 
-                
+                </div>
 
-
-
-                
-                
 
                 <div class="row mt-4 mb-4">
 

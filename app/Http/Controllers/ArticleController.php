@@ -41,7 +41,7 @@ class ArticleController extends Controller
 
 
 
-        return redirect()->route('article.list')->with('message', 'Pomyślnie edytowano artykuł.');
+        return redirect()->route('article.list')->with('message', 'Pomyślnie zapisano artykuł.');
 
     }
 
@@ -79,7 +79,7 @@ class ArticleController extends Controller
 
         $article_elements = $article->elements;
 
-        return view('article-details', compact('article_elements'), compact('article'));
+        return view('article-details ', compact('article_elements'), compact('article'));
 
             
 

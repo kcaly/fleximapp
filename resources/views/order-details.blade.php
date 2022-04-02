@@ -111,7 +111,7 @@
                     <th scope="col"><form method="get" action={{route('orders.products.new', ['order_id' => $order->id] )}} >
                         @csrf
                         @method('get')
-                        <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i></button>
+                        <button type="submit" class="btn btn-primary btn-sm" @if ($order->status > 0) disabled @endif><i class="fas fa-plus"></i></button>
                     </form></th>
                     
                   </tr>
@@ -128,7 +128,7 @@
         <form method="get" action={{route('order.product.delete', ['order_id' => $product->pivot->order_id, 'product_id' => $product->pivot->product_id, 'amount' => $product->pivot->amount])}} >
             @csrf
             @method('get')
-            <button type="submit" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></button>
+            <button type="submit" class="btn btn-danger btn-sm" @if ($order->status > 0) disabled @endif><i class="far fa-trash-alt"></i></button>
         </form>
     </td>
     

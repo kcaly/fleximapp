@@ -127,7 +127,7 @@
         <td>{{$element_job->height}}</td>
         <td><input type="hidden" value="{{$pdffile = $element_job->element->elementfiles->where('type', 'pdf')->first()}}">
           @if($element_job->element->elementfiles->where('type', 'pdf')->first()) 
-          <a href="{{ Storage::url($pdffile->path) }}"><i class="	fas fa-search"></i></a>
+          <a href="{{ Storage::url($pdffile->path) }}" target="_blank"><i class="	fas fa-search"></i></a>
           {{-- Dodać wyświetlenie PDF w osobnej karcie przeglądarki --}}
           @endif</td>
         <form method="get">

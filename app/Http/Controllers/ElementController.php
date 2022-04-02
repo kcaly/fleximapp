@@ -183,7 +183,7 @@ class ElementController extends Controller
             }
 
 
-        return redirect()->route('element.list')->with('message', 'Pomyślnie edytowano element.');
+        return redirect()->route('element.list')->with('message', 'Pomyślnie zapisano element.');
 
     }
 

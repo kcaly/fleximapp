@@ -28,9 +28,6 @@ class OrderController extends Controller
             $order_products = $order->products;
             
             return view('order-details', compact('order_products'), compact('order'));
-    
-    
-        
 
     }
 
@@ -61,7 +58,6 @@ class OrderController extends Controller
 
         return view('order-details', compact('order_products'), compact('order'));
 
-
     }
 
     
@@ -75,7 +71,6 @@ class OrderController extends Controller
 
         $order_products = $order->products;
         return view('order-details', compact('order_products'), compact('order'));
-
 
     }
 
@@ -107,7 +102,7 @@ class OrderController extends Controller
         }
         $order->save();
 
-        return redirect()->route('order.list')->with('message', 'Pomyślnie edytowano zamówienie.');
+        return redirect()->route('order.list')->with('message', 'Pomyślnie zapisano zamówienie.');
 
     }
 
