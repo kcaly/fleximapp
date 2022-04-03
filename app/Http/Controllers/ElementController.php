@@ -60,8 +60,17 @@ class ElementController extends Controller
 
     public function show()
     {
-        $elements = Element::with(['material', 'elementfiles'])->get();
+        
+        $elements = Element::with(['material', 'elementfiles'])->paginate(50);
         return view('element-list', compact('elements'));
+    }
+
+    public function show_custom_size(Request $request)
+    {
+        
+        $elements = Element::with(['material', 'elementfiles'])->paginate($request->size);
+        return view('element-list', compact('elements'));
+        
     }
 
     public function edit($id)
@@ -72,6 +81,7 @@ class ElementController extends Controller
         // $dxf = $element->elementfiles->where('type', 'dxf')->first();
 
         return view('element-edit', compact('element'), compact('articles'));
+        
         
     }
 

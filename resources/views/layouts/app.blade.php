@@ -30,10 +30,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
 
 
-
-
-
-
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -146,11 +142,11 @@
                             {{-- <a class="nav-link" href="{{route('order.new')}}">
                                 Dodaj zamówienie
                             </a> --}}
-                            <a class="nav-link" href="{{route('home')}}">
-                                <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Planowanie
-                            </a>
                             <a class="nav-link" href="{{route('production.show')}}">
-                                <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Produkcja
+                                <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
+                            </a>
+                            <a class="nav-link" href="{{route('home')}}">
+                                <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie
                             </a>
                             <a class="nav-link" href="{{route('home')}}">
                                 <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Zlecenia
@@ -296,8 +292,6 @@
           </svg>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('js/scripts.js')}}"></script>
-
-        
+        <script src="{{ asset('js/scripts.js')}}"></script>    
     </body>
 </html>

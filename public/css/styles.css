@@ -11,8 +11,8 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
- .rediconcolor {color:red;}
- .greeniconcolor {color:green;}
+ .rediconcolor {color: var(--bs-red);}
+ .greeniconcolor {color: var(--bs-green)}
  .blackcolor {color:black;} 
 
 

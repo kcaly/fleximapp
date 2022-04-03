@@ -52,6 +52,7 @@ Route::view('profile/password', 'auth.passwords.change')->name('password.change'
 
 Route::view('element-new', 'element-new')->name('element.new');
 Route::post('element-create', [ElementController::class, 'create'])->name('element.create');
+Route::post('elements', [ElementController::class, 'show_custom_size'])->name('element.list.custom-size');
 Route::get('elements', [ElementController::class, 'show'])->name('element.list');
 Route::get('element-edit/{id}', [ElementController::class, 'edit'])->name('element.edit');
 Route::post('element-update', [ElementController::class, 'update'])->name('element.update');

@@ -33,7 +33,52 @@
         <div class="card-body">
             <table class="table table-striped table-hover">
                 <thead>
-                  <tr>
+    
+                    <tr>
+                        <th scope="col"><button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-filter"></i> Filtruj</button></th>
+
+                        <th scope="col">
+                            <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1"><i class="far fa-file-pdf"></i> PDF</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2"><i class="far fa-file"></i> DXF</label>
+                          </div></th>
+                        <th scope="col"><input type="text" class="form-control"></th>
+                        <th scope="col"><input type="text" class="form-control"></th>
+                        <th scope="col"><input type="text" class="form-control"></th>
+                        <th scope="col">
+                            <select class="form-select form-select-sm" aria-label="Default select example">
+                                <option value="1">(=) Równe:</option>
+                                <option value="2">(>) Większe od:</option>
+                                <option value="3">(<) Mniejsze od:</option>
+                                <option value="4">(>=) Większe lub równe:</option>
+                                <option value="5">(<=) Mniejsze lub równe:</option>
+                            </select>
+                                <input type="text" class="form-control"></th>
+                        <th scope="col">
+                            <select class="form-select form-select-sm" aria-label="Default select example">
+                                <option value="1">(=) Równe:</option>
+                                <option value="2">(>) Większe od:</option>
+                                <option value="3">(<) Mniejsze od:</option>
+                                <option value="4">(>=) Większe lub równe:</option>
+                                <option value="5">(<=) Mniejsze lub równe:</option>
+                            </select>
+                                <input type="text" class="form-control"></th>
+                        <th scope="col">
+                            <select class="form-select form-select-sm" aria-label="Default select example">
+                                <option value="1">(=) Równe:</option>
+                                <option value="2">(>) Większe od:</option>
+                                <option value="3">(<) Mniejsze od:</option>
+                                <option value="4">(>=) Większe lub równe:</option>
+                                <option value="5">(<=) Mniejsze lub równe:</option>
+                            </select>
+                                <input type="text" class="form-control"></th>
+                    </tr>
+                    
+                    <tr>
                     <th scope="col"><a href="{{route('element.new')}}"><i class="fas fa-plus"></i></a></th>
                     <th scope="col"></th>
                     <th scope="col">Materiał</th>
@@ -42,7 +87,7 @@
                     <th scope="col">DŁ</th>
                     <th scope="col">SZER</th>
                     <th scope="col">WYS</th>
-                  </tr>
+                    </tr>
                 </thead>
                 <tbody>
 @foreach ($elements as $element)	
@@ -77,10 +122,36 @@
 @endforeach
        
             </tbody>
+            <tfoot>
+            </tfoot>
         </table> 
+
+
+        
+      
+        
         </div>
-        <div class="card-footer text-center py-3">
-       
+        <div class="card-footer text-center py-3 small">
+            <div class="row my-3 font-weight-light small">
+                <div class="col-md-1">
+                    <form method="post" action="{{route('element.list.custom-size')}}">
+                        @csrf
+                        @method('post')
+                        <select onchange="this.form.submit()" name="size" class="form-control form-control-sm" aria-label=".form-select-sm example">
+                            <option selected>
+                            Ilość /str.
+                            </option>
+                            <option value="10">10 elementów</option>
+                            <option value="50">50 elementów</option>
+                            <option value="100">100 elementów</option>
+                            <option value="1000">1000 elementów</option>
+                          </select> 
+                        </form>
+                </div>
+                <div class="col-md-10">
+                        {{ $elements->links() }}
+                </div>
+            </div>  
         </div>
     </div>
 </div>
