@@ -62,7 +62,11 @@ class ElementController extends Controller
     {
         
         $elements = Element::with(['material', 'elementfiles'])->paginate(50);
-        return view('element-list', compact('elements'));
+        $active_filter = array(
+            'length_type' => null,
+            'length_value' => null,
+            );
+        return view('element-list', compact('elements'), compact('active_filter'));
     }
 
     public function show_custom_size(Request $request)
@@ -232,6 +236,32 @@ class ElementController extends Controller
         return redirect()->route('element.list')->with('message', 'Usunięto element.');
         
     }
+
+
+
+
+
+
+
+    public function filter(Request $request)
+    {
+    
+        
+    $active_filter = array(
+    'length_type' => $request->length_type,
+    'length_value' => $request->length_value,
+    );
+
+        $elements = Element::with(['material', 'elementfiles'])->where('length', $request->length_type, $request->length_value)->paginate(2);
+
+        return view('element-list', compact('elements', 'active_filter'));
+
+
+    }
+
+
+
+
 
 
 }

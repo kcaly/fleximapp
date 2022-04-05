@@ -13,7 +13,7 @@
                 <div class="col-md-6">
                     <div class="form-floating mb-3 mb-md-0">
                         <h4 class="text-center font-weight-light my-4">
-                            Lista elementów
+                            Lista elementów 
                         </h4>
                     </div>
                 </div>
@@ -35,29 +35,42 @@
                 <thead>
     
                     <tr>
-                        <th scope="col"><button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-filter"></i> Filtruj</button></th>
+                    <form method="POST" action="{{ route('element.filter') }}">
+                        @csrf
+                        @method('post')
+
+                        <th scope="col">
+                        <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-filter"></i> Filtruj</button></th>
 
                         <th scope="col">
                             <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <input name="pdf" class="form-check-input" type="checkbox" id="inlineCheckbox1">
                             <label class="form-check-label" for="inlineCheckbox1"><i class="far fa-file-pdf"></i> PDF</label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <input name="dxf" class="form-check-input" type="checkbox" id="inlineCheckbox2">
                             <label class="form-check-label" for="inlineCheckbox2"><i class="far fa-file"></i> DXF</label>
                           </div></th>
+
                         <th scope="col"><input type="text" class="form-control"></th>
                         <th scope="col"><input type="text" class="form-control"></th>
                         <th scope="col"><input type="text" class="form-control"></th>
                         <th scope="col">
-                            <select class="form-select form-select-sm" aria-label="Default select example">
-                                <option value="1">(=) Równe:</option>
-                                <option value="2">(>) Większe od:</option>
-                                <option value="3">(<) Mniejsze od:</option>
-                                <option value="4">(>=) Większe lub równe:</option>
-                                <option value="5">(<=) Mniejsze lub równe:</option>
+                            <select name="length_type" class="form-select form-select-sm" aria-label="Default select example {{ old('length_type') ?? $active_filter['length_type'] }}">
+                                <option selected>
+                                    @if (isset($active_filter['length_type']))
+                                    {{$active_filter['length_type']}}
+                                    @else
+                                    
+                                    @endif
+                                </option>
+                                <option value="=">(=) Równe:</option>
+                                <option value=">">(>) Większe od:</option>
+                                <option value="<">(<) Mniejsze od:</option>
+                                <option value=">=">(>=) Większe lub równe:</option>
+                                <option value="<=">(<=) Mniejsze lub równe:</option>
                             </select>
-                                <input type="text" class="form-control"></th>
+                                <input name="length_value" type="text" class="form-control" value="{{$active_filter['length_value']}}"></th>
                         <th scope="col">
                             <select class="form-select form-select-sm" aria-label="Default select example">
                                 <option value="1">(=) Równe:</option>
@@ -77,7 +90,8 @@
                             </select>
                                 <input type="text" class="form-control"></th>
                     </tr>
-                    
+                    </form>
+
                     <tr>
                     <th scope="col"><a href="{{route('element.new')}}"><i class="fas fa-plus"></i></a></th>
                     <th scope="col"></th>

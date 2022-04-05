@@ -51,6 +51,7 @@ Route::view('profile', 'auth.profile')->name('profile');
 Route::view('profile/password', 'auth.passwords.change')->name('password.change');
 
 Route::view('element-new', 'element-new')->name('element.new');
+
 Route::post('element-create', [ElementController::class, 'create'])->name('element.create');
 Route::post('elements', [ElementController::class, 'show_custom_size'])->name('element.list.custom-size');
 Route::get('elements', [ElementController::class, 'show'])->name('element.list');
@@ -59,6 +60,10 @@ Route::post('element-update', [ElementController::class, 'update'])->name('eleme
 Route::post('element-file-pdf-/{id}', [ElementController::class, 'filepdf_delete'])->name('elementfilepdf.delete');
 Route::post('element-file-dxf-/{id}', [ElementController::class, 'filedxf_delete'])->name('elementfiledxf.delete');
 Route::get('element/delete/{id}', [ElementController::class, 'element_delete'])->name('element.delete');
+
+
+Route::post('elements-filter',[ElementController::class, 'filter'])->name('element.filter');
+
 
 Route::view('article-new', 'article-new')->name('article.new');
 Route::put('article-create', [ArticleController::class, 'create'])->name('article.create');
