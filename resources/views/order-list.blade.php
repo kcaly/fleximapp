@@ -42,7 +42,7 @@
                   </tr>
                 </thead>
                 <tbody>
-@foreach (\App\Models\Order::orderBy('id', 'DESC')->get() as $order)
+@foreach ($orders as $order)
 <tr>
     <td>
         <form method="get" action={{route('order.edit', ['id' => $order->id]) }} >
@@ -75,8 +75,8 @@
             </tbody>
         </table> 
         </div>
-        <div class="card-footer text-center py-3">
-       
+        <div class="card-footer text-center py-3 small">
+            {{ $orders->links() }}
         </div>
     </div>
 </div>

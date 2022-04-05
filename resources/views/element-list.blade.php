@@ -101,12 +101,12 @@
     <td>  
     <input type="hidden" value="{{$pdffile = $element->elementfiles->where('type', 'pdf')->first()}}">
       @if($element->elementfiles->where('type', 'pdf')->first())
-      <a href="{{ Storage::url($pdffile->path) }}"><button class="btn btn-info btn-sm"><i class="far fa-file-pdf"></i> PDF</i></button></a>
+      <a href="{{ Storage::url($pdffile->path) }}"><button class="btn btn-info btn-sm"><i class="far fa-file-pdf"></i></button></a>
       @endif
      
         <input type="hidden" value="{{$dxffile = $element->elementfiles->where('type', 'dxf')->first()}}">
         @if($element->elementfiles->where('type', 'dxf')->first())
-        <a href="{{ Storage::url($dxffile->path) }}"><button class="btn btn-info btn-sm"><i class="far fa-file"></i> DXF</i></button></a>
+        <a href="{{ Storage::url($dxffile->path) }}"><button class="btn btn-info btn-sm"><i class="far fa-file"></i></button></a>
         @endif
       </td>
     <td>{{ $element->material->name }}</td>
@@ -132,7 +132,7 @@
         
         </div>
         <div class="card-footer text-center py-3 small">
-            <div class="row my-3 font-weight-light small">
+            <div class="row font-weight-light small">
                 <div class="col-md-1">
                     <form method="post" action="{{route('element.list.custom-size')}}">
                         @csrf

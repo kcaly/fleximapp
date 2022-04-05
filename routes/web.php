@@ -62,7 +62,8 @@ Route::get('element/delete/{id}', [ElementController::class, 'element_delete'])-
 
 Route::view('article-new', 'article-new')->name('article.new');
 Route::put('article-create', [ArticleController::class, 'create'])->name('article.create');
-Route::view('articles', 'article-list')->name('article.list');
+Route::get('articles', [ArticleController::class, 'show'])->name('article.list');
+// Route::view('articles', 'article-list')->name('article.list');
 Route::get('article-edit/{id}', [ArticleController::class, 'edit'])->name('article.edit');
 Route::put('article-update', [ArticleController::class, 'update'])->name('article.update');
 Route::get('article/delete/{id}', [ArticleController::class, 'article_delete'])->name('article.delete');
@@ -78,7 +79,8 @@ Route::get('articles-element-delete/{article_id}-{element_id}-{amount}', [Articl
 
 Route::view('product-new', 'product-new')->name('product.new');
 Route::put('product-create', [ProductController::class, 'create'])->name('product.create');
-Route::view('products', 'product-list')->name('product.list');
+Route::get('products', [ProductController::class, 'show'])->name('product.list');
+//Route::view('products', 'product-list')->name('product.list');
 Route::get('product-edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
 Route::put('product-update', [ProductController::class, 'update'])->name('product.update');
 Route::get('product/delete/{id}', [ProductController::class, 'product_delete'])->name('product.delete');
@@ -94,7 +96,8 @@ Route::get('product-article-delete/{product_id}-{article_id}-{amount}', [Product
 
 Route::view('order-new', 'order-new')->name('order.new');
 Route::put('order-create', [OrderController::class, 'create'])->name('order.create');
-Route::view('orders', 'order-list')->name('order.list');
+Route::get('orders', [OrderController::class, 'show'])->name('order.list');
+//Route::view('orders', 'order-list')->name('order.list');
 Route::get('order-edit/{id}', [OrderController::class, 'edit'])->name('order.edit');
 Route::put('order-update', [OrderController::class, 'update'])->name('order.update');
 Route::get('order/delete/{id}', [OrderController::class, 'order_delete'])->name('order.delete');

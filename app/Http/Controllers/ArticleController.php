@@ -23,6 +23,13 @@ class ArticleController extends Controller
 
     }
 
+    public function show()
+    {
+        
+        $articles = Article::paginate(100);
+        return view('article-list', compact('articles'));
+    }
+
 
     public function edit($id)
     {

@@ -40,7 +40,7 @@
                   </tr>
                 </thead>
                 <tbody>
-@foreach (\App\Models\Product::all() as $product)
+@foreach ($products as $product)
 <tr>
     <td>
         <form method="get" action={{route('product.edit', ['id' => $product->id]) }} >
@@ -63,8 +63,8 @@
             </tbody>
         </table> 
         </div>
-        <div class="card-footer text-center py-3">
-       
+        <div class="card-footer text-center py-3 small">
+            {{ $products->links() }}
         </div>
     </div>
 </div>

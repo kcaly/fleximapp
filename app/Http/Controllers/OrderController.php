@@ -20,6 +20,13 @@ class OrderController extends Controller
 
     }
 
+    public function show()
+    {
+        
+        $orders = Order::orderBy('id', 'DESC')->paginate(100);
+        return view('order-list', compact('orders'));
+    }
+
 
     public function orders_products_show($id)
     {

@@ -23,6 +23,13 @@ class ProductController extends Controller
 
     }
 
+    public function show()
+    {
+        
+        $products = Product::paginate(100);
+        return view('product-list', compact('products'));
+    }
+
 
     public function products_articles_show($id)
     {
