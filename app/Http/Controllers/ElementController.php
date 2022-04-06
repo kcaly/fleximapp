@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Element;
 use App\Models\ElementFile;
 use Illuminate\Http\Request;
+use DB;
 
 class ElementController extends Controller
 {
@@ -62,20 +63,43 @@ class ElementController extends Controller
     {
         
         $elements = Element::with(['material', 'elementfiles'])->paginate(50);
+
         $active_filter = array(
+            'material_id' => null,
+            'id' => null,
+            'name' => null,
             'length_type' => null,
             'length_value' => null,
+            'width_type' => null,
+            'width_value' => null,
+            'height_type' => null,
+            'height_value' => null,
             );
+            
         return view('element-list', compact('elements'), compact('active_filter'));
     }
 
     public function show_custom_size(Request $request)
     {
+        $active_filter = array(
+            'material_id' => null,
+            'id' => null,
+            'name' => null,
+            'length_type' => null,
+            'length_value' => null,
+            'width_type' => null,
+            'width_value' => null,
+            'height_type' => null,
+            'height_value' => null,
+            );
         
         $elements = Element::with(['material', 'elementfiles'])->paginate($request->size);
-        return view('element-list', compact('elements'));
+        return view('element-list', compact('elements'), compact('active_filter'));
         
     }
+
+
+
 
     public function edit($id)
     {
@@ -196,6 +220,7 @@ class ElementController extends Controller
 
             }
 
+        $element->save();
 
         return redirect()->route('element.list')->with('message', 'Pomyślnie zapisano element.');
 
@@ -243,17 +268,146 @@ class ElementController extends Controller
 
 
 
+
+
+
+
+
+
+    public function filter_returner($material_id, $id, $name, $length_type, $length_value, $width_type, $width_value, $height_type, $height_value)
+    {
+
+        if($material_id == 0)
+        {
+            $material_operator = '<>';
+        }
+        else
+        {
+            $material_operator = '=';
+        }
+
+
+        if($length_value==null && $width_value!=null && $height_value!=null)
+        {
+            $elements = Element::with(['material', 'elementfiles'])
+           ->where('material_id', $material_operator, $material_id)
+           ->where('name','LIKE',$name.'%')
+           ->where('id','LIKE',$id)
+           ->where('width', $width_type, $width_value)
+           ->where('height', $height_type, $height_value)
+           ->paginate(500);
+        }
+    
+        if($height_value==null && $length_value!=null && $width_value!=null)
+        {
+            $elements = Element::with(['material', 'elementfiles'])
+           ->where('material_id', $material_operator, $material_id)
+           ->where('name','LIKE',$name.'%')
+           ->where('id','LIKE',$id)
+           ->where('length', $length_type, $length_value)
+           ->where('width', $width_type, $width_value)
+           ->paginate(500);
+        }
+    
+        if($width_value==null && $length_value!=null && $height_value!=null)
+        {
+            $elements = Element::with(['material', 'elementfiles'])
+           ->where('material_id', $material_operator, $material_id)
+           ->where('name','LIKE',$name.'%')
+           ->where('id','LIKE',$id)
+           ->where('length', $length_type, $length_value)
+           ->where('height', $height_type, $height_value)
+           ->paginate(500);
+        }
+    
+    
+        ////
+    
+    
+        if($length_value==null && $width_value==null && $height_value!=null)
+        {  
+            $elements = Element::with(['material', 'elementfiles'])
+           ->where('material_id', $material_operator, $material_id)
+           ->where('name','LIKE',$name.'%')
+           ->where('id','LIKE',$id)
+           ->where('height', $height_type, $height_value)
+           ->paginate(500);  
+        }
+    
+        if($length_value==null && $width_value!=null && $height_value==null)
+        {  
+            $elements = Element::with(['material', 'elementfiles'])
+           ->where('material_id', $material_operator, $material_id)
+           ->where('name','LIKE',$name.'%')
+           ->where('id','LIKE',$id)
+           ->where('width', $width_type, $width_value)
+           ->paginate(500);  
+        }
+    
+        if($length_value!=null && $width_value==null && $height_value==null)
+        {  
+            $elements = Element::with(['material', 'elementfiles'])
+           ->where('material_id', $material_operator, $material_id)
+           ->where('name','LIKE',$name.'%')
+           ->where('id','LIKE',$id)
+           ->where('length', $length_type, $length_value)
+           ->paginate(500);  
+        }
+    
+    
+        ////
+    
+    
+        if($length_value!=null && $width_value!=null && $height_value!=null)
+        {
+            $elements = Element::with(['material', 'elementfiles'])
+           ->where('material_id', $material_operator, $material_id)
+           ->where('name','LIKE',$name.'%')
+           ->where('id','LIKE',$id)
+           ->where('length', $length_type, $length_value)
+           ->where('width', $width_type, $width_value)
+           ->where('height', $height_type, $height_value)
+           ->paginate(500);
+        }
+    
+        if($length_value==null && $width_value==null && $height_value==null)
+        {
+            $elements = Element::with(['material', 'elementfiles'])
+           ->where('material_id', $material_operator, $material_id)
+           ->where('name','LIKE',$name.'%')
+           ->where('id','LIKE',$id)
+           ->paginate(500);
+        }
+
+        return $elements;
+
+    }
+
+
+
+
     public function filter(Request $request)
     {
     
-        
     $active_filter = array(
+    'material_id' => $request->material_id,
+    'id' => $request->id,
+    'name' => $request->name,
     'length_type' => $request->length_type,
     'length_value' => $request->length_value,
+    'width_type' => $request->width_type,
+    'width_value' => $request->width_value,
+    'height_type' => $request->height_type,
+    'height_value' => $request->height_value,
+    
+    
     );
 
-        $elements = Element::with(['material', 'elementfiles'])->where('length', $request->length_type, $request->length_value)->paginate(2);
 
+    $elements = ElementController::filter_returner($request->material_id, $request->id, $request->name, $request->length_type, $request->length_value, $request->width_type, $request->width_value, $request->height_type, $request->height_value);
+
+
+        
         return view('element-list', compact('elements', 'active_filter'));
 
 
