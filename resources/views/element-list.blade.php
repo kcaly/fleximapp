@@ -3,12 +3,11 @@
 
 
 
+
 <div class="col-lg-12">
     <div class="card shadow-lg border-0 rounded-lg mt-5">
         <div class="card-header">
             
-
-
             <div class="row mb-3 font-weight-light my-4">
                 <div class="col-md-6">
                     <div class="form-floating mb-3 mb-md-0">
@@ -18,7 +17,297 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-floating mb-3 mb-md-0">     
+
+                    <div class="form-floating mb-3 mb-md-0">
+                        
+                        <div class="row mb-3 font-weight-light">
+                           
+                          <div class="col-md-4">
+                                           
+                          </div>
+                          <div class="col-md-8">
+                           
+                            <button type="button" class="btn btn-primary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0) disabled @endif><i class="fas fa-tags"></i> Dodaj do grupy</button> &nbsp;&nbsp;
+
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-tags"></i> Dodaj do grupy</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <ul class="list-group list-group-flush mb-3 ">
+
+                                            <li class="list-group-item">
+                                                <i class="fas fa-caret-down"></i> <strong>Aktywny filtr</strong>
+                                            </li>
+                                            
+                                                @if (isset($active_filter['material_id']))
+                                                @if ($active_filter['material_id'] != 0)
+            
+                                                <li class="list-group-item">Materiał: {{\App\Models\Material::find($active_filter['material_id'])->name}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                                @if (isset($active_filter['id']))
+                                                @if ($active_filter['id'] != 0)
+            
+                                                <li class="list-group-item">ID: {{$active_filter['id']}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                                @if (isset($active_filter['name']))
+                                                @if ($active_filter['name'] != 0)
+            
+                                                <li class="list-group-item">Nazwa: {{$active_filter['name']}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                                @if (isset($active_filter['length_value']))
+                                                @if ($active_filter['length_value'] != 0)
+            
+                                                <li class="list-group-item">Długość: {{$active_filter['length_type']}} {{$active_filter['length_value']}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                                @if (isset($active_filter['width_value']))
+                                                @if ($active_filter['width_value'] != 0)
+            
+                                                <li class="list-group-item">Szerokość: {{$active_filter['width_type']}} {{$active_filter['width_value']}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                                @if (isset($active_filter['height_value']))
+                                                @if ($active_filter['height_value'] != 0)
+            
+                                                <li class="list-group-item">Wysokość: {{$active_filter['height_type']}} {{$active_filter['height_value']}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                          </ul>
+
+                                        <select class="form-select form-select-lg" aria-label=".form-select-lg example">
+                                            <option selected></option>
+                                            @foreach (App\Models\JobGroup::all() as $job_group)
+                                            <option value="{{$job_group->id}}">{{$job_group->name}}</option>
+                                            @endforeach
+                                          </select>
+
+                                          <div class="form-check mt-3 small">
+                
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                              <input class="form-check-input" type="checkbox" name="refresh" value="1" id="flexCheckDefault">
+                                                Powiąż filtr z grupą
+                                            </label>  
+                                            </div>
+                                          
+                                    </div>
+
+                                    <div class="modal-footer">                                    
+   
+                                        <button type="button" class="btn btn-primary"><i class="far fa-check-circle"></i> {{ __('Zatwierdź') }}</button>
+
+                                    </div>
+
+                                    
+                                    <button class="btn btn-light btn-sm mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample2" aria-controls="offcanvasExample">
+                                      <i class="far fa-window-maximize"></i>&nbsp;<strong>Nowa grupa</strong>
+                                    </button>
+
+                                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample2" aria-labelledby="offcanvasExampleLabel">
+                                      <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title" id="offcanvasExampleLabel"><i class="far fa-window-maximize"></i> Nowa grupa</h5>
+                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                      </div>
+                                      <div class="offcanvas-body">
+                                        <div>
+                                          <form method="post" action="{{route('job.group.create')}}">
+                                            @csrf
+                                            @method('post')
+                                          <div class="input-group mt-4">
+                                            <input type="text" name="name" class="form-control" placeholder="Nazwa grupy" aria-label="Nazwa grupy" aria-describedby="basic-addon2">
+                                            <div class="input-group-append">
+                                              <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-check-square"></i> Utwórz</button>
+                                            </div>
+                                          </div>
+                                        </form>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    
+                                  </div>
+                                </div>
+                              </div>
+
+
+                            <button type="button" class="btn btn-primary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal2" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0) disabled @endif><i class="fas fa-thumbtack"></i> Przypisz maszynę</button> &nbsp;&nbsp;
+
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-thumbtack"></i> Przypisz maszynę</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">                                                                              
+
+                                        <ul class="list-group list-group-flush mb-3 ">
+
+                                            <li class="list-group-item">
+                                                <i class="fas fa-caret-down"></i> <strong>Aktywny filtr</strong>
+                                            </li>
+                                            
+                                                @if (isset($active_filter['material_id']))
+                                                @if ($active_filter['material_id'] != 0)
+            
+                                                <li class="list-group-item">Materiał: {{\App\Models\Material::find($active_filter['material_id'])->name}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                                @if (isset($active_filter['id']))
+                                                @if ($active_filter['id'] != 0)
+            
+                                                <li class="list-group-item">ID: {{$active_filter['id']}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                                @if (isset($active_filter['name']))
+                                                @if ($active_filter['name'] != 0)
+            
+                                                <li class="list-group-item">Nazwa: {{$active_filter['name']}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                                @if (isset($active_filter['length_value']))
+                                                @if ($active_filter['length_value'] != 0)
+            
+                                                <li class="list-group-item">Długość: {{$active_filter['length_type']}} {{$active_filter['length_value']}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                                @if (isset($active_filter['width_value']))
+                                                @if ($active_filter['width_value'] != 0)
+            
+                                                <li class="list-group-item">Szerokość: {{$active_filter['width_type']}} {{$active_filter['width_value']}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                                @if (isset($active_filter['height_value']))
+                                                @if ($active_filter['height_value'] != 0)
+            
+                                                <li class="list-group-item">Wysokość: {{$active_filter['height_type']}} {{$active_filter['height_value']}}</li>
+                                                
+                                                @else    
+                                                @endif
+                                                @endif
+
+                                          </ul>
+
+                                        <select class="form-select form-select-lg" aria-label=".form-select-lg example">
+                                            <option selected></option>
+                                            <option value="1">OFS-HE3</option>
+                                            <option value="2">OFS-VS</option>                                       
+                                            
+                                          </select>
+
+                                          <div class="form-check mt-3 small">
+                
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                              <input class="form-check-input" type="checkbox" name="refresh" value="1" id="flexCheckDefault">
+                                                Powiąż filtr z maszyną
+                                            </label>  
+                                            </div>
+                                          
+                                    </div>
+
+                                    
+                                    <div class="modal-footer">                                      
+                                      <button type="button" class="btn btn-primary"><i class="far fa-check-circle"></i> {{ __('Zatwierdź') }}</button>
+                                    </div>
+
+                                    <button class="btn btn-light btn-sm mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample3" aria-controls="offcanvasExample">
+                                      <i class="far fa-window-maximize"></i>&nbsp;<strong>Nowa maszyna</strong>
+                                    </button>
+
+                                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample3" aria-labelledby="offcanvasExampleLabel">
+                                      <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title" id="offcanvasExampleLabel"><i class="far fa-window-maximize"></i> Nowa maszyna</h5>
+                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                      </div>
+                                      <div class="offcanvas-body">
+                                        <div>
+                                          <form method="post" action="{{route('machine.create')}}">
+                                          @csrf
+                                          @method('post')
+                                          <div class="input-group mt-4">
+                                            <input type="text" name="name" class="form-control" placeholder="Nazwa maszyny" aria-label="Nazwa maszyny" aria-describedby="basic-addon2">
+                                            <div class="input-group-append">
+                                              <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-check-square"></i> Utwórz</button>
+                                            </div>
+                                          </div>
+                                        </form>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
+
+                            <div class="form-check small mt-3">
+                                <input class="form-check-input" type="checkbox" name="refresh" value="1" id="flexCheckDefault" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0) disabled @endif>
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    <span class="badge rounded-pill bg-light text-dark"><i class="fas fa-exclamation-triangle"></i> Zastąp istniejące</span>
+                                  
+                                </label></div>
+        
+                          </div>
+          
+                        </div>
+                      </div>
+
+
+
+                      
+
+
+
+                      
+
+
+
+
+
+                    {{-- <div class="form-floating mb-3 mb-md-0">     
                     @if (session()->has('message'))
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <h6>{{ Session::get('message') }}</h6>
@@ -26,6 +315,15 @@
                         </div>
                     @endif           
                     </div>
+
+                    <button type="button" class="btn btn-primary mb-3"><i class="fas fa-th-list"></i> Grupuj</button>
+                    <br>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-thumbtack"></i> Powiąż</button> --}}
+                    
+
+
+
+
                 </div>
             </div>   
               
@@ -40,7 +338,7 @@
                         @method('post')
 
                         <th scope="col" style="width: 5%">
-                        <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-filter"></i> Filtruj</button></th>
+                        <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-filter"></i> Filtruj</button></th>
 
                         <th scope="col" style="width: 5%">
 
@@ -102,7 +400,7 @@
 
 
 
-                        <th scope="col" style="width: 8%"><input name="id" type="text" class="form-control" value="{{$active_filter['id']}}"></th>
+                        <th scope="col" style="width: 8%"><input name="id" type="number" class="form-control" value="{{$active_filter['id']}}"></th>
 
                         <th scope="col" style="width: 20%"><input name="name" type="text" class="form-control" value="{{$active_filter['name']}}"></th>
 
@@ -121,7 +419,7 @@
                                 <option value=">=">(>=) Większe lub równe:</option>
                                 <option value="<=">(<=) Mniejsze lub równe:</option>
                             </select>
-                                <input name="length_value" type="text" class="form-control" value="{{$active_filter['length_value']}}"></th>
+                                <input name="length_value" type="number" class="form-control" value="{{$active_filter['length_value']}}"></th>
 
                         <th scope="col" style="width: 8%">
                             <select name="width_type" class="form-select form-select-sm">
@@ -138,7 +436,7 @@
                                 <option value=">=">(>=) Większe lub równe:</option>
                                 <option value="<=">(<=) Mniejsze lub równe:</option>
                             </select>
-                                <input name="width_value" type="text" class="form-control" value="{{$active_filter['width_value']}}"></th>
+                                <input name="width_value" type="number" class="form-control" value="{{$active_filter['width_value']}}"></th>
 
                         <th scope="col" style="width: 8%">
                             <select name="height_type" class="form-select form-select-sm" >
@@ -155,7 +453,7 @@
                                 <option value=">=">(>=) Większe lub równe:</option>
                                 <option value="<=">(<=) Mniejsze lub równe:</option>
                             </select>
-                                <input name="height_value" type="text" class="form-control" value="{{$active_filter['height_value']}}">
+                                <input name="height_value" type="number" class="form-control" value="{{$active_filter['height_value']}}">
                         </th>
 
                         <th scope="col" style="width: 10%">
@@ -186,14 +484,147 @@
                     <tr>
                     <th scope="col"><a href="{{route('element.new')}}"><i class="fas fa-plus"></i></a></th>
                     <th scope="col">PDF/DXF</th>
-                    <th scope="col">Materiał</th>
-                    <th scope="col">Grupa</th>
+                    
+                    
+                      <form method="post" action={{ route('material.create') }}>
+                    <th scope="col">Materiał 
+                        @csrf
+                        @method('post')
+                      <a href="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample4" aria-controls="offcanvasExample"><i class="fas fa-plus-circle"></i></a>
+                      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample4" aria-labelledby="offcanvasExampleLabel">
+                        <div class="offcanvas-header">
+                          <h5 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fas fa-pallet"></i> Nowy materiał</h5>
+                          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                          <div class="form-floating mb-4">
+                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nazwa"  autofocus required />
+                            <label for="name">Nazwa</label>
+                                    @error('name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                    @enderror
+                        </div>
+                        <div class="row mb-3">
+                          <div class="col-md-6">
+                              <div class="form-floating mb-3 mb-md-0">
+                                  <input id="value" type="number" class="form-control @error('value') is-invalid @enderror" name="value" value="{{ old('value') }}" required autocomplete="value" autofocus placeholder="Przelicznik (kg/m³)" />
+                                  <label for="value">Przelicznik (kg/m³)</label>
+                                  @error('value')
+                                          <span class="invalid-feedback" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                  @enderror
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-floating">
+                                  <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" required autocomplete="price" autofocus placeholder="Cena (kg)" />
+                                  <label for="price">Cena (kg)</label>
+                                  @error('price')
+                                          <span class="invalid-feedback" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                  @enderror
+                              </div>
+                          </div>
+                      </div>
+                        <h5 class="offcanvas-title mb-2 mt-4" id="offcanvasExampleLabel"><i class="fas fa-ruler-combined"></i> Wymiary bloku</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input id="length" type="number" class="form-control @error('length') is-invalid @enderror" name="length" value="{{ old('length') }}" autofocus placeholder="Długość" required/>
+                                    <label for="length">Długość</label>
+                                    @error('length')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input id="width" type="number" class="form-control @error('width') is-invalid @enderror" name="width" value="{{ old('width') }}" autofocus placeholder="Szerokość" required/>
+                                    <label for="width">Szerokość</label>
+                                    @error('width')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input id="height" type="number" class="form-control @error('height') is-invalid @enderror" name="height" value="{{ old('height') }}" autofocus placeholder="Wysokość" required/>
+                                    <label for="height">Wysokość</label>
+                                    @error('height')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-outline-success btn-lg mt-4"><i class="fas fa-check-square"></i> Utwórz</button>
+                        </div>
+                      </div>
+                    </form>
+                    </th>
+
+
+
+                    <th scope="col">Grupa
+                      <a href="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample5" aria-controls="offcanvasExample"><i class="fas fa-plus-circle"></i></a>
+                      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample5" aria-labelledby="offcanvasExampleLabel">
+                        <div class="offcanvas-header">
+                          <h5 class="offcanvas-title" id="offcanvasExampleLabel"><i class="far fa-window-maximize"></i> Nowa grupa</h5>
+                          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                          <div>
+                            <form method="post" action="{{route('job.group.create')}}">
+                              @csrf
+                              @method('post')
+                            <div class="input-group mt-4">
+                              <input type="text" name="name" class="form-control" placeholder="Nazwa grupy" aria-label="Nazwa grupy" aria-describedby="basic-addon2">
+                              <div class="input-group-append">
+                                <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-check-square"></i> Utwórz</button>
+                              </div>
+                            </div>
+                          </form>
+                          </div>
+                        </div>
+                      </div>
+                    </th>
                     <th scope="col">ID</th>
                     <th scope="col">Nazwa</th>
                     <th scope="col">DŁ</th>
                     <th scope="col">SZER</th>
                     <th scope="col">WYS</th>
-                    <th scope="col">Maszyna</th>
+                    <th scope="col">Maszyna
+                      <a href="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample6" aria-controls="offcanvasExample"><i class="fas fa-plus-circle"></i></a>
+                      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample6" aria-labelledby="offcanvasExampleLabel">
+                        <div class="offcanvas-header">
+                          <h5 class="offcanvas-title" id="offcanvasExampleLabel"><i class="far fa-window-maximize"></i> Nowa maszyna</h5>
+                          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                          <div>
+                            <form method="post" action="{{route('machine.create')}}">
+                            @csrf
+                            @method('post')
+                            <div class="input-group mt-4">
+                              <input type="text" name="name" class="form-control" placeholder="Nazwa maszyny" aria-label="Nazwa maszyny" aria-describedby="basic-addon2">
+                              <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-check-square"></i> Utwórz</button>
+                              </div>
+                            </div>
+                          </form>
+                          </div>
+                        </div>
+                      </div>
+                    </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -262,6 +693,7 @@
 
         <div class="card-footer text-center py-3 small">
             {{ $elements->links() }}
+            
         </div>
     </div>
 </div>

@@ -44,9 +44,13 @@ class CompanyController extends Controller
     public static function random_flexim_id()
         {
 
-        $tablica_liter= range('a','z');
-        $wylosowana_litera = mt_rand(0,25);
-        $litera = $tablica_liter[$wylosowana_litera];
+        // $tablica_liter= range('a','z');
+        // $wylosowana_litera = mt_rand(0,25);
+        // $litera = $tablica_liter[$wylosowana_litera];
+        // $wylosowana_liczba = mt_rand( 1000, 2000 );
+        // $flexim_id = $litera . $wylosowana_liczba;
+
+        $litera = 'X';
         $wylosowana_liczba = mt_rand( 1000, 2000 );
         $flexim_id = $litera . $wylosowana_liczba;
         

@@ -6,6 +6,9 @@ use App\Http\Requests\ElementRequest;
 use App\Models\Article;
 use App\Models\Element;
 use App\Models\ElementFile;
+use App\Models\JobGroup;
+use App\Models\Machine;
+
 use Illuminate\Http\Request;
 use DB;
 
@@ -20,6 +23,8 @@ class ElementController extends Controller
             $element->width = $request->width;
             $element->height = $request->height;
             $element->material_id = $request->material_id;
+            $element->job_group_id = $request->job_group_id;
+            $element->machine_id = $request->machine_id;
 
             $dl = $element->length*0.001;
             $szer = $element->width*0.001;
@@ -263,6 +268,28 @@ class ElementController extends Controller
     }
 
 
+
+
+
+
+
+
+    public function create_job_group(Request $request)
+    {
+        $job_group = new JobGroup();
+        $job_group->name = $request->name;
+        $job_group->save();
+        return view('home');
+        
+    }
+
+    public function create_machine(Request $request)
+    {
+        $machine = new Machine();
+        $machine->name = $request->name;
+        $machine->save();
+        return view('home');
+    }
 
 
 

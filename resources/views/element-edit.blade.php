@@ -226,12 +226,7 @@
                   </tr>
                 </thead>
                 
-                    <form method="get" action="{{ route('element.delete', ['id' => $element->id])}}" >
-                        @csrf
-                        @method('get')
-                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-ban"></i> Usuń trwale element</button>
-
-                    </form>
+                    
                 
                 <tbody>
                     <tr>
@@ -247,7 +242,15 @@
                     </tr>   
                     @endforeach
             </tbody>
-        </table>    
+        </table>
+        
+        <form method="get" action="{{ route('element.delete', ['id' => $element->id])}}" >
+            @csrf
+            @method('get')
+            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-ban"></i> Usuń trwale element</button>
+
+        </form>
+        
         </div>
         <div class="card-footer text-center py-3">
             

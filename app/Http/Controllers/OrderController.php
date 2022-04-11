@@ -87,7 +87,7 @@ class OrderController extends Controller
       
         Order::where('id', $id)->delete();
 
-        return view('order-list')->with('message', 'Usunięto zamówienie.');
+        return redirect()->route('order.list')->with('message', 'Usunięto zamówienie.');
 
     }
 

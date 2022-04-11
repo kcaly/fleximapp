@@ -75,12 +75,16 @@
 
               <button type="submit" name="action" value="generate" class="btn btn-primary btn-sm">Generuj</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" name="action" value="load" class="btn btn-primary btn-sm">Wczytaj</button>
 
-              <div class="form-check small mt-3">
-                <input class="form-check-input" type="checkbox" name="refresh" value="1" id="flexCheckDefault">
+              <div class="form-check mt-3 small">
+                
                 <label class="form-check-label" for="flexCheckDefault">
-                  {{-- <i class="fas fa-sync-alt"></i> --}}
+                  <input class="form-check-input" type="checkbox" name="refresh" value="1" id="flexCheckDefault">
+                  <span class="badge bg-light rounded-pill text-dark">
+                    
+                    <i class="fas fa-exclamation-triangle"></i> Wygeneruj ponownie</span>&nbsp;&nbsp;
+                </label>  
                   <button type="submit" name="action" value="delete" class="btn btn-outline-danger btn-sm"><div class="small">Usuń</div></button>
-                </label></div></form>
+                </div></form>
               </div>
              
               

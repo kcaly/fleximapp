@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ElementController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductionController;
@@ -51,6 +52,11 @@ Route::view('profile', 'auth.profile')->name('profile');
 Route::view('profile/password', 'auth.passwords.change')->name('password.change');
 
 Route::view('element-new', 'element-new')->name('element.new');
+
+Route::post('material-create', [MaterialController::class, 'create'])->name('material.create');
+Route::post('job_group_create', [ElementController::class, 'create_job_group'])->name('job.group.create');
+Route::post('machine_create', [ElementController::class, 'create_machine'])->name('machine.create');
+
 
 Route::post('element-create', [ElementController::class, 'create'])->name('element.create');
 Route::post('elements', [ElementController::class, 'show_custom_size'])->name('element.list.custom-size');

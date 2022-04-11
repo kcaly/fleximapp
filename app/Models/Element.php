@@ -38,4 +38,6 @@ class Element extends Model
     {
         return $this->hasMany('App\Models\ElementJob');
     }
+
+    
 }
