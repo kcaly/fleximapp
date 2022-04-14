@@ -72,7 +72,7 @@
 
                 <div class="form-floating mb-4">
                     <select name="material_id" class="form-select" id="inputGroupSelect01">
-                        @foreach (\App\Models\Material::all() as $material)
+                        @foreach (\App\Models\Material::orderBy('name', 'ASC')->get() as $material)
                         <option value="{{ $material->id }}">{{ $material->name }}</option>
                         @endforeach
                     </select>
@@ -88,9 +88,9 @@
 
 
                 <div class="form-floating my-4">
-                    <select class="form-select" aria-label=".form-select-sm example">
+                    <select name="machine_id" class="form-select" aria-label=".form-select-sm example">
                         <option selected></option>
-                        @foreach (\App\Models\Machine::all() as $machine)
+                        @foreach (\App\Models\Machine::orderBy('name', 'ASC')->get() as $machine)
                         <option value="{{ $machine->id }}">{{ $machine->name }}</option>
                         @endforeach
                     </select>
@@ -103,9 +103,9 @@
                 </div>
 
                 <div class="form-floating my-4">
-                    <select class="form-select" aria-label=".form-select-sm example">
+                    <select name="job_group_id" class="form-select" aria-label=".form-select-sm example">
                         <option selected></option>
-                        @foreach (\App\Models\JobGroup::all() as $job_group)
+                        @foreach (\App\Models\JobGroup::orderBy('name', 'ASC')->get() as $job_group)
                         <option value="{{ $job_group->id }}">{{ $job_group->name }}</option>
                         @endforeach
                     </select>

@@ -20,7 +20,6 @@ class CreateElementsTable extends Migration
             $table->integer('width');
             $table->integer('height');
             $table->decimal('weight');
-            $table->string('machine')->nullable();
             $table->timestamps();
 
 

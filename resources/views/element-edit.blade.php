@@ -93,7 +93,7 @@
                             <div class="form-floating mb-3 mb-md-0">
                                 <select name="material_id" class="form-select" id="inputGroupSelect01" value="{{ old('material_id') ?? $element->material_id }}">
                                     <option selected value="{{$element->material_id}}">{{ $element->material->name }}</option>
-                                    @foreach (\App\Models\Material::all() as $material)
+                                    @foreach (\App\Models\Material::orderBy('name', 'ASC')->get() as $material)
                                     
                                     <option value="{{ $material->id }}">{{ $material->name }}</option>
                                     
@@ -116,7 +116,50 @@
 
 
 
+                    <div class="row my-3"></div>
 
+
+                <div class="form-floating my-5">
+                    <select name="machine_id" class="form-select" aria-label=".form-select-sm example">
+                        @if ($element->machine_id != null)
+                        <option selected value="{{$element->machine_id}}">
+                            {{\App\Models\Machine::find($element->machine_id)->name}}
+                        @else
+                        <option selected>
+                        @endif
+                        </option>
+                        @foreach (\App\Models\Machine::orderBy('name', 'ASC')->get() as $machine)
+                        <option value="{{ $machine->id }}">{{ $machine->name }}</option>
+                        @endforeach
+                    </select>
+                    <label for="machine_id">Maszyna</label>
+                            @error('machine_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                </div>
+
+                <div class="form-floating my-5">
+                    <select name="job_group_id" class="form-select" aria-label=".form-select-sm example">
+                        @if ($element->job_group_id != null)
+                        <option selected value="{{ $element->job_group_id }}">
+                            {{\App\Models\JobGroup::find($element->job_group_id)->name}}
+                        @else
+                        <option selected>
+                        @endif
+                        </option>
+                        @foreach (\App\Models\JobGroup::orderBy('name', 'ASC')->get() as $job_group)
+                        <option value="{{ $job_group->id }}">{{ $job_group->name }}</option>
+                        @endforeach
+                    </select>
+                    <label for="job_group_id">Grupa</label>
+                            @error('job_group_id')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                </div>
 
 
 
@@ -125,13 +168,13 @@
 
 
                     
-                    <div class="form-floating mb-4">
+                    <div class="form-floating my-4">
                         
 
                     </div>
 
 
-                    <div class="form-floating mb-4">
+                    <div class="form-floating my-4">
                         <div class="input-group mb-3">
                             
                             @if($element->elementfiles->where('type', 'pdf')->first())

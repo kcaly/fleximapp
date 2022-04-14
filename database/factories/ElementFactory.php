@@ -19,7 +19,6 @@ class ElementFactory extends Factory
             'width' => '500',
             'height' => '100',
             'weight' => (((1000*0.001)*(500*0.001)*(100*0.001))*35),
-            'machine' => 'OFS-HE3',
             'material_id' => '1',
 
         ];

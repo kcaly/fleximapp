@@ -51,7 +51,7 @@ class CompanyController extends Controller
         // $flexim_id = $litera . $wylosowana_liczba;
 
         $litera = 'X';
-        $wylosowana_liczba = mt_rand( 1000, 2000 );
+        $wylosowana_liczba = mt_rand( 10, 99 );
         $flexim_id = $litera . $wylosowana_liczba;
         
 

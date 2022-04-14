@@ -69,7 +69,8 @@ Route::get('element/delete/{id}', [ElementController::class, 'element_delete'])-
 
 
 Route::post('elements-filter',[ElementController::class, 'filter'])->name('element.filter');
-
+Route::post('add-elements-to-group', [ElementController::class, 'add_elements_to_jobgroup'])->name('addition.elements.jobgroup');
+Route::post('add-elements-to-machine', [ElementController::class, 'add_elements_to_machine'])->name('addition.elements.machine');
 
 Route::view('article-new', 'article-new')->name('article.new');
 Route::put('article-create', [ArticleController::class, 'create'])->name('article.create');
