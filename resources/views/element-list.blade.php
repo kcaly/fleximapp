@@ -9,12 +9,30 @@
               <i class="fas fa-retweet"></i>&nbsp;Automatyzacja
             </button> --}}
 
-            <div class="row mb-3 font-weight-light my-4">
+            <button type="button" class="btn btn-light mt-2">&nbsp;<i class="far fa-list-alt"></i>&nbsp;<i class="far fa-paper-plane"></i>&nbsp;&nbsp;Lista grup zleceń</button>
+
+            <button type="button" class="btn btn-light mt-2">&nbsp;<i class="fas fa-list-alt"></i>&nbsp;<i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;Park maszynowy</button>
+
+            
+
+            <div class="row mb-3 font-weight-light my-4 mb-4">
                 <div class="col-md-6">
-                    <div class="form-floating mb-3 mb-md-0">
-                        <h4 class="text-center font-weight-light my-4">
-                            Lista elementów 
-                        </h4>
+                    <div class="form-floating mt-3 mb-3 mb-md-0">
+                      
+                        <h4 class="text-center font-weight-light">
+                          <i class="fas fa-shapes blueiconcolor"></i> Lista elementów<br>
+                          <span class="badge text-dark">
+                        <button class="btn btn-outline-link btn-sm" ><i class="far fa-file-alt"></i> <i class="fas fa-exchange-alt"></i> <i class="far fa-hdd"></i></button></span><br>
+                        
+                            
+                          </h4>
+
+                            
+                        
+
+                        <div class="form small">
+                            
+                          </div>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -24,8 +42,8 @@
                                            
                           </div>
                           <div class="col-md-8">
-                           
-                            <button type="button" class="btn btn-primary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0 || $active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif><i class="fas fa-tags"></i> Dodaj do grupy</button> &nbsp;&nbsp;
+                            
+                            <button type="button" class="btn btn-lg btn-outline-dark mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0 || $active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif><h4><i class="fas fa-tags"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-map-signs"></i></h4> Dodaj do grupy</button> &nbsp;&nbsp;
 
                             <!-- Modal JobGroup-->
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -147,15 +165,137 @@
                                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                       </div>
                                       <div class="offcanvas-body">
-                                        <div class="form-floating my-4">
+
+                                        
+                                        
+                                        <h1 class="d-flex justify-content-center"><i class="fas fa-cookie cookiecolor"></i>&nbsp;&nbsp;<i class="fas fa-cookie cookiecolor"></i>&nbsp;&nbsp;<i class="fas fa-cookie-bite cookiecolor"></i></h1>
+                                        <h1 class="d-flex justify-content px-5"><i class="fas fa-highlighter blueiconcolor"></i></h1>
+                                        <h3 class="d-flex justify-content px-2"><i class="fas fa-terminal blueiconcolor"></i>&nbsp;&nbsp;&nbsp;<i class="far fa-window-minimize blueiconcolor"></i>&nbsp;&nbsp;&nbsp;<i class="far fa-window-minimize blueiconcolor"></i>&nbsp;&nbsp;&nbsp;<i class="far fa-window-minimize blueiconcolor"></i>&nbsp;&nbsp;&nbsp;<i class="far fa-window-minimize blueiconcolor"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-coffee blueiconcolor"></i></h2>
+
+                                          
+                                        
+
+
+                                      <div class="form mt-4 mb-4">
+                                        <label class="mb-2 small" for="titel_new_job_group">Tytuł (etykieta):</label>
+                                        <input id="name_new_job_group" type="text" class="form-control @error('name_new_job_group') is-invalid @enderror" name="name_new_job_group" value="{{ old('name_new_job_group') }}" placeholder=""  autofocus required />
+                                        
+                                    </div>
+                                      
+                                        <div class="form-floating my-4 mb-4">
                                           <input id="name_new_job_group" type="text" class="form-control @error('name_new_job_group') is-invalid @enderror" name="name_new_job_group" value="{{ old('name_new_job_group') }}" placeholder="Nazwa"  autofocus required />
-                                          <label for="name_new_job_group">Nazwa</label>
-                                                  @error('name_new_job_group')
-                                                          <span class="invalid-feedback" role="alert">
-                                                              <strong>{{ $message }}</strong>
-                                                          </span>
-                                                  @enderror
+                                          <label for="name_new_job_group">Nazwa grupy</label>
                                       </div>
+                                      
+                                    <div class="row mb-3">
+                                      <div class="col-md-5">
+                                          <div class="form-floating my-3 mb-md-0">
+                                              <input name="position_new_job_group" type="text" class="form-control" value="15643" required autofocus placeholder="Pozycja" disabled/>
+                                              <label for="position"><i class="fas fa-sort"></i> No. auto list</label>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="form-floating my-3 mb-md-0 px-2">
+                                          <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="status_new_job_group" value="0" id="flexRadioDefault1" checked>
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                              Włącz
+                                            </label>
+                                          </div>
+                                          <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="status_new_job_group" value="1" id="flexRadioDefault2">
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                              Wyłącz
+                                            </label>
+                                          </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="row mb-3 my-4 mt-5">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                          <div class="form-check form-switch">
+                                            <input name="export_new_job_group" class="form-check-input" type="checkbox" value="0" id="flexSwitchCheckDefault">
+                                            <label class="form-check-label" for="flexSwitchCheckDefault">Eksport CSV</label>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                          <div class="form-check form-switch">
+                                            <input name="execute_new_job_group" class="form-check-input" type="checkbox" value="1" id="flexSwitchCheckChecked" checked>
+                                            <label class="form-check-label" for="flexSwitchCheckChecked">Zlecenia</label>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                              
+                              <div class="form-floating my-4 mb-5">
+                                <p class="mb-2" for="titel_new_job_group">Domyślne sortowanie:</p>
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="default_sort" id="inlineRadio1" value="option1" checked>
+                                  <label class="form-check-label small" for="inlineRadio1">Długość</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="default_sort" id="inlineRadio2" value="option2">
+                                  <label class="form-check-label small" for="inlineRadio2">Szerokość</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="default_sort" id="inlineRadio3" value="option3">
+                                  <label class="form-check-label small" for="inlineRadio3">Wysokość</label>
+                                </div>
+                              </div>
+
+
+                              <div class="row mt-3 mb-3 my-4">
+                                          
+                                <h2 class="d-flex justify-content px-10"><i class="fas fa-qrcode grey800color"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="	fas fa-dice-six blueiconcolor"></i>&nbsp;<i class="	fas fa-dice-six blueiconcolor"></i></h2><h1 class="d-flex justify-content-center px-6"><i class="fas fa-dice blueiconcolor"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-qrcode grey800color"></i></h1>       
+                                <div class="form-floating mb-3">
+                                  <h5><i class="fas fa-flag-checkered"></i> Kodowanie</h5>
+                                  
+                                  
+                                </div>
+                                <div class="col-md-2">
+                                  <label class="mb-2 small" for="code_custom">PREFIX</label> 
+                                  <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample2" aria-controls="offcanvasExample" disabled>
+                                  {{ \App\Models\Company::where('id', Auth::User()->company_id)->first()->flexim_id }}
+                                  </button>
+                                  <div class="mt-6"><img src="{{ asset('img/Fleximapp_form_60x60.png')}}"></div>
+                                  {{-- <label class="mb-2 mt-4 small" for="titel_new_job_group">FLEX _ _ _<br>_ _ _ C___<br>_ _ _ _ O<br>________D<br>_________E<br>IM_______</label> --}}
+                                    
+                                </div>
+                                <div class="col-md-8">
+                                  
+                                  
+                                  
+                                    
+                                    
+                                 
+                                  <div class="form mb-4">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2"><label class="mb-2" for="code_custom">&nbsp;&nbsp;Użytkownika</label> 
+                                  <input id="code_custom" type="text" class="form-control" name="code_custom" value="{{ old('code_custom') }}" placeholder="DOWOLNY TEKST"/>
+                                  
+                                  </div>
+                                  
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                      &nbsp;Systemowe
+                                    </label>
+                                  
+                                  <div class="form-floating mt-2 mb-4">
+                                    <input id="code_company" type="text" class="form-control small" name="code_company" value="101409/JG/1 " placeholder="101409/JG/1" disabled/>
+                                    <label for="code_company">Flexim ID: {{ \App\Models\Company::where('id', Auth::User()->company_id)->first()->flexim_id }}</label>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+
+                              
+
+
+
                                       <button type="submit" class="btn btn-outline-success btn-lg mt-4" name="action" value="1"><i class="fas fa-check-square"></i> Utwórz</button>
                                       </div>
                                     </div>
@@ -163,8 +303,8 @@
                                   </div>
                                 </div>
                               </div>
-
-                            <button type="button" class="btn btn-primary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal2" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0 || $active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif><i class="fas fa-thumbtack"></i> Przypisz maszynę</button> &nbsp;&nbsp;
+                              
+                            <button type="button" class="btn btn-lg btn-outline-dark mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal2" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0 || $active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif><h4><i class="fas fa-thumbtack"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-map"></i></h4> Przypisz maszynę</button> &nbsp;&nbsp;
 
                             <!-- Modal Machine-->
                             <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

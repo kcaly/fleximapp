@@ -13,7 +13,11 @@
 
  .rediconcolor {color: var(--bs-red);}
  .greeniconcolor {color: var(--bs-green)}
- .blackcolor {color:black;} 
+ .blackcolor {color:black;}
+ .blueiconcolor {color: var(--bs-blue)}
+ .grey800color {color: var(--bs-gray-800)} 
+ .yellowcolor {color: var(--bs-yellow);}
+ .cookiecolor {color: #BD8C61}
 
 
 
@@ -7347,6 +7351,10 @@ textarea.form-control-lg {
 
 .mt-5 {
   margin-top: 3rem !important;
+}
+
+.mt-6 {
+  margin-top: 3.5rem !important;
 }
 
 .mt-auto {
