@@ -9,7 +9,7 @@
               <i class="fas fa-retweet"></i>&nbsp;Automatyzacja
             </button> --}}
 
-            <button type="button" class="btn btn-light mt-2">&nbsp;<i class="far fa-list-alt"></i>&nbsp;<i class="far fa-paper-plane"></i>&nbsp;&nbsp;Lista grup zleceń</button>
+            <button type="button" class="btn btn-light mt-2">&nbsp;<i class="far fa-list-alt"></i>&nbsp;<i class="far fa-paper-plane"></i>&nbsp;&nbsp;Grupy zleceń</button>
 
             <button type="button" class="btn btn-light mt-2">&nbsp;<i class="fas fa-list-alt"></i>&nbsp;<i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;Park maszynowy</button>
 
@@ -20,7 +20,7 @@
                     <div class="form-floating mt-3 mb-3 mb-md-0">
                       
                         <h4 class="text-center font-weight-light">
-                          <i class="fas fa-shapes blueiconcolor"></i> Lista elementów<br>
+                           <i class="fas fa-shapes"></i><i class="fas fa-chalkboard"></i><i class="fas fa-bars"></i> Lista elementów<br>
                           <span class="badge text-dark">
                         <button class="btn btn-outline-link btn-sm" ><i class="far fa-file-alt"></i> <i class="fas fa-exchange-alt"></i> <i class="far fa-hdd"></i></button></span><br>
                         
@@ -43,7 +43,7 @@
                           </div>
                           <div class="col-md-8">
                             
-                            <button type="button" class="btn btn-lg btn-outline-dark mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0 || $active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif><h4><i class="fas fa-tags"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-map-signs"></i></h4> Dodaj do grupy</button> &nbsp;&nbsp;
+                            <button type="button" class="btn btn-lg btn-outline-dark mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0 || $active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif><i class="far fa-plus-square blueiconcolor"></i> <i class="far fa-folder blueiconcolor"></i><br><h3><i class="fas fa-tags "></i></h3></button> &nbsp;&nbsp;
 
                             <!-- Modal JobGroup-->
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -190,8 +190,8 @@
                                     <div class="row mb-3">
                                       <div class="col-md-5">
                                           <div class="form-floating my-3 mb-md-0">
-                                              <input name="position_new_job_group" type="text" class="form-control" value="15643" required autofocus placeholder="Pozycja" disabled/>
-                                              <label for="position"><i class="fas fa-sort"></i> No. auto list</label>
+                                              <input name="position_new_job_group" type="text" class="form-control" value="1" required autofocus placeholder="Pozycja" disabled/>
+                                              <label for="position"><i class="fas fa-sort"></i> No. order list</label>
                                           </div>
                                       </div>
                                       <div class="col-md-6">
@@ -216,7 +216,7 @@
                                         <div class="form-floating mb-3">
                                           <div class="form-check form-switch">
                                             <input name="export_new_job_group" class="form-check-input" type="checkbox" value="0" id="flexSwitchCheckDefault">
-                                            <label class="form-check-label" for="flexSwitchCheckDefault">Eksport CSV</label>
+                                            <label class="form-check-label" for="flexSwitchCheckDefault">Eksport</label>
                                           </div>
                                         </div>
                                     </div>
@@ -274,7 +274,7 @@
                                  
                                   <div class="form mb-4">
                                     <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2"><label class="mb-2" for="code_custom">&nbsp;&nbsp;Użytkownika</label> 
-                                  <input id="code_custom" type="text" class="form-control" name="code_custom" value="{{ old('code_custom') }}" placeholder="DOWOLNY TEKST"/>
+                                  <input id="code_custom" type="text" class="form-control" name="code_custom" value="{{ old('code_custom') }}" placeholder=""/>
                                   
                                   </div>
                                   
@@ -284,7 +284,7 @@
                                     </label>
                                   
                                   <div class="form-floating mt-2 mb-4">
-                                    <input id="code_company" type="text" class="form-control small" name="code_company" value="101409/JG/1 " placeholder="101409/JG/1" disabled/>
+                                    <input id="code_company" type="text" class="form-control small" name="code_company" value="101409/JG/1 " placeholder="101409/JG/1" checked disabled/>
                                     <label for="code_company">Flexim ID: {{ \App\Models\Company::where('id', Auth::User()->company_id)->first()->flexim_id }}</label>
                                     </div>
 
@@ -296,7 +296,7 @@
 
 
 
-                                      <button type="submit" class="btn btn-outline-success btn-lg mt-4" name="action" value="1"><i class="fas fa-check-square"></i> Utwórz</button>
+                                      <button type="submit" class="btn btn-outline-success btn-lg mt-4" name="action" value="1"><i class="fas fa-check-square"></i>&nbsp;&nbsp;Utwórz</button>
                                       </div>
                                     </div>
                                   </form>                                   
@@ -304,7 +304,7 @@
                                 </div>
                               </div>
                               
-                            <button type="button" class="btn btn-lg btn-outline-dark mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal2" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0 || $active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif><h4><i class="fas fa-thumbtack"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-map"></i></h4> Przypisz maszynę</button> &nbsp;&nbsp;
+                            <button type="button" class="btn btn-lg btn-outline-dark mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal2" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0 || $active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif><i class="fas fa-plus-square blueiconcolor"></i> <i class="fas fa-folder blueiconcolor"></i><br><h3><i class="fas fa-thumbtack"></i></h3></button> &nbsp;&nbsp;
 
                             <!-- Modal Machine-->
                             <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -446,7 +446,8 @@
                                 <input class="form-check-input" type="checkbox" name="refresh" value="1" id="flexCheckDefault" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0) disabled @endif>
                                 <label class="form-check-label" for="flexCheckDefault">
                                     <span class="badge rounded-pill bg-light text-dark"><i class="fas fa-exclamation-triangle"></i> Zastąp istniejące</span>                                 
-                                </label></div> --}}        
+                                </label></div> --}}   
+                                <button type="button" class="btn btn-lg btn-outline-dark mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0 || $active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif><i class="far fa-share-square blueiconcolor"></i> <i class="far fa-folder-open blueiconcolor"></i><br><h3><i class="	fas fa-magic"></i></h3></button> &nbsp;&nbsp;
                           </div>
                         </div>
                     </div>

@@ -15,9 +15,11 @@
  .greeniconcolor {color: var(--bs-green)}
  .blackcolor {color:black;}
  .blueiconcolor {color: var(--bs-blue)}
- .grey800color {color: var(--bs-gray-800)} 
+ .grey800color {color: var(--bs-gray-800)}
+ .grey600color {color: var(--bs-gray-600)}  
  .yellowcolor {color: var(--bs-yellow);}
- .cookiecolor {color: #BD8C61}
+ .cookiecolor {color: #BD8C61}]
+ .bggrey {background-color: var(--bs-gutter-y)}
 
 
 
