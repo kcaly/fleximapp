@@ -213,7 +213,7 @@
     
         <div class="card-body mt-2">
             
-          <h5 class="card-title"><i class="fas fa-print"></i> Grupa produktu</h5>
+          <h5 class="card-title"><i class="fas fa-print"></i> Karta produktu</h5>
           
             
             <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -278,7 +278,7 @@
     
     <div class="card-body mt-2">
         
-      <h5 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Stanowisko maszyny</h5>
+      <h5 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Stanowisko</h5>
       
         
         <li class="list-group-item d-flex justify-content-between align-items-start">
