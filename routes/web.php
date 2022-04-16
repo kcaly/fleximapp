@@ -126,7 +126,7 @@ Route::get('order-product-delete/{order_id}-{product_id}-{amount}', [OrderContro
 
 Route::view('production', 'production-show')->name('production.show');
 Route::put('production-show', [ProductionController::class, 'show'])->name('production');
-
+Route::view('inplan-prod-to-job', 'production-plan')->name('production.plan');
 
 
     Route::middleware('admin')->group(function(){

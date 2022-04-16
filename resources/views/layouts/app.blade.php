@@ -67,7 +67,7 @@
                         <li><hr class="dropdown-divider" /></li>
 
                         @can ('admin')
-                        <li><a class="dropdown-item" href="{{ route('panel')}}"><i class="fas fa-users"></i> Panel</a></li>
+                        <li><a class="dropdown-item" href="{{ route('panel')}}"><i class="fas fa-users"></i> Panel adm.</a></li>
                         @endcan
 
                         <a class="dropdown-item" href="{{ route('logout') }}"
@@ -111,10 +111,7 @@
                                     <a class="nav-link" href="{{route('product.list')}}">
                                         <i class="fas fa-archive"></i>&nbsp;&nbsp;Produkty
                                     </a>
-                                    <a class="nav-link" href="{{route('home')}}">
-                                        {{-- <div class="sb-nav-link-icon"><i class="fas fa-upload"></i></div> --}}
-                                        <i class="fas fa-upload"></i>&nbsp;&nbsp;Import CSV
-                                    </a>
+                                    
                                 </nav>
                             </div>
 
@@ -146,15 +143,21 @@
                             <a class="nav-link" href="{{route('production.show')}}">
                                 <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
                             </a>
-                            <a class="nav-link" href="{{route('home')}}">
+                            <a class="nav-link" href="{{route('production.plan')}}">
                                 <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie
                             </a>
                             <a class="nav-link" href="{{route('home')}}">
                                 <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Zlecenia
                             </a>
-                            <a class="nav-link" href="{{route('home')}}">    
-                                <i class="fas fa-tachometer-alt"></i>&nbsp;&nbsp;Wydajność
+                            <a class="nav-link" href="{{route('home')}}">
+                                <i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Logistyka
                             </a>
+                            
+
+
+                            {{-- <a class="nav-link" href="{{route('home')}}">    
+                                <i class="fas fa-tachometer-alt"></i>&nbsp;&nbsp;Wydajność
+                            </a> --}}
 
                             
 
