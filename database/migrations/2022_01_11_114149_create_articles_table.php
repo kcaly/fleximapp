@@ -15,8 +15,8 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('code');
             $table->string('name');
-
             $table->integer('time')->nullable();
             $table->decimal('price')->nullable();
             $table->timestamps();

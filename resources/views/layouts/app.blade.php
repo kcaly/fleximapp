@@ -65,6 +65,11 @@
                         <li><a class="dropdown-item" href="{{ route('profile')}}"><i class="fas fa-id-badge"></i> Mój profil</a></li>
                         <li><a class="dropdown-item" href="{{ route('password.change')}}"><i class="fas fa-lock"></i> Zmień hasło</a></li>
                         <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a class="dropdown-item small" href="#"><h6 class="rediconcolor"><i class="fas fa-bug rediconcolor"></i> Raport błędu</h6></a>
+                            {{-- &nbsp;&nbsp;&nbsp;
+                            <a href="#"><i class="fas fa-user-secret"></i> privacy</a> --}}
+                        </li>
 
                         @can ('admin')
                         <li><a class="dropdown-item" href="{{ route('panel')}}"><i class="fas fa-users"></i> Panel adm.</a></li>
@@ -102,6 +107,9 @@
                             </a>
                             <div class="collapse" id="articles" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
+                                    
+                                    <div class="small bg-primary mt-2 mb-1 grey600color">&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-down grey600color"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-pencil-ruler grey600color"></i>&nbsp;&nbsp;Specyfikacja</div>
+                                    
                                     <a class="nav-link" href="{{route('element.list')}}">
                                         <i class="fas fa-layer-group"></i>&nbsp;&nbsp;Elementy
                                     </a>
@@ -112,7 +120,22 @@
                                         <i class="fas fa-archive"></i>&nbsp;&nbsp;Produkty
                                     </a>
                                     
+                                    <br />
+                                    <div class="small bg-primary mt-2 mb-1 grey600color">&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-down grey600color"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-business-time grey600color"></i>&nbsp;&nbsp;Optymalizacja</div>
+                                    <br />
+                                    <a class="nav-link" href="{{route('job.group.list')}}">
+                                        <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Zlecenia
+                                    </a>
+                                    <a class="nav-link" href="{{route('machine.list')}}">
+                                        <i class="fas fa-luggage-cart"></i>&nbsp;&nbsp;Maszyny
+                                    </a>
+                                    
+                                    
                                 </nav>
+
+                               
+
+
                             </div>
 
                             
@@ -271,10 +294,10 @@
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
                             <div class="text-muted">Copyright &copy; Fleximapp 2021</div>
-                            <div>
-                                <a href="#">Regulamin</a>
+                            <div class="small">
+                                <a href="#"><i class="fas fa-user-secret"></i> privacy</a>
                                 &nbsp;&nbsp;&nbsp;
-                                <a href="#">Kontakt</a>
+                                <a href="#"><i class="fas fa-user-secret"></i> privacy</a>
                             </div>
                         </div>
                     </div>

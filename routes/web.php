@@ -57,6 +57,19 @@ Route::post('material-create', [MaterialController::class, 'create'])->name('mat
 Route::post('job_group_create', [ElementController::class, 'create_job_group'])->name('job.group.create');
 Route::post('machine_create', [ElementController::class, 'create_machine'])->name('machine.create');
 
+Route::get('elements/groups', [ElementController::class, 'job_group_list'])->name('job.group.list');
+Route::get('elements/group/{id}/turn', [ElementController::class, 'job_group_status'])->name('job.group.status');
+Route::get('elements/group/{id}', [ElementController::class, 'job_group_select'])->name('job.group.select');
+Route::get('elements/group/{id}/run', [ElementController::class, 'job_group_run_filter'])->name('job.group.run.filter');
+Route::post('elements/group/edit', [ElementController::class, 'job_group_edit'])->name('job.group.edit');
+
+
+Route::get('elements/machines', [ElementController::class, 'machine_list'])->name('machine.list');
+Route::get('elements/machine/{id}/turn', [ElementController::class, 'machine_status'])->name('machine.status');
+Route::get('elements/machine/{id}', [ElementController::class, 'machine_select'])->name('machine.select');
+Route::get('elements/machine/{id}/run', [ElementController::class, 'machine_run_filter'])->name('machine.run.filter');
+Route::post('elements/machine/edit', [ElementController::class, 'machine_edit'])->name('machine.edit');
+Route::get('material/{id}/delete', [MaterialController::class, 'delete'])->name('material.delete');
 
 Route::post('element-create', [ElementController::class, 'create'])->name('element.create');
 Route::post('elements', [ElementController::class, 'show_custom_size'])->name('element.list.custom-size');
@@ -119,6 +132,8 @@ Route::get('orders-products-show/{id}', [OrderController::class, 'orders_product
 Route::get('orders-products/{order_id}', [OrderController::class, 'orders_products_new'])->name('orders.products.new');
 Route::put('orders-products', [OrderController::class, 'orders_products_add'])->name('orders_products.add');
 Route::get('order-product-delete/{order_id}-{product_id}-{amount}', [OrderController::class, 'order_product_delete'])->name('order.product.delete');
+
+
 
 
 

@@ -7,8 +7,8 @@
     <div class="col-lg-8">
         <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-header">
-                <h6 class="text-left font-weight-light my-1">
-                    Planowanie <i class="fas fa-chart-line"></i>
+                <h6 class="text-left font-weight-light my-1 grey700color">
+                  Planowanie
                 </h6>
               </div>
             <div class="card-body">
@@ -18,7 +18,7 @@
   
                     <div class="col-md-6">
                         <div class="form-floating mb-3 mb-md-0">
-                            <h5><i class="fas fa-tools"></i>&nbsp;&nbsp;Ustaw roboczy zakres produkcji do pracy</h5>
+                            <h5><i class="fas fa-drafting-compass"></i>&nbsp;&nbsp;Wybierz zakres produkcji</h5>
             
                           <div class="row mb-3 font-weight-light my-4">
                             
@@ -70,7 +70,7 @@
                                 <div class="d-flex justify-content my-2">
                                 <button type="submit" name="action" value="generate" class="btn btn-outline-danger"><h3><i class="fas fa-low-vision"></i></h3><h6 class="small">Zamknij</h6></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="submit" name="action" value="generate" class="btn btn-warning"><h3><i class="fas fa-drafting-compass"></i></h3><h6 class="small">Wczytaj</h6></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="submit" name="action" value="generate" class="btn btn-success"><h2><i class="fas fa-route"></i> <i class="fas fa-clipboard-check"></i></h2><h6 class="small">Zapisz stany plan.</h6></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="submit" name="action" value="generate" class="btn btn-success"><h2><i class="fas fa-route"></i> <i class="fas fa-clipboard-check"></i></h2><h6 class="small">Zapisz plan.</h6></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 </div>
                          
         
@@ -91,12 +91,21 @@
                         
                         </div>
                     <div class="col-md-6">
-  
+                      <div class="form-floating mt-5 mb-4">
+                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nazwa" autofocus required />
+                        <label for="name">Nazwa zlecenia</label>
+                                @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                @enderror
+                    </div>
+
                         <div class="accordion" id="accordionPanelsStayOpenExample">
                             <div class="accordion-item">
                               <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                    <i class="fas fa-spinner"></i>&nbsp;&nbsp;Status gotowości procesu planowania
+                                    <i class="fas fa-wrench"></i>&nbsp;&nbsp;Stan planu roboczego
                                 </button>
                               </h2>
                               <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
@@ -248,7 +257,13 @@
         
         
         <div class="card-body">
-            <div class="row mb-3">
+          <div class="list-group mb-3">
+          <label class="list-group-item">
+            <input class="form-check-input me-1" type="checkbox" value="">
+            Karta produktu
+          </label>
+        </div>
+            <div class="row">
               
 
                 <select class="form-select" multiple aria-label="multiple select example">
@@ -266,9 +281,9 @@
                         {{-- <button type="submit" class="btn btn-dark" href="login.html"><h5><i class="fas fa-folder-plus"></i></h5>Wyczyść</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --}}
                         <button type="submit" class="btn btn-light" href="login.html"><h3><i class="fas fa-link"></i></h3>Połącz</button>	
                     </div>
-                    </div>                       
+                </div>                       
             </div>   
-    </div>
+        </div>
     </div>
 </div>
 
@@ -311,24 +326,34 @@
   
 <div class="card shadow-lg border-0 rounded-lg mt-3">
     
-    <div class="card-body">
-        <div class="row mb-3">
-          
+  <div class="card-body">
+    <div class="list-group mb-3">
+    <label class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="">
+      Stanowisko
+    </label>
+    {{-- <label class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="">
+      
+    </label> --}}
+  </div>
+      <div class="row">
+              
 
-            <select class="form-select" multiple aria-label="multiple select example">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
+                <select class="form-select" multiple aria-label="multiple select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
 
-
-
-                <div class="row mt-4 ">
-
-                   <div class="text-right">
-                    {{-- <button type="submit" class="btn btn-dark" href="login.html"><h5><i class="fas fa-folder-plus"></i></h5>Wyczyść</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --}}
-                    <button type="submit" class="btn btn-light" href="login.html"><h3><i class="fas fa-link"></i></h3>Połącz</button>	
+   
+    
+                    <div class="row mt-4 ">
+    
+                       <div class="text-right">
+                        {{-- <button type="submit" class="btn btn-dark" href="login.html"><h5><i class="fas fa-folder-plus"></i></h5>Wyczyść</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --}}
+                        <button type="submit" class="btn btn-light" href="login.html"><h3><i class="fas fa-link"></i></h3>Połącz</button>	
                 </div>
                 </div>                       
         </div>   
@@ -376,8 +401,18 @@
     <div class="card shadow-lg border-0 rounded-lg mt-3">
         
         
-        <div class="card-body">
-                <div class="row mb-3">
+      <div class="card-body">
+        <div class="list-group mb-3">
+        <label class="list-group-item">
+          <input class="form-check-input me-1" type="checkbox" value="">
+          Grupy elementów
+        </label>
+        {{-- <label class="list-group-item">
+          <input class="form-check-input me-1" type="checkbox" value="">
+          
+        </label> --}}
+      </div>
+          <div class="row">
                   
 
                     <select class="form-select" multiple aria-label="multiple select example">

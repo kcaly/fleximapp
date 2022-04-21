@@ -15,6 +15,7 @@ class CreateElementsTable extends Migration
     {
         Schema::create('elements', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('code');
             $table->string('name');
             $table->integer('length');
             $table->integer('width');
