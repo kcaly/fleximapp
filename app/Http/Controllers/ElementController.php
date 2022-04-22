@@ -252,11 +252,32 @@ class ElementController extends Controller
 
     public function create_machine(Request $request)
     {
-        $machine = new Machine();
-        $machine->name = $request->name;
-        $machine->save();
+        $new_machine = new Machine();
+        $new_machine->titel = $request->titel_new_machine;
+        $new_machine->name = $request->name_new_machine;
+        $new_machine->status = $request->status_new_machine;
+        if ($request->execute_new_machine == null)
+        {
+            $new_machine->execute = 0;
+        }
+        else
+        {
+            $new_machine->execute = $request->execute_new_machine;
+        }
+        if ($request->export_new_machine == null)
+        {
+            $new_machine->export = 0;
+        }
+        else
+        {
+            $new_machine->export = $request->export_new_machine;
+        }
 
-        return redirect()->route('element.list')->with('message', 'Pomyślnie utworzono nową maszynę.');
+        $new_machine->default_filter = ";;;;;;;;;";
+        $new_machine->default_sort = $request->default_sort;
+        $new_machine->save();
+
+        return redirect()->route('machine.list')->with('message', 'Dodano nową maszynę.'); 
     }
 
 
@@ -383,11 +404,31 @@ class ElementController extends Controller
 
     public function create_job_group(Request $request)
     {
-        $job_group = new JobGroup();
-        $job_group->name = $request->name;
-        $job_group->save();
+        $new_job_group = new JobGroup();
+                $new_job_group->titel = $request->titel_new_job_group;
+                $new_job_group->name = $request->name_new_job_group;
+                $new_job_group->status = $request->status_new_job_group;
+                if ($request->execute_new_job_group == null)
+                {
+                    $new_job_group->execute = 0;
+                }
+                else
+                {
+                    $new_job_group->execute = $request->execute_new_job_group;
+                }
+                if ($request->export_new_job_group == null)
+                {
+                    $new_job_group->export = 0;
+                }
+                else
+                {
+                    $new_job_group->export = $request->export_new_job_group;
+                }
+                $new_job_group->default_filter = ";;;;;;;;;";
+                $new_job_group->default_sort = $request->default_sort;
+                $new_job_group->save();
 
-        return redirect()->route('element.list')->with('message', 'Pomyślnie utworzono nową grupę.');     
+        return redirect()->route('job.group.list')->with('message', 'Dodano nową grupę.');     
     }
 
 

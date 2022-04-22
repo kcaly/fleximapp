@@ -11,8 +11,7 @@
 
            
 
-            <a href="{{route('job.group.list')}}" class="btn btn-outline-light mt-3"><h5><i class="far fa-list-alt grey700color"></i>&nbsp;<i class="far fa-paper-plane grey700color"></i></h5><div class="small grey800color">Grupy zleceń</div></a> &nbsp;&nbsp;
-            <a href="{{route('machine.list')}}" class="btn btn-outline-light mt-3"><h5><i class="fas fa-list-alt grey700color"></i>&nbsp;<i class="fas fa-map-marker-alt grey700color"></i></h5><div class="small grey800color">Park maszyn.</div></a>
+            
             
 
 
@@ -20,20 +19,26 @@
 
             
 
-            <div class="row mb-3 font-weight-light my-4 mb-4">
+            <div class="row mt-2 mb-3 font-weight-light">
                 <div class="col-md-6">
-                    <div class="form-floating mt-3 mb-3 mb-md-0">
+                    <div class="form-floating mt-2 mb-3 mb-md-0">
                       
-                        <h4 class="text-center font-weight-light">
+                        <h5 class="text-center font-weight-light mb-md-0">
                            <i class="fas fa-shapes"></i><i class="fas fa-chalkboard"></i><i class="fas fa-bars"></i> Lista elementów<br>
                           <span class="badge text-dark">
                         <button class="btn btn-outline-link btn-sm" ><i class="far fa-file-alt"></i> <i class="fas fa-exchange-alt"></i> <i class="far fa-hdd"></i></button></span><br>
                         
                             
-                          </h4>
+                          </h5>
 
                             
-                        
+                          <div class=" text-left">
+                              
+            
+                            <a href="{{route('job.group.list')}}" class="btn btn-outline-light"><h5 class="small mt-1 grey800color"><i class="far fa-list-alt grey700color"></i>&nbsp;<i class="far fa-paper-plane grey700color"></i>&nbsp;&nbsp;Zlecenia</h5><div class="small grey800color"></div></a>
+                            &nbsp;&nbsp;
+                            <a href="{{route('machine.list')}}" class="btn btn-outline-light"><h5 class="small mt-1 grey800color"><i class="fas fa-list-alt grey700color"></i>&nbsp;<i class="fas fa-map-marker-alt grey700color"></i>&nbsp;&nbsp;Maszyny</h5><div class="small grey800color"></div></a>
+                          </div>
 
                         <div class="form small">
                             
@@ -46,9 +51,11 @@
                           <div class="col-md-4">
                                            
                           </div>
-                          <div class="col-md-8">
+                          <div class="col-md-8 mt-5">
                             
-                            <button type="button" class="btn btn-lg btn-outline-dark mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="far fa-plus-square blueiconcolor"></i> <i class="far fa-folder blueiconcolor"></i><br><h3><i class="fas fa-tags "></i></h3></button> &nbsp;&nbsp;
+                            
+
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal" ><h6 class="text-center mt-1 small"><i class="fas fa-plus-square grey600color"></i> <i class="far fa-folder grey600color"></i> Dodaj do grupy</h6></button>&nbsp;&nbsp;
 
                             <!-- Modal JobGroup-->
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -182,7 +189,7 @@
                                     </div>
                                       
                                         <div class="form-floating my-4 mb-4">
-                                          <input id="name_new_job_group" type="text" class="form-control @error('name_new_job_group') is-invalid @enderror" name="name_new_job_group" value="Grupa zleceń" placeholder="Nazwa" autofocus required />
+                                          <input id="name_new_job_group" type="text" class="form-control @error('name_new_job_group') is-invalid @enderror" name="name_new_job_group" value="Nowa grupa" placeholder="Nazwa" autofocus required />
                                           <label for="name_new_job_group">Nazwa</label>
                                       </div>
                                       
@@ -288,8 +295,9 @@
                                 </div>
                               </div>
                               
-                            <button type="button" class="btn btn-lg btn-outline-dark mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal2" ><i class="fas fa-plus-square blueiconcolor"></i> <i class="fas fa-folder blueiconcolor"></i><br><h3><i class="fas fa-thumbtack"></i></h3></button> &nbsp;&nbsp;
+                              &nbsp;<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal2" ><h6 class="text-center mt-1 small"><i class="fas fa-plus-square grey600color"></i> <i class="fas fa-folder grey600color"></i> Przypisz do maszyny</h6></button>&nbsp;&nbsp;<br />
 
+                              
                             <!-- Modal Machine-->
                             <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -417,7 +425,7 @@
                                       </div>
                                         
                                           <div class="form-floating my-4 mb-4">
-                                            <input id="name_new_machine" type="text" class="form-control @error('name_new_machine') is-invalid @enderror" name="name_new_machine" value="Maszyna" placeholder="Nazwa"  autofocus required />
+                                            <input id="name_new_machine" type="text" class="form-control @error('name_new_machine') is-invalid @enderror" name="name_new_machine" value="Nowa maszyna" placeholder="Nazwa"  autofocus required />
                                             <label for="name_new_machine">Nazwa</label>
                                         </div>
                                         
@@ -494,7 +502,7 @@
                                 <label class="form-check-label" for="flexCheckDefault">
                                     <span class="badge rounded-pill bg-light text-dark"><i class="fas fa-exclamation-triangle"></i> Zastąp istniejące</span>                                 
                                 </label></div> --}}   
-                                <button type="button" class="btn btn-lg btn-outline-dark mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" @if (($active_filter['material_id'] == 0 && $active_filter['id'] == 0 && $active_filter['name'] == 0 && $active_filter['length_value'] == 0 && $active_filter['width_value'] == 0 && $active_filter['height_value'] == 0) || count($elements) == 0 || $active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif><i class="far fa-share-square blueiconcolor"></i> <i class="far fa-folder-open blueiconcolor"></i><br><h3><i class="	fas fa-magic"></i></h3></button> &nbsp;&nbsp;
+                                
                           </div>
                         </div>
                     </div>
@@ -662,7 +670,7 @@
                                     <div class="" disabled><h5>{{$material->name}}</h5></div>
                                     <div class="small grey800color"><strong>x</strong> {{$material->length}}&nbsp;&nbsp;&nbsp;&nbsp;<strong>y</strong> {{$material->width}}&nbsp;&nbsp;&nbsp;&nbsp;<strong>z</strong> {{$material->height}} </div>
                                   </div>
-                                  <span class="badge bg-primary rounded-pill text-dark">@if (\App\Models\Element::where('material_id', $material->id)->count() > 0) <h5>{{\App\Models\Element::where('material_id', $material->id)->count() > 0}}</h5> @else <a href="{{route('material.delete', ['id' => $material->id])}}"><h6 class="rediconcolor small"><i class="fas fa-ban"></i> Usuń</h6></a>@endif</span>
+                                  <span class="badge bg-primary rounded-pill text-dark">@if (\App\Models\Element::where('material_id', $material->id)->count() > 0) <h5>{{\App\Models\Element::where('material_id', $material->id)->count() > 0}}</h5> @else <a href="{{route('material.delete', ['id' => $material->id])}}"><h6 class="rediconcolor small"><i class="fas fa-ban"></i></h6></a>@endif</span>
                                 </li>
                                 @endforeach
                               </ol>
