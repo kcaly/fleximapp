@@ -65,11 +65,11 @@
                         <li><a class="dropdown-item" href="{{ route('profile')}}"><i class="fas fa-id-badge"></i> Mój profil</a></li>
                         <li><a class="dropdown-item" href="{{ route('password.change')}}"><i class="fas fa-lock"></i> Zmień hasło</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li>
+                        {{-- <li>
                             <a class="dropdown-item small" href="#"><h6 class="rediconcolor"><i class="fas fa-bug rediconcolor"></i> Raport błędu</h6></a>
                             {{-- &nbsp;&nbsp;&nbsp;
-                            <a href="#"><i class="fas fa-user-secret"></i> privacy</a> --}}
-                        </li>
+                            <a href="#"><i class="fas fa-user-secret"></i> privacy</a>
+                        </li> --}}
 
                         @can ('admin')
                         <li><a class="dropdown-item" href="{{ route('panel')}}"><i class="fas fa-users"></i> Panel adm.</a></li>
@@ -294,11 +294,11 @@
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
                             <div class="text-muted">Copyright &copy; Fleximapp 2021</div>
-                            <div class="small">
+                            {{-- <div class="small">
                                 <a href="#"><i class="fas fa-user-secret"></i> privacy</a>
                                 &nbsp;&nbsp;&nbsp;
                                 <a href="#"><i class="fas fa-user-secret"></i> privacy</a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </footer>

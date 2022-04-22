@@ -61,6 +61,7 @@ Route::get('elements/groups', [ElementController::class, 'job_group_list'])->nam
 Route::get('elements/group/{id}/turn', [ElementController::class, 'job_group_status'])->name('job.group.status');
 Route::get('elements/group/{id}', [ElementController::class, 'job_group_select'])->name('job.group.select');
 Route::get('elements/group/{id}/run', [ElementController::class, 'job_group_run_filter'])->name('job.group.run.filter');
+Route::get('elements/group/{id}/filtr-off', [ElementController::class, 'job_group_filter_nulls'])->name('job.group.filter.nulls');
 Route::post('elements/group/edit', [ElementController::class, 'job_group_edit'])->name('job.group.edit');
 
 
@@ -68,6 +69,7 @@ Route::get('elements/machines', [ElementController::class, 'machine_list'])->nam
 Route::get('elements/machine/{id}/turn', [ElementController::class, 'machine_status'])->name('machine.status');
 Route::get('elements/machine/{id}', [ElementController::class, 'machine_select'])->name('machine.select');
 Route::get('elements/machine/{id}/run', [ElementController::class, 'machine_run_filter'])->name('machine.run.filter');
+Route::get('elements/machine/{id}/filtr-off', [ElementController::class, 'machine_filter_nulls'])->name('machine.filter.nulls');
 Route::post('elements/machine/edit', [ElementController::class, 'machine_edit'])->name('machine.edit');
 Route::get('material/{id}/delete', [MaterialController::class, 'delete'])->name('material.delete');
 

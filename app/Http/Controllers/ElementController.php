@@ -120,11 +120,9 @@ class ElementController extends Controller
             
                         $article->price = $article->price + $price_for_element;
             
-
                     }
         
-                    $article->save();
-                    
+                    $article->save();                   
                 }                             
             }
         }
@@ -226,6 +224,11 @@ class ElementController extends Controller
 
 
 
+
+
+    //      <-/-/-/-/-/-/   E L E M E N T S   L I S T   /-/-/-/-/-/->
+
+
     public function show()
     {   
         $elements = Element::with(['material', 'elementfiles'])->orderBy('id', 'DESC')->paginate(50);
@@ -246,308 +249,6 @@ class ElementController extends Controller
             
         return view('element-list', compact('elements'), compact('active_filter'));
     }
-
-
-
-
-    public function create_machine(Request $request)
-    {
-        $new_machine = new Machine();
-        $new_machine->titel = $request->titel_new_machine;
-        $new_machine->name = $request->name_new_machine;
-        $new_machine->status = $request->status_new_machine;
-        if ($request->execute_new_machine == null)
-        {
-            $new_machine->execute = 0;
-        }
-        else
-        {
-            $new_machine->execute = $request->execute_new_machine;
-        }
-        if ($request->export_new_machine == null)
-        {
-            $new_machine->export = 0;
-        }
-        else
-        {
-            $new_machine->export = $request->export_new_machine;
-        }
-
-        $new_machine->default_filter = ";;;;;;;;;";
-        $new_machine->default_sort = $request->default_sort;
-        $new_machine->save();
-
-        return redirect()->route('machine.list')->with('message', 'Dodano nową maszynę.'); 
-    }
-
-
-    public function add_elements_to_machine(Request $request) 
-    {
-
-        $active_filter = array(
-            'material_id' => $request->filter_material_id,
-            'id' => $request->filter_id,
-            'name' => $request->filter_name,
-            'length_operator' => $request->filter_length_operator,
-            'length_value' => $request->filter_length_value,
-            'width_operator' => $request->filter_width_operator,
-            'width_value' => $request->filter_width_value,
-            'height_operator' => $request->filter_height_operator,
-            'height_value' => $request->filter_height_value,
-            'machine_id' => 0,
-            'job_group_id' => 0,
-                      
-            );
-
-        $elements = ElementController::filter_returner($request->material_id, $request->filter_id, $request->filter_name, $request->filter_length_operator, $request->filter_length_value, $request->filter_width_operator, $request->filter_width_value, $request->filter_height_operator, $request->filter_height_value);
-
-
-        $select_machine = $request->select_machine;
-
-        switch ($request->action)
-        {
-            case 1:
-
-                $new_machine = new Machine();
-                $new_machine->titel = $request->titel_new_machine;
-                $new_machine->name = $request->name_new_machine;
-                $new_machine->status = $request->status_new_machine;
-                if ($request->execute_new_machine == null)
-                {
-                    $new_machine->execute = 0;
-                }
-                else
-                {
-                    $new_machine->execute = $request->execute_new_machine;
-                }
-                if ($request->export_new_machine == null)
-                {
-                    $new_machine->export = 0;
-                }
-                else
-                {
-                    $new_machine->export = $request->export_new_machine;
-                }
-
-                $new_machine->default_filter = ";;;;;;;;;";
-                $new_machine->default_sort = $request->default_sort;
-                $new_machine->save();
-
-                $select_machine = $new_machine->id;
-
-            case 0:
-
-                    if ($select_machine != null)
-                    {
-                        
-                                if ($request->default_filter == 1)
-                                {
-                                    $filter_string = $request->filter_material_id.";".$request->filter_id.";".$request->filter_name.";".$request->filter_length_operator.";".$request->filter_length_value.";".$request->filter_width_operator.";".$request->filter_width_value.";".$request->filter_height_operator.";".$request->filter_height_value;
-                                    
-                                    $machine = Machine::find($select_machine);
-                                    $machine->default_filter = $filter_string;
-                                    $machine->save();
-                                }
-
-
-                                if ($request->not_null == 1)
-                                {
-                                    foreach ($elements as $element)
-                                    {
-                                            $element->machine_id = $select_machine;
-                                            $element->save(); 
-                                    }
-                                    
-                                }
-                                else
-                                {
-                                    
-                                    foreach ($elements as $element)
-                                    {
-                                        if ($element->machine_id == null)
-                                        {
-                                            $element->machine_id = $select_machine;
-                                            $element->save(); 
-                                        }
-                                    }
-
-                                }
-
-                                $elements = Element::with(['material', 'elementfiles'])
-                                ->where('machine_id', $select_machine)
-                                ->orderBy('id', 'DESC')->paginate(100);
-
-                                $active_filter = array(
-                                    'material_id' => null,
-                                    'id' => null,
-                                    'name' => null,
-                                    'length_operator' => null,
-                                    'length_value' => null,
-                                    'width_operator' => null,
-                                    'width_value' => null,
-                                    'height_operator' => null,
-                                    'height_value' => null,
-                                    'machine_id' => $select_machine,
-                                    'job_group_id' => null,
-
-                                );
-                        }
-
-                        
-        }
-
-        return view('element-list', compact('elements', 'active_filter'));
-
-    }
-
-
-
-    public function create_job_group(Request $request)
-    {
-        $new_job_group = new JobGroup();
-                $new_job_group->titel = $request->titel_new_job_group;
-                $new_job_group->name = $request->name_new_job_group;
-                $new_job_group->status = $request->status_new_job_group;
-                if ($request->execute_new_job_group == null)
-                {
-                    $new_job_group->execute = 0;
-                }
-                else
-                {
-                    $new_job_group->execute = $request->execute_new_job_group;
-                }
-                if ($request->export_new_job_group == null)
-                {
-                    $new_job_group->export = 0;
-                }
-                else
-                {
-                    $new_job_group->export = $request->export_new_job_group;
-                }
-                $new_job_group->default_filter = ";;;;;;;;;";
-                $new_job_group->default_sort = $request->default_sort;
-                $new_job_group->save();
-
-        return redirect()->route('job.group.list')->with('message', 'Dodano nową grupę.');     
-    }
-
-
-    public function add_elements_to_jobgroup(Request $request) 
-    {
-
-        $active_filter = array(
-            'material_id' => $request->filter_material_id,
-            'id' => $request->filter_id,
-            'name' => $request->filter_name,
-            'length_operator' => $request->filter_length_operator,
-            'length_value' => $request->filter_length_value,
-            'width_operator' => $request->filter_width_operator,
-            'width_value' => $request->filter_width_value,
-            'height_operator' => $request->filter_height_operator,
-            'height_value' => $request->filter_height_value,
-            'machine_id' => 0,
-            'job_group_id' => 0,
-                      
-            );
-
-        $elements = ElementController::filter_returner($request->material_id, $request->filter_id, $request->filter_name, $request->filter_length_operator, $request->filter_length_value, $request->filter_width_operator, $request->filter_width_value, $request->filter_height_operator, $request->filter_height_value);
-
-
-        $select_job_group = $request->select_job_group;
-
-        switch ($request->action)
-        {
-            case 1:
-                
-                $new_job_group = new JobGroup();
-                $new_job_group->titel = $request->titel_new_job_group;
-                $new_job_group->name = $request->name_new_job_group;
-                $new_job_group->status = $request->status_new_job_group;
-                if ($request->execute_new_job_group == null)
-                {
-                    $new_job_group->execute = 0;
-                }
-                else
-                {
-                    $new_job_group->execute = $request->execute_new_job_group;
-                }
-                if ($request->export_new_job_group == null)
-                {
-                    $new_job_group->export = 0;
-                }
-                else
-                {
-                    $new_job_group->export = $request->export_new_job_group;
-                }
-                $new_job_group->default_filter = ";;;;;;;;;";
-                $new_job_group->default_sort = $request->default_sort;
-                $new_job_group->save();
-
-                $select_job_group = $new_job_group->id;
-
-            case 0:
-
-                    if ($select_job_group != null)
-                    {
-
-                                if ($request->default_filter == 1)
-                                {
-                                    $filter_string = $request->filter_material_id.";".$request->filter_id.";".$request->filter_name.";".$request->filter_length_operator.";".$request->filter_length_value.";".$request->filter_width_operator.";".$request->filter_width_value.";".$request->filter_height_operator.";".$request->filter_height_value;
-                                    
-                                    $job_group = JobGroup::find($select_job_group);
-                                    $job_group->default_filter = $filter_string;
-                                    $job_group->save();
-                                }
-
-
-                                if ($request->not_null == 1)
-                                {
-                                    foreach ($elements as $element)
-                                    {
-                                            $element->job_group_id = $select_job_group;
-                                            $element->save(); 
-                                    }
-                                    
-                                }
-                                else
-                                {
-                                    
-                                    foreach ($elements as $element)
-                                    {
-                                        if ($element->job_group_id == null)
-                                        {
-                                            $element->job_group_id = $select_job_group;
-                                            $element->save(); 
-                                        }
-                                    }
-
-                                }
-
-                                $elements = Element::with(['material', 'elementfiles'])
-                                ->where('job_group_id', $select_job_group)
-                                ->orderBy('id', 'DESC')->paginate(100);
-
-                                $active_filter = array(
-                                    'material_id' => null,
-                                    'id' => null,
-                                    'name' => null,
-                                    'length_operator' => null,
-                                    'length_value' => null,
-                                    'width_operator' => null,
-                                    'width_value' => null,
-                                    'height_operator' => null,
-                                    'height_value' => null,
-                                    'machine_id' => null,
-                                    'job_group_id' => $select_job_group,
-
-                                );
-                    }
-        }           
-
-        return view('element-list', compact('elements', 'active_filter'));
-
-    }
-
 
     public function filter(Request $request)
     {
@@ -570,7 +271,10 @@ class ElementController extends Controller
                
             );
 
-        $elements = ElementController::filter_returner($request->material_id, $request->id, $request->name, $request->length_operator, $request->length_value, $request->width_operator, $request->width_value, $request->height_operator, $request->height_value);
+        $elements = ElementController::filter_returner( $request->material_id, $request->id, $request->name,
+                                                        $request->length_operator, $request->length_value,
+                                                        $request->width_operator, $request->width_value,
+                                                        $request->height_operator, $request->height_value );
 
     }
     else
@@ -643,14 +347,10 @@ class ElementController extends Controller
             ->orderBy('id', 'DESC')->paginate(100);
         }
         
-
     }
-       
-       
+             
         return view('element-list', compact('elements', 'active_filter'));
-
     }
-
 
     public function filter_returner($material_id, $id, $name, $length_operator, $length_value, $width_operator, $width_value, $height_operator, $height_value)
     {
@@ -664,31 +364,10 @@ class ElementController extends Controller
             $material_operator = '=';
         }
 
-        // if($machine_id == 0 || $machine_id == null)
-        // {
-        //     $machine_operator = '<>';
-        // }
-        // else
-        // {
-        //     $machine_operator = '=';
-        // }
-
-        // if($job_group_id == 0 || $job_group_id == null)
-        // {
-        //     $job_group_operator = '<>';
-        // }
-        // else
-        // {
-        //     $job_group_operator = '=';
-        // }
-      
-        
             if($length_value==null && $width_value!=null && $height_value!=null)
             {
                 $elements = Element::with(['material', 'elementfiles'])
                ->where('material_id', $material_operator, $material_id)
-            //    ->where('machine_id', $machine_operator, $machine_id)
-            //    ->where('job_group_id', $job_group_operator, $job_group_id)
                ->where('name','LIKE',$name.'%')
                ->where('id','LIKE',$id)
                ->where('width', $width_operator, $width_value)
@@ -700,8 +379,6 @@ class ElementController extends Controller
             {
                 $elements = Element::with(['material', 'elementfiles'])
                ->where('material_id', $material_operator, $material_id)
-            //    ->where('machine_id', $machine_operator, $machine_id)
-            //    ->where('job_group_id', $job_group_operator, $job_group_id)
                ->where('name','LIKE',$name.'%')
                ->where('id','LIKE',$id)
                ->where('length', $length_operator, $length_value)
@@ -713,8 +390,6 @@ class ElementController extends Controller
             {
                 $elements = Element::with(['material', 'elementfiles'])
                ->where('material_id', $material_operator, $material_id)
-            //    ->where('machine_id', $machine_operator, $machine_id)
-            //    ->where('job_group_id', $job_group_operator, $job_group_id)
                ->where('name','LIKE',$name.'%')
                ->where('id','LIKE',$id)
                ->where('length', $length_operator, $length_value)
@@ -727,8 +402,6 @@ class ElementController extends Controller
             {  
                 $elements = Element::with(['material', 'elementfiles'])
                ->where('material_id', $material_operator, $material_id)
-            //    ->where('machine_id', $machine_operator, $machine_id)
-            //    ->where('job_group_id', $job_group_operator, $job_group_id)
                ->where('name','LIKE',$name.'%')
                ->where('id','LIKE',$id)
                ->where('height', $height_operator, $height_value)
@@ -739,8 +412,6 @@ class ElementController extends Controller
             {  
                 $elements = Element::with(['material', 'elementfiles'])
                ->where('material_id', $material_operator, $material_id)
-            //    ->where('machine_id', $machine_operator, $machine_id)
-            //    ->where('job_group_id', $job_group_operator, $job_group_id)
                ->where('name','LIKE',$name.'%')
                ->where('id','LIKE',$id)
                ->where('width', $width_operator, $width_value)
@@ -751,8 +422,6 @@ class ElementController extends Controller
             {  
                 $elements = Element::with(['material', 'elementfiles'])
                ->where('material_id', $material_operator, $material_id)
-            //    ->where('machine_id', $machine_operator, $machine_id)
-            //    ->where('job_group_id', $job_group_operator, $job_group_id)
                ->where('name','LIKE',$name.'%')
                ->where('id','LIKE',$id)
                ->where('length', $length_operator, $length_value)
@@ -764,8 +433,6 @@ class ElementController extends Controller
             {
                 $elements = Element::with(['material', 'elementfiles'])
                ->where('material_id', $material_operator, $material_id)
-            //    ->where('machine_id', $machine_operator, $machine_id)
-            //    ->where('job_group_id', $job_group_operator, $job_group_id)
                ->where('name','LIKE',$name.'%')
                ->where('id','LIKE',$id)
                ->where('length', $length_operator, $length_value)
@@ -778,20 +445,19 @@ class ElementController extends Controller
             {
                 $elements = Element::with(['material', 'elementfiles'])
                ->where('material_id', $material_operator, $material_id)
-            //    ->where('machine_id', $machine_operator, $machine_id)
-            //    ->where('job_group_id', $job_group_operator, $job_group_id)
                ->where('name','LIKE',$name.'%')
                ->where('id','LIKE',$id)
                ->orderBy('id', 'DESC')->paginate(100);
             }
         
-
         return $elements;
     }
 
 
 
 
+    //      <-/-/-/-/-/-/   J O B G R O U P   F U N C T I O N S   /-/-/-/-/-/->
+   
 
     public function job_group_list()
     {
@@ -829,9 +495,14 @@ class ElementController extends Controller
 
         $records = JobGroup::where('id', $id)->get();
         $filtrstr = explode(";", JobGroup::find($id)->default_filter);
-
+        $material_id = null;
+        if ($filtrstr[0] != null)
+        {
+            $material_id = $filtrstr[0];
+        }
+        
         $filter = array(
-            'material_id' => $filtrstr[0],
+            'material_id' => $material_id,
             'id' => $filtrstr[1],
             'name' => $filtrstr[2],
             'length_operator' => $filtrstr[3],
@@ -846,14 +517,20 @@ class ElementController extends Controller
         return view('jobgroup-list', compact('records', 'selector', 'filter'));
     }
 
+    public function job_group_filter_nulls($id)
+    {
+        $job_group = JobGroup::find($id);
+        $job_group->default_filter = ";;;;;;;;;";
+        $job_group->save();
+
+        return ElementController::job_group_select($id);
+    }
+
     public function job_group_edit(Request $request)
     {
         $job_group = JobGroup::find($request->id);
-
         $job_group->name = $request->name;
         $job_group->titel = $request->titel;
-
-
         $job_group->status = $request->status;
         if ($request->execute == null)
         {
@@ -883,9 +560,14 @@ class ElementController extends Controller
     {
         $job_group = JobGroup::find($id);
         $filtrstr = explode(";", $job_group->default_filter);
+        $material_id = null;
+        if ($filtrstr[0] != null)
+        {
+            $material_id = $filtrstr[0];
+        }
         
         $active_filter = array(
-            'material_id' => $filtrstr[0],
+            'material_id' => $material_id,
             'id' => $filtrstr[1],
             'name' => $filtrstr[2],
             'length_operator' => $filtrstr[3],
@@ -896,6 +578,7 @@ class ElementController extends Controller
             'height_value' => $filtrstr[8],
             'machine_id' => 0,
             'job_group_id' => 0,
+
             );
 
         $elements = Element::with(['material', 'elementfiles'])->orderBy('id', 'DESC')->paginate(50);
@@ -903,10 +586,177 @@ class ElementController extends Controller
         return view('element-list', compact('elements'), compact('active_filter'));
     }
 
+    public function create_job_group(Request $request)
+    {
+        $new_job_group = new JobGroup();
+                $new_job_group->titel = $request->titel_new_job_group;
+                $new_job_group->name = $request->name_new_job_group;
+                $new_job_group->status = $request->status_new_job_group;
+                if ($request->execute_new_job_group == null)
+                {
+                    $new_job_group->execute = 0;
+                }
+                else
+                {
+                    $new_job_group->execute = $request->execute_new_job_group;
+                }
+                if ($request->export_new_job_group == null)
+                {
+                    $new_job_group->export = 0;
+                }
+                else
+                {
+                    $new_job_group->export = $request->export_new_job_group;
+                }
+                $new_job_group->default_filter = ";;;;;;;;;";
+                $new_job_group->default_sort = $request->default_sort;
+
+                $last_id = JobGroup::count();
+                $position = $last_id + 1;
+                $new_job_group->position = $position;
+
+                $new_job_group->save();
+
+        return redirect()->route('job.group.list')->with('message', 'Dodano nową grupę.');     
+    }
+
+    public function add_elements_to_jobgroup(Request $request) 
+    {
+
+        $active_filter = array(
+            'material_id' => $request->filter_material_id,
+            'id' => $request->filter_id,
+            'name' => $request->filter_name,
+            'length_operator' => $request->filter_length_operator,
+            'length_value' => $request->filter_length_value,
+            'width_operator' => $request->filter_width_operator,
+            'width_value' => $request->filter_width_value,
+            'height_operator' => $request->filter_height_operator,
+            'height_value' => $request->filter_height_value,
+            'machine_id' => 0,
+            'job_group_id' => 0,
+                      
+            );
+
+        $elements = ElementController::filter_returner( $request->filter_material_id, $request->filter_id, $request->filter_name,
+                                                        $request->filter_length_operator, $request->filter_length_value,
+                                                        $request->filter_width_operator, $request->filter_width_value,
+                                                        $request->filter_height_operator, $request->filter_height_value );
+
+        $select_job_group = $request->select_job_group;
+
+        switch ($request->action)
+        {
+            case 1:
+                
+                $new_job_group = new JobGroup();
+                $new_job_group->titel = $request->titel_new_job_group;
+                $new_job_group->name = $request->name_new_job_group;
+                $new_job_group->status = $request->status_new_job_group;
+                if ($request->execute_new_job_group == null)
+                {
+                    $new_job_group->execute = 0;
+                }
+                else
+                {
+                    $new_job_group->execute = $request->execute_new_job_group;
+                }
+                if ($request->export_new_job_group == null)
+                {
+                    $new_job_group->export = 0;
+                }
+                else
+                {
+                    $new_job_group->export = $request->export_new_job_group;
+                }
+                $new_job_group->default_filter = ";;;;;;;;;";
+                $new_job_group->default_sort = $request->default_sort;
+
+                $last_id = JobGroup::count();
+                $position = $last_id + 1;
+                $new_job_group->position = $position;
+
+                $new_job_group->save();
+
+                $select_job_group = $new_job_group->id;
+
+            case 0:
+
+                    if ($select_job_group != null)
+                    {
+
+                                if ($request->default_filter == 1)
+                                {   
+                                    $filter_material_id_onlynull = $request->filter_material_id;
+                                        if ($request->filter_material_id == 0)
+                                        {
+                                            $filter_material_id_onlynull = null;
+                                        }
+
+                                    $filter_string = $filter_material_id_onlynull.";".$request->filter_id.";".$request->filter_name.";"
+                                                    .$request->filter_length_operator.";".$request->filter_length_value.";"
+                                                    .$request->filter_width_operator.";".$request->filter_width_value.";"
+                                                    .$request->filter_height_operator.";".$request->filter_height_value;
+                                    
+                                    $job_group = JobGroup::find($select_job_group);
+                                    $job_group->default_filter = $filter_string;
+                                    $job_group->save();
+                                }
+
+
+                                if ($request->not_null == 1)
+                                {
+                                    foreach ($elements as $element)
+                                    {
+                                            $element->job_group_id = $select_job_group;
+                                            $element->save(); 
+                                    }
+                                    
+                                }
+                                else
+                                {
+                                    
+                                    foreach ($elements as $element)
+                                    {
+                                        if ($element->job_group_id == null)
+                                        {
+                                            $element->job_group_id = $select_job_group;
+                                            $element->save(); 
+                                        }
+                                    }
+
+                                }
+
+                                $elements = Element::with(['material', 'elementfiles'])
+                                ->where('job_group_id', $select_job_group)
+                                ->orderBy('id', 'DESC')->paginate(100);
+
+                                $active_filter = array(
+                                    'material_id' => null,
+                                    'id' => null,
+                                    'name' => null,
+                                    'length_operator' => null,
+                                    'length_value' => null,
+                                    'width_operator' => null,
+                                    'width_value' => null,
+                                    'height_operator' => null,
+                                    'height_value' => null,
+                                    'machine_id' => null,
+                                    'job_group_id' => $select_job_group,
+
+                                );
+                    }
+        }           
+
+        return view('element-list', compact('elements', 'active_filter'));
+    }
 
 
 
 
+    //      <-/-/-/-/-/-/   M A C H I N E   F U N C T I O N S   /-/-/-/-/-/->
+
+    
     public function machine_list()
     {
         $selector = array(
@@ -943,9 +793,14 @@ class ElementController extends Controller
 
         $records = Machine::where('id', $id)->get();
         $filtrstr = explode(";", Machine::find($id)->default_filter);
-
+        $material_id = null;
+        if ($filtrstr[0] != null)
+        {
+            $material_id = $filtrstr[0];
+        }
+        
         $filter = array(
-            'material_id' => $filtrstr[0],
+            'material_id' => $material_id,
             'id' => $filtrstr[1],
             'name' => $filtrstr[2],
             'length_operator' => $filtrstr[3],
@@ -960,14 +815,20 @@ class ElementController extends Controller
         return view('machine-list', compact('records', 'selector', 'filter'));
     }
 
+    public function machine_filter_nulls($id)
+    {
+        $machine = Machine::find($id);
+        $machine->default_filter = ";;;;;;;;;";
+        $machine->save();
+
+        return ElementController::machine_select($id);
+    }
+
     public function machine_edit(Request $request)
     {
         $machine = Machine::find($request->id);
-
         $machine->name = $request->name;
         $machine->titel = $request->titel;
-
-
         $machine->status = $request->status;
         if ($request->execute == null)
         {
@@ -997,9 +858,14 @@ class ElementController extends Controller
     {
         $machine = Machine::find($id);
         $filtrstr = explode(";", $machine->default_filter);
+        $material_id = null;
+        if ($filtrstr[0] != null)
+        {
+            $material_id = $filtrstr[0];
+        }
         
         $active_filter = array(
-            'material_id' => $filtrstr[0],
+            'material_id' => $material_id,
             'id' => $filtrstr[1],
             'name' => $filtrstr[2],
             'length_operator' => $filtrstr[3],
@@ -1010,6 +876,7 @@ class ElementController extends Controller
             'height_value' => $filtrstr[8],
             'machine_id' => 0,
             'job_group_id' => 0,
+
             );
 
         $elements = Element::with(['material', 'elementfiles'])->orderBy('id', 'DESC')->paginate(50);
@@ -1017,5 +884,174 @@ class ElementController extends Controller
         return view('element-list', compact('elements'), compact('active_filter'));
     }
 
+    public function create_machine(Request $request)
+    {
+        $new_machine = new Machine();
+        $new_machine->titel = $request->titel_new_machine;
+        $new_machine->name = $request->name_new_machine;
+        $new_machine->status = $request->status_new_machine;
+        if ($request->execute_new_machine == null)
+        {
+            $new_machine->execute = 0;
+        }
+        else
+        {
+            $new_machine->execute = $request->execute_new_machine;
+        }
+        if ($request->export_new_machine == null)
+        {
+            $new_machine->export = 0;
+        }
+        else
+        {
+            $new_machine->export = $request->export_new_machine;
+        }
 
+        $new_machine->default_filter = ";;;;;;;;;";
+        $new_machine->default_sort = $request->default_sort;
+
+        $last_id = Machine::count();
+        $position = $last_id + 1;
+        $new_machine->position = $position;
+
+        $new_machine->save();
+
+        return redirect()->route('machine.list')->with('message', 'Dodano nową maszynę.'); 
+    }
+
+    public function add_elements_to_machine(Request $request) 
+    {
+
+        $active_filter = array(
+            'material_id' => $request->filter_material_id,
+            'id' => $request->filter_id,
+            'name' => $request->filter_name,
+            'length_operator' => $request->filter_length_operator,
+            'length_value' => $request->filter_length_value,
+            'width_operator' => $request->filter_width_operator,
+            'width_value' => $request->filter_width_value,
+            'height_operator' => $request->filter_height_operator,
+            'height_value' => $request->filter_height_value,
+            'machine_id' => 0,
+            'job_group_id' => 0,
+                      
+            );
+
+        $elements = ElementController::filter_returner( $request->filter_material_id,$request->filter_id, $request->filter_name,
+                                                        $request->filter_length_operator, $request->filter_length_value,
+                                                        $request->filter_width_operator, $request->filter_width_value,
+                                                        $request->filter_height_operator, $request->filter_height_value );
+
+
+        $select_machine = $request->select_machine;
+
+        switch ($request->action)
+        {
+            case 1:
+
+                $new_machine = new Machine();
+                $new_machine->titel = $request->titel_new_machine;
+                $new_machine->name = $request->name_new_machine;
+                $new_machine->status = $request->status_new_machine;
+                if ($request->execute_new_machine == null)
+                {
+                    $new_machine->execute = 0;
+                }
+                else
+                {
+                    $new_machine->execute = $request->execute_new_machine;
+                }
+                if ($request->export_new_machine == null)
+                {
+                    $new_machine->export = 0;
+                }
+                else
+                {
+                    $new_machine->export = $request->export_new_machine;
+                }
+
+                $new_machine->default_filter = ";;;;;;;;;";
+                $new_machine->default_sort = $request->default_sort;
+
+                $last_id = Machine::count();
+                $position = $last_id + 1;
+                $new_machine->position = $position;
+
+                $new_machine->save();
+
+                $select_machine = $new_machine->id;
+
+            case 0:
+
+                    if ($select_machine != null)
+                    {
+                        
+                                if ($request->default_filter == 1)
+                                {   
+                                    $filter_material_id_onlynull = $request->filter_material_id;
+                                        if ($request->filter_material_id == 0)
+                                        {
+                                            $filter_material_id_onlynull = null;
+                                        }
+
+                                    $filter_string = $filter_material_id_onlynull.";".$request->filter_id.";".$request->filter_name.";"
+                                    .$request->filter_length_operator.";".$request->filter_length_value.";"
+                                    .$request->filter_width_operator.";".$request->filter_width_value.";"
+                                    .$request->filter_height_operator.";".$request->filter_height_value;
+                                    
+                                    $machine = Machine::find($select_machine);
+                                    $machine->default_filter = $filter_string;
+                                    $machine->save();
+                                }
+
+
+                                if ($request->not_null == 1)
+                                {
+                                    foreach ($elements as $element)
+                                    {
+                                            $element->machine_id = $select_machine;
+                                            $element->save(); 
+                                    }
+                                    
+                                }
+                                else
+                                {
+                                    
+                                    foreach ($elements as $element)
+                                    {
+                                        if ($element->machine_id == null)
+                                        {
+                                            $element->machine_id = $select_machine;
+                                            $element->save(); 
+                                        }
+                                    }
+
+                                }
+
+                                $elements = Element::with(['material', 'elementfiles'])
+                                ->where('machine_id', $select_machine)
+                                ->orderBy('id', 'DESC')->paginate(100);
+
+                                $active_filter = array(
+                                    'material_id' => null,
+                                    'id' => null,
+                                    'name' => null,
+                                    'length_operator' => null,
+                                    'length_value' => null,
+                                    'width_operator' => null,
+                                    'width_value' => null,
+                                    'height_operator' => null,
+                                    'height_value' => null,
+                                    'machine_id' => $select_machine,
+                                    'job_group_id' => null,
+
+                                );
+                        }                     
+        }
+
+        return view('element-list', compact('elements', 'active_filter'));
+    }
+
+
+    
 }
