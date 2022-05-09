@@ -14,7 +14,21 @@ class OrderController extends Controller
         $order = new Order();
         $order->name = $request->name;
         $order->date_order = $request->date;
+
+        $user_company = \App\Models\Company::where('id', auth()->user()->company_id)->first();
+        $flexim_id = $user_company->flexim_id;
+
+        for($i=0;$i<strlen($flexim_id);$i++)
+        {
+                
+        }        
+        $code = '1' . $flexim_id[2] . '0' . $flexim_id[1];
+        $order->code = $code;
         $order->save();
+            
+        $order_add_id_to_code = Order::where('name', $request->name)->orderBy('id', 'DESC')->first();
+        $order_add_id_to_code->code = $code . $order_add_id_to_code->id + 22;
+        $order_add_id_to_code->save();
 
         return redirect()->route('order.list')->with('message', 'Pomyślnie dodano nowe zamówienie.');
 

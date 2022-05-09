@@ -6,9 +6,24 @@ use App\Models\ElementProduction;
 use App\Models\ElementJob;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class ProductionController extends Controller
 {   
+
+
+
+    public function index()
+    {
+        // $production_data = \App\Models\ElementProduction::select('date_production')->distinct()->get();
+        
+        return redirect()->route('production');
+    }
+
+
+
+
     public function show(Request $request)
     {
         if ($request->refresh != 0 && $request->action != 'load')
@@ -90,9 +105,132 @@ class ProductionController extends Controller
                         
                        
                         $element_production_record = new ElementProduction();
+
+                        
+                        $element_production_record->code = $element->code;
+                        $element_production_record->name = $element->name;
+                        
+                        $element_production_record->length = $element->length;
+                        $element_production_record->width = $element->width;
+                        $element_production_record->height = $element->height;
+
+                        if($element->machine_id != null || 0)
+                        {
+                            $element_production_record->machine = \App\Models\Machine::find($element->machine_id)->first()->titel;
+                        }
+
+                        if($element->job_group_id != null || 0)
+                        {
+                            $element_production_record->job_group = \App\Models\JobGroup::find($element->job_group_id)->first()->titel;
+                        }
+                        
+                        $element_production_record->articel_info = $article->name;
+                        $element_production_record->product_info = $product->name;
+                        $element_production_record->order_info = 'Z'.$order->code.' ['.$order->date_order.']';
+
+                        $element_production_record->material = \App\Models\Material::find($element->material_id)->first()->name;
+                        $element_production_record->weight = $element->weight;
+
                         $element_production_record->amount = $amount_suma;
+
                         $element_production_record->element_id = $element->id;
                         $element_production_record->order_id = $order->id;
+
+                        $element_production_record->date_production = $order->date_production;
+                        $element_production_record->status = '0';
+
+
+                       
+                        $element_production_record->save();
+
+
+    
+    
+                    }
+                    
+    
+    
+                }
+                
+            }
+            $order->save();
+            }
+        }
+
+
+
+
+
+
+
+
+
+        foreach ($orders as $single_order){
+    
+            $order = Order::find($single_order->id);
+
+    
+            if ($order->status != 0)
+            {
+            
+            }
+            else
+            {
+            $products = $order->products;
+            $order_records = $order_records + 1;
+    
+            foreach ($products as $product)
+            {
+                $amount_product = $product->pivot->amount;
+                $articles = $product->articles;
+    
+    
+                foreach($articles as $article)
+                {
+    
+                    $amount_article = $article->pivot->amount;
+                    $elements = $article->elements;
+    
+                    foreach($elements as $element)
+                    {   
+                        $amount_element = $element->pivot->amount;
+                        
+                        $amount_suma = $amount_product * $amount_article * $amount_element;
+                        
+                        
+                       
+                        $element_production_record = new ElementProduction();
+
+                        
+                        $element_production_record->code = $element->code;
+                        $element_production_record->name = $element->name;
+                        
+                        $element_production_record->length = $element->length;
+                        $element_production_record->width = $element->width;
+                        $element_production_record->height = $element->height;
+
+                        if($element->machine_id != null || 0)
+                        {
+                            $element_production_record->machine = \App\Models\Machine::find($element->machine_id)->first()->titel;
+                        }
+
+                        if($element->job_group_id != null || 0)
+                        {
+                            $element_production_record->job_group = \App\Models\JobGroup::find($element->job_group_id)->first()->titel;
+                        }
+                        
+                        $element_production_record->articel_info = $article->name;
+                        $element_production_record->product_info = $product->name;
+                        $element_production_record->order_info = 'Z'.$order->code.' ['.$order->date_order.']';
+                        // $material_element = \App\Models\Material::find($element->material_id)->first();
+                        $element_production_record->material = $element->material->name;
+                        $element_production_record->weight = $element->weight;
+
+                        $element_production_record->amount = $amount_suma;
+
+                        $element_production_record->element_id = $element->id;
+                        $element_production_record->order_id = $order->id;
+
                         $element_production_record->date_production = $order->date_production;
                         $element_production_record->status = '0';
 
@@ -100,6 +238,8 @@ class ProductionController extends Controller
 
                        
                         $element_production_record->save();
+
+
     
     
                     }
@@ -114,6 +254,14 @@ class ProductionController extends Controller
             $order->save();
             }
         }
+
+
+
+
+
+
+
+
                 
                 $date = $request->date;
                 $elements_date_prod = ElementProduction::where('date_production','=',$date)->get();
@@ -130,13 +278,16 @@ class ProductionController extends Controller
                     $element_job = new ElementJob();
                     $element_job->amount = $suma_for_element_id;
                     $element_job->element_id = $element_prod->element_id;
+                    $element_job->elementprod_id = $element_prod->id;
+                    $element_job->code = $element_prod->element->code;
                     $element_job->date_production = $date;
                     $element_job->status = 0;
-                    $element_job->length = $element_job->element->length;
-                    $element_job->width = $element_job->element->width;
-                    $element_job->height = $element_job->element->height;
-                    $element_job->material_id = $element_job->element->material_id;
-
+                    $element_job->length = $element_prod->element->length;
+                    $element_job->width = $element_prod->element->width;
+                    $element_job->height = $element_prod->element->height;
+                    $element_job->material_id = $element_prod->element->material_id;
+                    $element_job->machine_id = $element_prod->element->machine_id;
+                    $element_job->job_group_id = $element_prod->element->job_group_id;
 
                     $element_job->save();
 
@@ -192,6 +343,14 @@ class ProductionController extends Controller
         {
             return redirect()->route('production.show')->with('message', 'Brak rekordu daty dla wybranego działania.');
         }
+
+        
     }
+
+
+
+
+
+
 }
  

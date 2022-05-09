@@ -14,8 +14,23 @@ class ElementJob extends Model
         return $this->belongsTo('App\Models\Element');
     }
 
+    public function element_production()
+    {
+        return $this->belongsTo('App\Models\ElementProduction');
+    }
+    
     public function material()
     {
         return $this->belongsTo('App\Models\Material');
+    }
+
+    public function machine()
+    {
+        return $this->belongsTo('App\Models\Machine');
+    }
+
+    public function job_group()
+    {
+        return $this->belongsTo('App\Models\JobGroup');
     }
 }

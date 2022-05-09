@@ -31,6 +31,17 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
 
 
+
+
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+        <!-- jQuery -->
+        <script src="//code.jquery.com/jquery.js"></script>
+        <!-- DataTables -->
+        <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -46,7 +57,8 @@
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
-
+                    <input class="form-control" type="text" placeholder="" aria-label="" aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
                 </div>
             </form>
             <!-- Navbar-->
@@ -108,7 +120,7 @@
                             <div class="collapse" id="articles" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     
-                                    <div class="small bg-primary mt-2 mb-1 grey600color">&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-down grey600color"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-pencil-ruler grey600color"></i>&nbsp;&nbsp;Specyfikacja</div>
+                                    {{-- <div class="small bg-primary mt-2 mb-1 grey600color">&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-down grey600color"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-pencil-ruler grey600color"></i>&nbsp;&nbsp;Specyfikacja</div> --}}
                                     
                                     <a class="nav-link" href="{{route('element.list')}}">
                                         <i class="fas fa-layer-group"></i>&nbsp;&nbsp;Elementy
@@ -120,7 +132,7 @@
                                         <i class="fas fa-archive"></i>&nbsp;&nbsp;Produkty
                                     </a>
                                     
-                                    <br />
+                                    {{-- <br />
                                     <div class="small bg-primary mt-2 mb-1 grey600color">&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-down grey600color"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-business-time grey600color"></i>&nbsp;&nbsp;Optymalizacja</div>
                                     <br />
                                     <a class="nav-link" href="{{route('job.group.list')}}">
@@ -128,7 +140,7 @@
                                     </a>
                                     <a class="nav-link" href="{{route('machine.list')}}">
                                         <i class="fas fa-luggage-cart"></i>&nbsp;&nbsp;Maszyny
-                                    </a>
+                                    </a> --}}
                                     
                                     
                                 </nav>
@@ -151,10 +163,10 @@
                                 Dodaj produkt
                             </a> --}}
                             
-                            <a class="nav-link" href="{{route('order.list')}}">
-                                {{-- <i class="fas fa-cubes"></i> --}}     
+                            {{-- <a class="nav-link" href="{{route('order.list')}}">
+                                <i class="fas fa-cubes"></i>     
                                 <i class="fas fa-cube"></i>&nbsp;&nbsp;Magazyn
-                            </a>
+                            </a> --}}
 
 
                             <a class="nav-link" href="{{route('order.list')}}">
@@ -163,18 +175,18 @@
                             {{-- <a class="nav-link" href="{{route('order.new')}}">
                                 Dodaj zamówienie
                             </a> --}}
-                            <a class="nav-link" href="{{route('production.show')}}">
+                            <a class="nav-link" href="{{route('production.index')}}">
                                 <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
                             </a>
-                            <a class="nav-link" href="{{route('production.plan')}}">
+                            {{-- <a class="nav-link" href="{{route('production.plan')}}">
                                 <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie
-                            </a>
+                            </a> --}}
                             <a class="nav-link" href="{{route('home')}}">
                                 <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Zlecenia
                             </a>
-                            <a class="nav-link" href="{{route('home')}}">
+                            {{-- <a class="nav-link" href="{{route('home')}}">
                                 <i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Logistyka
-                            </a>
+                            </a> --}}
                             
 
 
@@ -319,6 +331,17 @@
           </svg>
         <script src="https://unpkg.com/@popperjs/core@2"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('js/scripts.js')}}"></script>    
+        <script src="{{ asset('js/scripts.js')}}"></script>
+
+
+
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+        <!-- jQuery -->
+        <script src="//code.jquery.com/jquery.js"></script>
+        <!-- DataTables -->
+        <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
     </body>
 </html>

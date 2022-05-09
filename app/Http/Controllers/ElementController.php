@@ -33,16 +33,20 @@ class ElementController extends Controller
             $element->weight = $weight;
 
             $user_company = \App\Models\Company::where('id', auth()->user()->company_id)->first();
-            $flexim_id = $user_company->flexim_id;
-         
+            $flexim_id = $user_company->flexim_id;           
+            
             for($i=0;$i<strlen($flexim_id);$i++)
             {
                 
-            }
-
+            }        
             $code = '1' . $flexim_id[2] . '0' . $flexim_id[1];
             $element->code = $code;
             $element->save();
+            
+            $element_add_id_to_code = Element::where('name', $request->name)->orderBy('id', 'DESC')->first();
+            $element_add_id_to_code->code = $code . $element_add_id_to_code->id + 22;
+            $element_add_id_to_code->save();
+
                          
 
             if ($request->pdf)
@@ -883,7 +887,7 @@ class ElementController extends Controller
             
         return view('element-list', compact('elements'), compact('active_filter'));
     }
-
+ 
     public function create_machine(Request $request)
     {
         $new_machine = new Machine();

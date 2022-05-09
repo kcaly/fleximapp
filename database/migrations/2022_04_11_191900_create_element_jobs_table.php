@@ -14,11 +14,17 @@ class CreateElementJobsTable extends Migration
     public function up()
     {
         Schema::create('element_jobs', function (Blueprint $table) {
-            $table->id();     
+            $table->id();
+            $table->string('code');     
             $table->unsignedBigInteger('element_id');
             $table->foreign('element_id')->references('id')->on('elements')->onDelete('cascade');
+            $table->unsignedBigInteger('elementprod_id');
+            $table->foreign('elementprod_id')->references('id')->on('element_productions')->onDelete('cascade');
             $table->unsignedInteger('amount');
             $table->date('date_production');
+            $table->date('date_prod_first')->nullable();;
+            $table->date('date_prod_last')->nullable();;
+            $table->string('dates_textcode')->nullable();;
             $table->tinyInteger('status');
             $table->integer('length');
             $table->integer('width');

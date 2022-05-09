@@ -14,10 +14,26 @@ class ArticleController extends Controller
         $article = new Article();
         $article->name = $request->name;
 
+
+        $user_company = \App\Models\Company::where('id', auth()->user()->company_id)->first();
+        $flexim_id = $user_company->flexim_id;
+
+        for($i=0;$i<strlen($flexim_id);$i++)
+        {
+                
+        }        
+        $code = '1' . $flexim_id[2] . '0' . $flexim_id[1];
+        $article->code = $code;
+        $article->save();
+            
+        $article_add_id_to_code = Article::where('name', $request->name)->orderBy('id', 'DESC')->first();
+        $article_add_id_to_code->code = $code . $article_add_id_to_code->id + 22;
+        $article_add_id_to_code->save();
+
         // $article->time = 0;
         // $article->price = 0;
 
-        $article->save();
+        
 
         return redirect()->route('article.list')->with('message', 'Pomyślnie dodano nowy artykuł.');
 

@@ -17,7 +17,20 @@ class ProductController extends Controller
         // $product->price_actual = 0;
         // $product->price_factual = 0;
 
+        $user_company = \App\Models\Company::where('id', auth()->user()->company_id)->first();
+        $flexim_id = $user_company->flexim_id;           
+         
+        for($i=0;$i<strlen($flexim_id);$i++)
+        {
+                
+        }        
+        $code = '1' . $flexim_id[2] . '0' . $flexim_id[1];
+        $product->code = $code;
         $product->save();
+            
+        $product_add_id_to_code = Product::where('name', $request->name)->orderBy('id', 'DESC')->first();
+        $product_add_id_to_code->code = $code . $product_add_id_to_code->id + 22;
+        $product_add_id_to_code->save();
 
         return redirect()->route('product.list')->with('message', 'Pomyślnie dodano nowy produkt.');
 

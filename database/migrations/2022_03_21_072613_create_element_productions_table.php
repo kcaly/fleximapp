@@ -15,12 +15,28 @@ class CreateElementProductionsTable extends Migration
     {
         Schema::create('element_productions', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
+            $table->string('name');
+            $table->integer('length');
+            $table->integer('width');
+            $table->integer('height');
+            $table->string('material');
+            $table->decimal('weight');
+            $table->string('machine')->nullable();
+            $table->string('job_group')->nullable();
+
+            $table->string('articel_info');
+            $table->string('product_info');
+            $table->string('order_info');
+
             $table->unsignedBigInteger('element_id');
             $table->foreign('element_id')->references('id')->on('elements')->onDelete('cascade');
-            $table->unsignedInteger('amount');
+             
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->date('date_production');
+            
+            $table->unsignedInteger('amount');
+            $table->date('date_production');           
             $table->string('status');
             $table->timestamps();
         });

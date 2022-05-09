@@ -10,14 +10,14 @@
                       
                         <h5 class="text-center font-weight-light mb-md-0">
                           <i class="fas fa-shapes"></i><i class="fas fa-chalkboard"></i><i class="fas fa-bars"></i> Lista elementów<br>
-                          <span class="badge text-dark"><button class="btn btn-outline-link btn-sm" ><i class="far fa-file-alt"></i> <i class="fas fa-exchange-alt"></i> <i class="far fa-hdd"></i></button></span><br>
+                          <span class="badge text-dark mb-2"><button class="btn btn-outline-link btn-sm" ><i class="far fa-file-alt grey700color"></i> <i class="fas fa-exchange-alt grey700color"></i> <i class="far fa-hdd grey700color"></i></button></span><br>
                         </h5>
                           
                           <div class=" text-left">                            
                             &nbsp;
-                            <a href="{{route('job.group.list')}}" class="btn btn-outline-light"><h5 class="small mt-1 grey800color"><i class="far fa-list-alt grey700color"></i>&nbsp;<i class="far fa-paper-plane grey700color"></i>&nbsp;&nbsp;Zlecenia</h5><div class="small grey800color"></div></a>
+                            <a href="{{route('job.group.list')}}" class="btn btn-outline-light"><h5 class="small mt-1 grey800color"><i class="far fa-list-alt grey700color"></i>&nbsp;<i class="far fa-paper-plane grey700color"></i>&nbsp;&nbsp;Lista zleceń</h5><div class="small grey800color"></div></a>
                             &nbsp;&nbsp;
-                            <a href="{{route('machine.list')}}" class="btn btn-outline-light"><h5 class="small mt-1 grey800color"><i class="fas fa-list-alt grey700color"></i>&nbsp;<i class="fas fa-map-marker-alt grey700color"></i>&nbsp;&nbsp;Maszyny</h5><div class="small grey800color"></div></a>
+                            <a href="{{route('machine.list')}}" class="btn btn-outline-light"><h5 class="small mt-1 grey800color"><i class="fas fa-list-alt grey700color"></i>&nbsp;<i class="fas fa-map-marker-alt grey700color"></i>&nbsp;&nbsp;Lista maszyn</h5><div class="small grey800color"></div></a>
                           </div>   
 
                     </div>
@@ -438,13 +438,13 @@
 
                         <th scope="col" style="width: 10%">
                             <select name="material_id" class="form-select">
-                                <option selected value="{{$active_filter['material_id']}}">
+                                <option class="small" selected value="{{$active_filter['material_id']}}">
                                     
                                     @if (isset($active_filter['material_id']))
                                     @if ($active_filter['material_id'] != 0)
 
                                     {{\App\Models\Material::find($active_filter['material_id'])->name}}
-                                    <option value="0"></option>
+                                    <option class="small" value="0"></option>
                                     
                                     @else
                                     
@@ -453,21 +453,21 @@
                                 </option>
                                
                                 @foreach(\App\Models\Material::orderBy('name', 'DESC')->get() as $material)
-                                <option value="{{ $material->id }}">{{ $material->name }}</option>
+                                <option class="small" value="{{ $material->id }}">{{ $material->name }}</option>
                                 @endforeach
                             </select>
                         </th>
 
                         <th scope="col" style="width: 18%">
                           <select name="job_group_id" class="form-select">
-                            <option selected value="{{$active_filter['job_group_id']}}">
+                            <option class="small" selected value="{{$active_filter['job_group_id']}}">
                               @if ($active_filter['job_group_id'] != 0)
                               {{\App\Models\JobGroup::find($active_filter['job_group_id'])->name}}
                               <option value="0"></option>
                               @endif
                           </option>
                             @foreach(\App\Models\JobGroup::orderBy('name', 'DESC')->get() as $job_group)
-                            <option value="{{ $job_group->id }}">{{ $job_group->name }}</option>
+                            <option class="small" value="{{ $job_group->id }}">{{ $job_group->name }}</option>
                             @endforeach
                         </select>
                         </th>
@@ -478,80 +478,80 @@
 
                         <th scope="col" style="width: 8%">
                             <select name="length_operator" class="form-select form-select-sm" @if($active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif>
-                                <option selected>
+                                <option class="small" selected>
                                     @if (isset($active_filter['length_operator']))
                                     {{$active_filter['length_operator']}}
                                     @else
                                     =
                                     @endif
                                 </option>
-                                <option value="=">(=) Równe:</option>
-                                <option value=">">(>) Większe od:</option>
-                                <option value="<">(<) Mniejsze od:</option>
-                                <option value=">=">(>=) Większe lub równe:</option>
-                                <option value="<=">(<=) Mniejsze lub równe:</option>
+                                <option class="small" value="=">(=) Równe:</option>
+                                <option class="small" value=">">(>) Większe od:</option>
+                                <option class="small" value="<">(<) Mniejsze od:</option>
+                                <option class="small" value=">=">(>=) Większe lub równe:</option>
+                                <option class="small" value="<=">(<=) Mniejsze lub równe:</option>
                             </select>
                                 <input name="length_value" type="number" class="form-control" value="{{$active_filter['length_value']}}" @if($active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif></th>
 
                         <th scope="col" style="width: 8%">
                             <select name="width_operator" class="form-select form-select-sm" @if($active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif>
-                                <option selected>
+                                <option class="small" selected>
                                     @if (isset($active_filter['width_operator']))
                                     {{$active_filter['width_operator']}}
                                     @else
                                     =
                                     @endif
                                 </option>
-                                <option value="=">(=) Równe:</option>
-                                <option value=">">(>) Większe od:</option>
-                                <option value="<">(<) Mniejsze od:</option>
-                                <option value=">=">(>=) Większe lub równe:</option>
-                                <option value="<=">(<=) Mniejsze lub równe:</option>
+                                <option class="small" value="=">(=) Równe:</option>
+                                <option class="small" value=">">(>) Większe od:</option>
+                                <option class="small" value="<">(<) Mniejsze od:</option>
+                                <option class="small" value=">=">(>=) Większe lub równe:</option>
+                                <option class="small" value="<=">(<=) Mniejsze lub równe:</option>
                             </select>
                                 <input name="width_value" type="number" class="form-control" value="{{$active_filter['width_value']}}" @if($active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif></th>
 
                         <th scope="col" style="width: 8%">
                             <select name="height_operator" class="form-select form-select-sm" @if($active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif>
-                                <option selected>
+                                <option class="small" selected>
                                     @if (isset($active_filter['height_operator']))
                                     {{$active_filter['height_operator']}}
                                     @else
                                     =
                                     @endif
                                 </option>
-                                <option value="=">(=) Równe:</option>
-                                <option value=">">(>) Większe od:</option>
-                                <option value="<">(<) Mniejsze od:</option>
-                                <option value=">=">(>=) Większe lub równe:</option>
-                                <option value="<=">(<=) Mniejsze lub równe:</option>
+                                <option class="small" value="=">(=) Równe:</option>
+                                <option class="small" value=">">(>) Większe od:</option>
+                                <option class="small" value="<">(<) Mniejsze od:</option>
+                                <option class="small" value=">=">(>=) Większe lub równe:</option>
+                                <option class="small" value="<=">(<=) Mniejsze lub równe:</option>
                             </select>
                                 <input name="height_value" type="number" class="form-control" value="{{$active_filter['height_value']}}" @if($active_filter['job_group_id'] != 0 || $active_filter['machine_id'] != 0) disabled @endif>
                         </th>
 
                         <th scope="col" style="width: 10%">
                           <select name="machine_id" class="form-select">
-                            <option selected value="{{$active_filter['machine_id']}}">
+                            <option class="small" selected value="{{$active_filter['machine_id']}}">
                               @if ($active_filter['machine_id'] != 0)
                               {{\App\Models\Machine::find($active_filter['machine_id'])->name}}
-                              <option value="0"></option>
+                              <option class="small" value="0"></option>
                               @endif
                           </option>
                             @foreach(\App\Models\Machine::orderBy('name', 'DESC')->get() as $machine)
-                            <option value="{{ $machine->id }}">{{ $machine->name }}</option>
+                            <option class="small" value="{{ $machine->id }}">{{ $machine->name }}</option>
                             @endforeach
                         </select>
                         </th>
                     </tr>
                     </form>
                     <tr>
-                    <th scope="col" class="text-left"><a href="{{route('element.new')}}"><h5>&nbsp;<i class="fas fa-plus"></i></h5></a></th>
-                    <th scope="col" style="width: 7%"><h5 class="small text-center blueiconcolor">PDF/DXF</h5></th>
+                    <th scope="col" class="text-left"><a href="{{route('element.new')}}"><h6>&nbsp;<i class="fas fa-plus mt-2"></i></h6></a></th>
+                    <th scope="col" style="width: 7%"><h6 class="small text-center blueiconcolor">PDF/DXF</h6></th>
                                                           
                     <th scope="col">
                       <form method="post" action={{ route('material.create') }}>
                         @csrf
                         @method('post')  
-                        <h6><a href="" data-bs-toggle="modal" data-bs-target="#exampleModal5"><i class="fas fa-clipboard-list grey600color"></i></a>&nbsp;Materiał</h6>
+                        <h6 class="small"><a href="" data-bs-toggle="modal" data-bs-target="#exampleModal5"><i class="fas fa-box grey600color"></i></a>&nbsp;Materiał</h6>
                     </th>
 
                     <!-- Modal Material-->
@@ -571,7 +571,7 @@
                                     <div class="" disabled><h5>{{$material->name}}</h5></div>
                                     <div class="small grey800color"><strong>x</strong> {{$material->length}}&nbsp;&nbsp;&nbsp;&nbsp;<strong>y</strong> {{$material->width}}&nbsp;&nbsp;&nbsp;&nbsp;<strong>z</strong> {{$material->height}} </div>
                                   </div>
-                                  <span class="badge bg-primary rounded-pill text-dark">@if (\App\Models\Element::where('material_id', $material->id)->count() > 0) <h5>{{\App\Models\Element::where('material_id', $material->id)->count() > 0}}</h5> @else <a href="{{route('material.delete', ['id' => $material->id])}}"><h6 class="rediconcolor small"><i class="fas fa-ban"></i></h6></a>@endif</span>
+                                  <span class="badge bg-primary rounded-pill text-dark">@if (\App\Models\Element::where('material_id', $material->id)->count() > 0) <h5>{{\App\Models\Element::where('material_id', $material->id)->count()}}</h5> @else <a href="{{route('material.delete', ['id' => $material->id])}}"><h6 class="rediconcolor small"><i class="fas fa-ban"></i></h6></a>@endif</span>
                                 </li>
                                 @endforeach
                               </ol>
@@ -662,13 +662,13 @@
                       </div>                            
                     </th>                   
                   </form>
-                    <th scope="col"><h6>Grupa</h6></th>
-                    <th scope="col"><h6>ID</h6></th>
-                    <th scope="col"><h6>Nazwa</h6></th>
-                    <th scope="col"><h6>DŁ</h6></th>
-                    <th scope="col"><h6>SZER</h6></th>
-                    <th scope="col"><h6>WYS</h6></th>
-                    <th scope="col"><h6>Maszyna</h6></th>
+                    <th scope="col"><h6 class="small">Grupa zlecenia</h6></th>
+                    <th scope="col"><h6 class="small">Kod</h6></th>
+                    <th scope="col"><h6 class="small">Nazwa</h6></th>
+                    <th scope="col"><h6 class="small">X(dł.)</h6></th>
+                    <th scope="col"><h6 class="small">Y(szer.)</h6></th>
+                    <th scope="col"><h6 class="small">Z(wys.)</h6></th>
+                    <th scope="col"><h6 class="small">Maszyna</h6></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -701,7 +701,7 @@
                           {{ \App\Models\JobGroup::find($element->job_group_id)->name }}
                           @endif
                       </td>
-                      <td>{{ $element->id }}</td>
+                      <td>E{{ $element->code }}</td>
                       <td>{{ $element->name }}</td>
                       <td>{{ $element->length }}</td>
                       <td>{{ $element->width }}</td>

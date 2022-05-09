@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DatatablesController;
 use App\Http\Controllers\ElementController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OrderController;
@@ -44,8 +45,19 @@ Route::get('new-user', function(){
     return view('auth.register');
 })->name('add.user');
 
+// Route::controller('datatables', 'DatatablesController', [
+//     'anyData'  => 'datatables.data',
+//     'getIndex' => 'datatables',
+// ]);
 
 Route::middleware('auth')->group(function(){
+
+
+Route::post('prod-detail', [DatatablesController::class, 'ViewElementProduction'])->name('data.elementproduction');
+Route::get('datatables.data/element.production/{date_start}/{date_end}', [DatatablesController::class, 'DataElementProduction'])->name('DataElementProduction');
+
+
+Route::get('datatables.data/element.job/{date_start}/{date_end}', [DatatablesController::class, 'DataElementJob'])->name('DataElementJob');
 
 
 Route::view('profile', 'auth.profile')->name('profile');
@@ -140,7 +152,7 @@ Route::get('order-product-delete/{order_id}-{product_id}-{amount}', [OrderContro
 
 
 
-
+Route::view('production-index', 'production-show')->name('production.index');
 Route::view('production', 'production-show')->name('production.show');
 Route::put('production-show', [ProductionController::class, 'show'])->name('production');
 Route::view('inplan-prod-to-job', 'production-plan')->name('production.plan');

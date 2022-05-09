@@ -34,7 +34,7 @@
                 <thead>
                   <tr>
                     <th scope="col"><a href="{{route('article.new')}}"><i class="fas fa-plus"></i></a></th>
-                    <th scope="col">ID</th>
+                    <th scope="col">Kod</th>
                     <th scope="col">Nazwa</th>
                     <th scope="col"></th>
                   </tr>
@@ -48,7 +48,7 @@
             @method('get')
             <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-sign-in-alt"></i></button></form>
     </td>
-    <td>{{ $article->id }}</td>
+    <td>A{{ $article->code }}</td>
     <td>{{ $article->name }}</td>
     <td>
         <form method="get" action={{route('article.details.show', ['id' => $article->id]) }} >
