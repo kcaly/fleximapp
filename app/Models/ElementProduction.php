@@ -19,4 +19,9 @@ class ElementProduction extends Model
         return $this->belongsTo('App\Models\Element');
     }
 
+    public function material()
+    {
+        return $this->belongsTo(Material::class);
+    }
+
 }

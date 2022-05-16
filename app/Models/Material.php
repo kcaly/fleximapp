@@ -14,9 +14,16 @@ class Material extends Model
         return $this->hasMany('App\Models\Element');
     }
 
+    public function element_productions()
+    {
+        return $this->hasMany('App\Models\ElementProduction');
+    }
+
     public function element_jobs()
     {
         return $this->hasMany('App\Models\ElementJob');
     }
+
+
 
 }

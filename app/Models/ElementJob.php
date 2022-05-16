@@ -13,11 +13,6 @@ class ElementJob extends Model
     {
         return $this->belongsTo('App\Models\Element');
     }
-
-    public function element_production()
-    {
-        return $this->belongsTo('App\Models\ElementProduction');
-    }
     
     public function material()
     {

@@ -15,6 +15,17 @@ class CreateProductionsTable extends Migration
     {
         Schema::create('productions', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable();
+            $table->string('dates_textcode')->nullable();
+
+            $table->date('date_first')->nullable();
+            $table->date('date_last')->nullable();
+
+            $table->integer('sum_elements')->nullable();
+            $table->string('total')->nullable();
+
+            $table->tinyInteger('status')->default(0);
+
             $table->timestamps();
         });
     }

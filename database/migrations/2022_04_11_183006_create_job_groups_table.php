@@ -23,6 +23,9 @@ class CreateJobGroupsTable extends Migration
             $table->boolean('export')->default(0);
             $table->boolean('execute')->default(1);
             $table->boolean('status')->default(1);
+
+            $table->tinyInteger('production_method')->default(0);
+
             $table->timestamps();
         }); 
     }

@@ -15,30 +15,21 @@ class CreateElementJobsTable extends Migration
     {
         Schema::create('element_jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('code');     
-            $table->unsignedBigInteger('element_id');
-            $table->foreign('element_id')->references('id')->on('elements')->onDelete('cascade');
-            $table->unsignedBigInteger('elementprod_id');
-            $table->foreign('elementprod_id')->references('id')->on('element_productions')->onDelete('cascade');
-            $table->unsignedInteger('amount');
-            $table->date('date_production');
-            $table->date('date_prod_first')->nullable();;
-            $table->date('date_prod_last')->nullable();;
-            $table->string('dates_textcode')->nullable();;
-            $table->tinyInteger('status');
+            $table->string('code');
+            $table->string('name');
             $table->integer('length');
             $table->integer('width');
             $table->integer('height');
-            $table->unsignedBigInteger('material_id');
-            $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
-            $table->unsignedBigInteger('machine_id')->nullable();
-            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
-            $table->unsignedBigInteger('job_group_id')->nullable();
-            $table->foreign('job_group_id')->references('id')->on('job_groups')->onDelete('cascade');
-            
+            $table->string('material');
+
+            $table->decimal('sum_weight');
+            $table->unsignedInteger('sum_amount');
+
+            $table->date('date_production');
+
+            $table->tinyInteger('status')->default(0);
+
             $table->timestamps();
-
-
 
         });
     }

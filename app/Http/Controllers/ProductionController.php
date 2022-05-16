@@ -107,12 +107,6 @@ class ProductionController extends Controller
                         $element_production_record = new ElementProduction();
 
                         
-                        $element_production_record->code = $element->code;
-                        $element_production_record->name = $element->name;
-                        
-                        $element_production_record->length = $element->length;
-                        $element_production_record->width = $element->width;
-                        $element_production_record->height = $element->height;
 
                         if($element->machine_id != null || 0)
                         {
@@ -134,6 +128,7 @@ class ProductionController extends Controller
                         $element_production_record->amount = $amount_suma;
 
                         $element_production_record->element_id = $element->id;
+                        $element_production_record->material_id = $element->material_id;
                         $element_production_record->order_id = $order->id;
 
                         $element_production_record->date_production = $order->date_production;
@@ -202,12 +197,6 @@ class ProductionController extends Controller
                         $element_production_record = new ElementProduction();
 
                         
-                        $element_production_record->code = $element->code;
-                        $element_production_record->name = $element->name;
-                        
-                        $element_production_record->length = $element->length;
-                        $element_production_record->width = $element->width;
-                        $element_production_record->height = $element->height;
 
                         if($element->machine_id != null || 0)
                         {
@@ -229,6 +218,7 @@ class ProductionController extends Controller
                         $element_production_record->amount = $amount_suma;
 
                         $element_production_record->element_id = $element->id;
+                        $element_production_record->material_id = $element->material_id;
                         $element_production_record->order_id = $order->id;
 
                         $element_production_record->date_production = $order->date_production;
@@ -276,16 +266,19 @@ class ProductionController extends Controller
                    {
                     $suma_for_element_id = ElementProduction::where('date_production','=',$date)->where('element_id','=',$element_gen)->sum('amount');
                     $element_job = new ElementJob();
-                    $element_job->amount = $suma_for_element_id;
+                    $element_job->sum_amount = $suma_for_element_id;
                     $element_job->element_id = $element_prod->element_id;
-                    $element_job->elementprod_id = $element_prod->id;
                     $element_job->code = $element_prod->element->code;
+                    $element_job->name = $element_prod->element->name;
                     $element_job->date_production = $date;
                     $element_job->status = 0;
                     $element_job->length = $element_prod->element->length;
                     $element_job->width = $element_prod->element->width;
                     $element_job->height = $element_prod->element->height;
-                    $element_job->material_id = $element_prod->element->material_id;
+                    $element_job->material = $element_prod->element->material->name;
+                    $element_job->sum_weight = $element_prod->element->weight * $element_job->sum_amount;
+
+                    $element_job->material_id = $element_prod->material_id;
                     $element_job->machine_id = $element_prod->element->machine_id;
                     $element_job->job_group_id = $element_prod->element->job_group_id;
 
@@ -300,9 +293,9 @@ class ProductionController extends Controller
                     
                     $element_amount_in_prod = ElementProduction::where('date_production','=',$date)->where('element_id','=',$element_gen)->sum('amount');
                     
-                    if($element_amount_id_job->amount != $element_amount_in_prod)
+                    if($element_amount_id_job->sum_amount != $element_amount_in_prod)
                     {
-                        $element_job->amount = $element_amount_in_prod;
+                        $element_job->sum_amount = $element_amount_in_prod;
                         $element_job->save();
                     }
                     else
@@ -314,8 +307,7 @@ class ProductionController extends Controller
                    }
 
                             
-                            
-                    
+                                           
                     
 
                 }
@@ -327,13 +319,11 @@ class ProductionController extends Controller
            return redirect()->route('production.show')->with('message', $message)->with('date', $request->date);
                     break;
                     
+ 
                     
-
-
                 case "load":
                     return redirect()->route('production.show')->with('date', $request->date);
                     break;
-
                 
             }
 

@@ -120,7 +120,7 @@
 
                     <div class="form-floating mb-2">
                     
-                      <select name="grupe" class="form-select" id="inputGroupSelect01">
+                      {{-- <select name="grupe" class="form-select" id="inputGroupSelect01" disabled>
                         <option value="1">Elementy</option>
                         <option value="2">Artykuły</option>
                         <option value="3">Produkty</option>
@@ -131,7 +131,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                             @enderror
-                      
+                       --}}
                      
                   </div>
 
@@ -176,31 +176,77 @@
         
         <div class="card text-center">
           <div class="card-header">
+            <h6 class="card-title grey600color"><i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie produkcji</h6>
             <ul class="nav nav-pills card-header-pills">
               <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><h6 class="small"><i class="fas fa-bullhorn"></i> Odblokuj, aby pomyślnie zatwierdzić sumowanie danych. Procesu scalania nie można cofnąć. Usuń i ponownie wygeneruj.</h6></a>
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><h6 class="small"><i class="fas fa-bullhorn"></i> Procesu scalania nie można cofnąć. Usuń i ponownie wygeneruj.</h6></a>
               </li>
             </ul>
             <div class="text-left">
-            <a href="#" class="btn btn-primary"><i class="fas fa-snowplow"></i> <i class="fas fa-medkit"></i> Scal wybrane</a>&nbsp;&nbsp;
+            <a href="#" class="btn btn-primary"><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Scal dane produkcyjne</a>&nbsp;&nbsp;
             <a href="#" class="btn btn-outline-secondary"><i class="fas fa-book"></i> <i class="fas fa-mug-hot"></i> Archiwum</a>
             </div>
             <div class="text-right mb-1 mt-1">
               <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off">
-              <label class="btn btn-outline-danger btn-sm" for="danger-outlined"><i class="fas fa-hammer"></i> Odblokuj</label>
+              <label class="btn btn-outline-danger btn-sm" for="danger-outlined"><i class="fas fa-hammer"></i></label>
               </div>
               
           </div>
           <div class="card-body">
-            {{-- <h6 class="card-title grey800color">W przygotowaniu, oczekujące na zatwierdzenie <i class="fas fa-solar-panel"></i></h6> --}}
-            <p class="card-text grey600color small">Modyfikacje przekazanych zleceń nie są możliwe. Dezaktywuj i ponownie wprowadź dane.</p>           
+            {{-- <h6 class="card-title grey700color">Wygenerowane dni produkcyjne</h6> --}}
+            {{-- <p class="card-text grey600color small">Modyfikacje przekazanych zleceń nie są możliwe. Dezaktywuj i ponownie wprowadź dane.</p>           --}}
+            
+            
+            <table class="table table-sm table-borderless">
+              
+              <thead class="card-text grey600color small text-left">
+                <tr>
+                  <th scope="col" ><h5><i class="fas fa-medkit blueiconcolor"></i></h5></th>
+                  <th scope="col" >Data prod.</th>
+                  <th scope="col"><i class="fas fa-language"></i> Alias</th>
+                  <th scope="col" ><i class="fas fa-folder"></i> Wygenerowano</th>
+                  <th scope="col"></th>
+                  
+                </tr>
+              </thead>
+
+              <tbody>
+                @foreach (\App\Models\ElementProduction::where('status', 0)->select('date_production')->distinct()->get() as $date_production)
+                <tr>
+                  {{-- <th scope="row"></th> --}}
+                  <td>
+                    <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                      
+                    </label>
+                  </div>
+                </td>
+                  <td class="text-left blueiconcolor">
+                    <form method="post" action="{{ route('production')}}" >
+                      @csrf
+                      @method('put')
+                      <input name="date" value="{{ $date_production->date_production }}" type="hidden">
+                    {{ $date_production->date_production }}&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" name="action" value="load" class="btn btn-primary btn-sm"><i class="far fa-folder-open"></i></button>
+                    </form>
+                  </td>
+                  
+                  <td></td>
+                  <td class="text-left small">{{ (\App\Models\ElementProduction::where('date_production', $date_production->date_production)->first())->created_at->toDateTimeString()}}</td>
+                  <td class="text-left"><button type="submit" name="action" value="load" class="btn btn-sm">@if ((\App\Models\ElementProduction::where('date_production', $date_production->date_production)->first())->status == 0)<i class="fas fa-lock-open"></i> @else<i class="fas fa-lock"></i> @endif</button></td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+
           </div>
         </div>
         
-        
-        <div class="card bg-light my-2">
+        {{-- TUTAJ START GEN. JobOrder --}}
+
+        {{-- <div class="card bg-light my-2">
           <div class="card-header">
-            {{-- <h5 class="card-title my-2"><i class="fas fa-box-open blueiconcolor"></i>Budowanie zlecenia</h5> --}}
+           
           </div>
           <div class="card-body">
             <div class="row ">
@@ -218,7 +264,7 @@
                   <button type="button" class="list-group-item list-group-item-action"><i class="fas fa-hockey-puck grey600color"></i>&nbsp;&nbsp;2022-04-29</button>
                   <button type="button" class="list-group-item list-group-item-action"><i class="fas fa-hockey-puck grey600color"></i>&nbsp;&nbsp;2022-04-29</button>
                   <button type="button" class="list-group-item list-group-item-action"><i class="fas fa-hockey-puck grey600color"></i>&nbsp;&nbsp;2022-04-29</button>
-                  {{-- <button type="button" class="list-group-item list-group-item-action" disabled> </button> --}}
+                  <button type="button" class="list-group-item list-group-item-action" disabled> </button>
                 </div>
 
 
@@ -251,12 +297,6 @@
 
 
 
-              {{-- <form method="post" action="{{ route('production')}}" >
-                @csrf
-                @method('put')
-                <input name="date" value="{{$date_production_for_list->date_production}}" type="hidden">
-                <a type="submit" name="action" value="load" class="btn btn-outline-secondary btn-sm">Wczytaj <i class="fas fa-wind"></i></a>
-              </form> --}}
             </div>
 
               <select class="form-select form-select-sm mt-2 border-secondary" multiple aria-label="multiple select example" size="8" aria-label="size 3 select example">
@@ -271,24 +311,11 @@
             </div>
             <div class="col-md-4">
 
-              {{-- <div class="btn-group mt-2" role="group" aria-label="Basic checkbox toggle button group">
-                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-                <label class="btn btn-sm btn-outline-primary" for="btncheck1">Checkbox 1</label>
-              
-                <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                <label class="btn btn-sm btn-outline-primary" for="btncheck2">Checkbox 2</label>
-              
-                <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-                <label class="btn btn-sm btn-outline-primary" for="btncheck3">Checkbox 3</label>
-              </div> --}}
-              
+
               
               <form class="row mt-2">
                 
-                {{-- <label for="inputPassword2" class="visually-hidden"> </label>
-                <input type="password" class="form-control" id="inputPassword2" placeholder="">
-                <br /> --}}
-                {{-- <label for="exampleDataList" class="form-label">Datalist example</label> --}}
+                
                 <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Nazwa zlecenia">
                 <datalist id="datalistOptions">
                   <option value="San Francisco">
@@ -303,48 +330,6 @@
 
             
 
-{{-- <div class="accordion accordion-flush mt-4" id="accordionFlushExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingOne">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-        Accordion Item #1
-      </button>
-    </h2>
-    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingTwo">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-        Accordion Item #2
-      </button>
-    </h2>
-    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-        Accordion Item #3
-      </button>
-    </h2>
-    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
-    </div>
-  </div>
-</div> --}}
-{{-- 
-              <input name="date" value="{{$user_company = \App\Models\Company::where('id', auth()->user()->company_id)->first()}}" type="hidden">
-              <div class="card text-dark bg-light mt-2 mb-3 card border-secondary" style="max-width: 22rem;">
-                
-                <div class="card-header"><h5 class="card-title my-2"><i class="fas fa-box-open blueiconcolor"></i></h5></div>
-                <div class="card-body">
-                  <h5 class="card-title">Light card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </div> --}}
 
               
                 <div class="row">
@@ -373,12 +358,12 @@
               <div class="progress-bar bg-light" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><h6 class="grey600color small mt-2">Oczekujące</h6></div>
             </div>
           </div>
-        </div>
+        </div> --}}
         
 
 
 
-
+{{-- TUTAJ KONIEC INTERFEJSU DLA GENEROWANIA JobOrder --}}
 
 
 
@@ -399,8 +384,10 @@
                   
                   <div class="card" style="width: 18rem;">
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item small"><i class="fas fa-database grey700color"></i> Zakres danych</li>
-                      <li class="list-group-item small"><i class="fas fa-hockey-puck grey700color"></i> {{Session::get('date')}}</li>
+                      <li class="list-group-item small"><i class="far fa-clock grey700color"></i>&nbsp;Pierwsze gen. {{(\App\Models\ElementProduction::where('date_production', Session::get('date'))->first())->created_at->toDateTimeString()}}</li>
+                      <li class="list-group-item small"><i class="far fa-bell grey700color"></i>&nbsp;Ostatnie gen. {{(\App\Models\ElementProduction::where('date_production', Session::get('date'))->first())->updated_at->toDateTimeString()}}</li>
+                      <li class="list-group-item small"><i class="far fa-lightbulb grey700color"></i>&nbsp;&nbsp;Najnowsze zam. {{(\App\Models\Order::where('date_production', Session::get('date'))->first())->code}}</li>
+                     
                     </ul>
                     <div class="card-footer">
                       <h6 class="card-title"><h6 class="card-title rediconcolor"><i class="fas fa-fire"></i> {{Session::get('date')}}</h6></h6>
@@ -417,7 +404,7 @@
                     <div class="col-4 mb-4">
                       <div class="list-group" id="list-tab" role="tablist">
                         <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home"><i class="fas fa-chart-pie cookiecolor"></i> Podsumowanie</a>
-                        <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><i class="fas fa-spell-check cookiecolor"></i> Stan zasobów</a>
+                        <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile"><i class="fas fa-spell-check cookiecolor"></i> Zapotrzebowanie</a>
                         
                         
                       </div>
@@ -506,14 +493,14 @@
                     @foreach (\App\Models\ElementJob::with(['element'])->where('date_production', Session::get('date'))->orderBy('material_id', 'DESC')->orderBy('length', 'DESC')->orderBy('width', 'DESC')->orderBy('height', 'DESC')->get() as $element_job)
                     <tr>
                     <td></td>
-                    <td>{{$element_job->material->name}}</td>
+                    <td>{{$element_job->material}}</td>
                     <td>
                       <form method="get">
                         @csrf
                         <td><a href="{{route('element.edit', ['id' => $element_job->element_id]) }}" target="_blank"><div class="blackcolor">{{$element_job->element->name}}</div></a></td>
                       </form>
                     </td>
-                    <td>{{$element_job->amount}}</td>
+                    <td>{{$element_job->sum_amount}}</td>
             
                     <td>{{$element_job->length}}</td>
                     <td>{{$element_job->width}}</td>
@@ -553,15 +540,17 @@
                 <tr>
                     
                     
+                    {{-- <th>Materiał</th> --}}
                     <th>Materiał</th>
                     <th>Kod</th>
                     <th>Nazwa</th>
                     <th>X(dł.)</th>
                     <th>Y(szer.)</th>
                     <th>Z(wys.)</th>
-                    <th>Maszyna</th>
-                    <th>Ilość</th>
+                    <th>Waga</th>
+                    <th>Ilość</th>                                     
                     <th>Grupa</th>
+                    <th>Maszyna</th> 
                 </tr>                                
             </thead>
         </table>
@@ -571,11 +560,6 @@
           $(function() {
              
               
-
-
-
-
-
 
               $('#elementjob').DataTable({
                   processing: true,
@@ -595,10 +579,10 @@
                       {data: 'element.length', name: 'element.length'}, 
                       {data: 'element.width', name: 'element.width'}, 
                       {data: 'element.height', name: 'element.height'},  
-                    
-                      {data: 'machine.name', name: 'machine.name'},
-                      {data: 'amount', name: 'amount'}, 
+                      {data: 'sum_weight', name: 'sum_weight'},                                           
+                      {data: 'sum_amount', name: 'sum_amount'}, 
                       {data: 'job_group.name', name: 'job_group.name'},
+                      {data: 'machine.name', name: 'machine.name'},
                   ]
               });
           });
