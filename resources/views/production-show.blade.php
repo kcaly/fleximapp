@@ -176,7 +176,7 @@
         
         <div class="card text-center">
           <div class="card-header">
-            <h6 class="card-title grey600color"><i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie produkcji</h6>
+            <h6 class="small card-title grey600color"><i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie produkcji</h6>
             <ul class="nav nav-pills card-header-pills">
               <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><h6 class="small"><i class="fas fa-bullhorn"></i> Procesu scalania nie można cofnąć. Usuń i ponownie wygeneruj.</h6></a>

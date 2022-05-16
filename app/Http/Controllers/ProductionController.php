@@ -132,7 +132,7 @@ class ProductionController extends Controller
                         $element_production_record->order_id = $order->id;
 
                         $element_production_record->date_production = $order->date_production;
-                        $element_production_record->status = '0';
+                        $element_production_record->status = 0;
 
 
                        
@@ -222,7 +222,7 @@ class ProductionController extends Controller
                         $element_production_record->order_id = $order->id;
 
                         $element_production_record->date_production = $order->date_production;
-                        $element_production_record->status = '0';
+                        $element_production_record->status = 0;
 
                         $order->status = 1;
 
