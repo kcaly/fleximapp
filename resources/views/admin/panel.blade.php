@@ -13,7 +13,7 @@
                 <div class="col-md-6">
                     <div class="form-floating mb-3 mb-md-0">
                         <h4 class="text-center font-weight-light my-4">
-                            Panel<br />Flexim ID: {{ \App\Models\Company::where('id', Auth::User()->company_id)->first()->flexim_id }}
+                            <img src="{{ asset('img/Fleximapp_logo_150.png')}}" /><br />Flexim ID: {{ \App\Models\Company::where('id', Auth::User()->company_id)->first()->flexim_id }}
                         </h4>
 
                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Production;
 use App\Models\ElementProduction;
 use App\Models\ElementJob;
 use App\Models\Order;
@@ -22,10 +23,9 @@ class ProductionController extends Controller
     }
 
 
-
-
     public function show(Request $request)
     {
+        
         if ($request->refresh != 0 && $request->action != 'load')
         {
             ElementProduction::where('date_production', $request->date)->delete();
@@ -59,7 +59,8 @@ class ProductionController extends Controller
                     }
 
                     $message = 'Usunięto dane produkcyjne: ' . $request->date; 
-                    return redirect()->route('production.show')->with('message', $message)->with('date', $request->date);
+                    // return redirect()->route('production.show')->with('message', $message)->with('date', $request->date);
+                    return redirect()->route('production.show')->with('message', $message);
                     break;
 
 
@@ -70,95 +71,8 @@ class ProductionController extends Controller
                     $orders = Order::where('date_production', $request->date)->get();
     
                 
-        foreach ($orders as $single_order){
-    
-            $order = Order::find($single_order->id);
 
-    
-            if ($order->status != 0)
-            {
-            
-            }
-            else
-            {
-            $products = $order->products;
-            $order_records = $order_records + 1;
-    
-            foreach ($products as $product)
-            {
-                $amount_product = $product->pivot->amount;
-                $articles = $product->articles;
-    
-    
-                foreach($articles as $article)
-                {
-    
-                    $amount_article = $article->pivot->amount;
-                    $elements = $article->elements;
-    
-                    foreach($elements as $element)
-                    {   
-                        $amount_element = $element->pivot->amount;
-                        
-                        $amount_suma = $amount_product * $amount_article * $amount_element;
-                        
-                        
-                       
-                        $element_production_record = new ElementProduction();
-
-                        
-
-                        if($element->machine_id != null || 0)
-                        {
-                            $element_production_record->machine = \App\Models\Machine::find($element->machine_id)->first()->titel;
-                        }
-
-                        if($element->job_group_id != null || 0)
-                        {
-                            $element_production_record->job_group = \App\Models\JobGroup::find($element->job_group_id)->first()->titel;
-                        }
-                        
-                        $element_production_record->articel_info = $article->name;
-                        $element_production_record->product_info = $product->name;
-                        $element_production_record->order_info = 'Z'.$order->code.' ['.$order->date_order.']';
-
-                        $element_production_record->material = \App\Models\Material::find($element->material_id)->first()->name;
-                        $element_production_record->weight = $element->weight;
-
-                        $element_production_record->amount = $amount_suma;
-
-                        $element_production_record->element_id = $element->id;
-                        $element_production_record->material_id = $element->material_id;
-                        $element_production_record->order_id = $order->id;
-
-                        $element_production_record->date_production = $order->date_production;
-                        $element_production_record->status = 0;
-
-
-                       
-                        $element_production_record->save();
-
-
-    
-    
-                    }
                     
-    
-    
-                }
-                
-            }
-            $order->save();
-            }
-        }
-
-
-
-
-
-
-
-
 
         foreach ($orders as $single_order){
     
@@ -191,22 +105,19 @@ class ProductionController extends Controller
                         $amount_element = $element->pivot->amount;
                         
                         $amount_suma = $amount_product * $amount_article * $amount_element;
-                        
-                        
+                                             
                        
                         $element_production_record = new ElementProduction();
+                       
+                        // if($element->machine_id != null || 0)
+                        // {
+                        //     $element_production_record->machine = \App\Models\Machine::find($element->machine_id)->first()->titel;
+                        // }
 
-                        
-
-                        if($element->machine_id != null || 0)
-                        {
-                            $element_production_record->machine = \App\Models\Machine::find($element->machine_id)->first()->titel;
-                        }
-
-                        if($element->job_group_id != null || 0)
-                        {
-                            $element_production_record->job_group = \App\Models\JobGroup::find($element->job_group_id)->first()->titel;
-                        }
+                        // if($element->job_group_id != null || 0)
+                        // {
+                        //     $element_production_record->job_group = \App\Models\JobGroup::find($element->job_group_id)->first()->titel;
+                        // }
                         
                         $element_production_record->articel_info = $article->name;
                         $element_production_record->product_info = $product->name;
@@ -228,9 +139,6 @@ class ProductionController extends Controller
 
                        
                         $element_production_record->save();
-
-
-    
     
                     }
                     
@@ -244,11 +152,6 @@ class ProductionController extends Controller
             $order->save();
             }
         }
-
-
-
-
-
 
 
 
@@ -304,11 +207,7 @@ class ProductionController extends Controller
                         
                     }
                         
-                   }
-
-                            
-                                           
-                    
+                   }                                                                                      
 
                 }
 
@@ -316,11 +215,11 @@ class ProductionController extends Controller
             // $elements_production = ElementProduction::where('date_production', $request->date)->get();
    
             $message = 'Wygenerowano dane produkcyjne dla ' . $order_records . ' zam.'; 
-           return redirect()->route('production.show')->with('message', $message)->with('date', $request->date);
+            return redirect()->route('production.show')->with('message', $message)->with('date', $request->date);
                     break;
                     
- 
                     
+
                 case "load":
                     return redirect()->route('production.show')->with('date', $request->date);
                     break;
@@ -339,8 +238,70 @@ class ProductionController extends Controller
 
 
 
+    public function production_create(Request $request)
+    {
+
+        $production = new Production();
+        $production->date_first = $request['check1'];
+        $production->date_last = $request['check'.$request->check_number];
+        $production->dates_textcode = $request['check1'] . ' — ' . $request['check'.$request->check_number];
+        $production->sum_elements = 0;
+        $production->status = 0;
+        $production->save();
+
+        $production_id = $production->id;
 
 
+        $dates = \App\Models\ElementProduction::where('status', 0)->select('date_production')->distinct()->get();
+        
+        foreach($dates as $date)
+        {   
+            for($i=1; $i <= $request->check_number; $i++)
+            {   
+                if ($date->date_production == $request['check'.$i])
+                {  
+                    $elements_jobs = \App\Models\ElementJob::where('date_production', $date->date_production)->get();
+
+                    foreach($elements_jobs as $element_job)
+                    {
+                        $element_job->status = 1;
+                        $element_job->production_id = $production_id;
+                        $element_job->save();
+                    }
+
+                    $elements_productions = \App\Models\ElementProduction::where('date_production', $date->date_production)->get();
+                    foreach($elements_productions as $element_prod)
+                    {
+                        $element_prod->status = 1;
+                        $element_prod->save();
+                    }
+
+                }
+
+            }
+            
+        }
+
+        $sum_elements = ElementJob::where('production_id', $production_id)->sum('sum_amount');
+        $production->sum_elements = $sum_elements;
+        $materials = \App\Models\ElementJob::select('material')->distinct()->get();
+        $string_total = '';
+        foreach ($materials as $material)
+        {
+            $sum_weight = ElementJob::where('production_id', $production_id)->where('material', $material->material)->sum('sum_weight');
+            $string_total = $string_total.$material->material.'='.$sum_weight.';';
+
+        }
+
+        $production->total = $string_total;
+        $production->save();
+
+        
+
+        $message = 'Pomyślnie utworzono zakres produkcyjny: '.$production->dates_textcode;
+        return redirect()->route('production.show')->with('message', $message);
+
+    }
 
 }
  

@@ -155,7 +155,11 @@ Route::get('order-product-delete/{order_id}-{product_id}-{amount}', [OrderContro
 Route::view('production-index', 'production-show')->name('production.index');
 Route::view('production', 'production-show')->name('production.show');
 Route::put('production-show', [ProductionController::class, 'show'])->name('production');
+Route::get('production/{action}/{date}', [ProductionController::class, 'show'])->name('production.get');
+Route::put('production-create', [ProductionController::class, 'production_create'])->name('production.create');
 Route::view('inplan-prod-to-job', 'production-plan')->name('production.plan');
+
+
 
 
     Route::middleware('admin')->group(function(){

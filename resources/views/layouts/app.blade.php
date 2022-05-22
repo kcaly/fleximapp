@@ -111,7 +111,7 @@
 
 
                             
-                            <div class="sb-sidenav-menu-heading">Version: pre-alpha</div>
+                            <div class="sb-sidenav-menu-heading"></div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#articles" aria-expanded="false" aria-controls="articles">
                                 
                                 <i class="fas fa-cogs"></i>&nbsp;&nbsp;Technologia
@@ -178,9 +178,9 @@
                             <a class="nav-link" href="{{route('production.index')}}">
                                 <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
                             </a>
-                            {{-- <a class="nav-link" href="{{route('production.plan')}}">
+                            <a class="nav-link" href="{{route('production.plan')}}">
                                 <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie
-                            </a> --}}
+                            </a>
                             <a class="nav-link" href="{{route('home')}}">
                                 <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Zlecenia
                             </a>

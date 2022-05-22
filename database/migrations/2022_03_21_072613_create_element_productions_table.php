@@ -36,8 +36,8 @@ class CreateElementProductionsTable extends Migration
             $table->date('date_production');           
             $table->tinyInteger('status')->default(0);
 
-            $table->string('machine')->nullable();
-            $table->string('job_group')->nullable();
+            // $table->string('machine')->nullable();
+            // $table->string('job_group')->nullable();
             $table->timestamps();
         });
     }

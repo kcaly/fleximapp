@@ -5,8 +5,13 @@
 
 <div class="col-lg-12">
   <div class="card shadow-lg border-0 rounded-lg mt-4">
-    
+    <div class="card-header">
+      <h6 class="text-left font-weight-light my-1 grey600color small">
+        <i class="fas fa-toolbox grey600color"></i>&nbsp;&nbsp;Zarządzanie produkcją
+      </h6>
+    </div>
       <div class="card-header">
+        
         @if (session()->has('message'))
               <div class="alert alert-info alert-dismissible fade show mt-2" role="alert">
               <h6>{{ Session::get('message') }} {{ Session::get('order_records') }}</h6>
@@ -89,7 +94,7 @@
           </div>
           <div class="col-md-6">
               <div class="form-floating mb-3 mt-2 mb-md-0">
-                <h6 class="text-left font-weight-light mb-4 grey800color ">
+                <h6 class="text-left font-weight-light mb-4 grey800color">
                   <i class="fas fa-spray-can"></i> <i class="fas fa-database"></i>&nbsp;&nbsp;<strong>Wygeneruj dane produkcyjne</strong>    
                 </h6>   
   
@@ -172,225 +177,112 @@
 
 
       @if(Session::get('date') == null)                
+ 
+      
+
+      
       <div class="card-body">
         
         <div class="card text-center">
           <div class="card-header">
-            <h6 class="small card-title grey600color"><i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie produkcji</h6>
+            {{-- <h6 class="card-title"><i class="fas fa-link"></i> <i class="fas fa-th-list"></i>&nbsp;&nbsp;Utwórz zlecenia produkcyjne</h6> --}}
             <ul class="nav nav-pills card-header-pills">
               <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><h6 class="small"><i class="fas fa-bullhorn"></i> Procesu scalania nie można cofnąć. Usuń i ponownie wygeneruj.</h6></a>
+                {{-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><h6 class="small"><i class="fas fa-bullhorn"></i> Procesu scalania nie można cofnąć. Usuń i ponownie wygeneruj.</h6></a> --}}
+                {{-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><h6 class="font-weight-light mb-4 grey800color"><i class="fas fa-stopwatch"></i> <i class="fas fa-rocket"></i>&nbsp;&nbsp;<strong>Generowanie zleceń produkcyjnych</strong></h6></a> --}}
               </li>
             </ul>
-            <div class="text-left">
-            <a href="#" class="btn btn-primary"><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Scal dane produkcyjne</a>&nbsp;&nbsp;
-            <a href="#" class="btn btn-outline-secondary"><i class="fas fa-book"></i> <i class="fas fa-mug-hot"></i> Archiwum</a>
+            <div class="text-left my-4">
+              <form method="post" action="{{ route('production.create')}}" >
+                @csrf
+                @method('put')
+               
+            <button type="submit" class="btn btn-primary" id="{{$check_number=0}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres produkcyjny</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="#" class="btn btn-outline-dark"><i class="fas fa-book"></i> <i class="fas fa-mug-hot"></i>&nbsp;Lista zleceń produkcyjnych</a>
+            
+
+            {{-- <a href="#" class="btn btn-outline-dark"><i class="fas fa-stopwatch"></i> <i class="fas fa-rocket"></i>&nbsp;&nbsp;Utwórz zlecenia</a> --}}
             </div>
-            <div class="text-right mb-1 mt-1">
+            {{-- <div class="text-right mb-1 mt-1">
               <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off">
               <label class="btn btn-outline-danger btn-sm" for="danger-outlined"><i class="fas fa-hammer"></i></label>
-              </div>
+              </div> --}}
               
           </div>
-          <div class="card-body">
-            {{-- <h6 class="card-title grey700color">Wygenerowane dni produkcyjne</h6> --}}
-            {{-- <p class="card-text grey600color small">Modyfikacje przekazanych zleceń nie są możliwe. Dezaktywuj i ponownie wprowadź dane.</p>           --}}
-            
-            
+          @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null)
+          <div class="card-body">            
             <table class="table table-sm table-borderless">
               
               <thead class="card-text grey600color small text-left">
                 <tr>
                   <th scope="col" ><h5><i class="fas fa-medkit blueiconcolor"></i></h5></th>
                   <th scope="col" >Data prod.</th>
-                  <th scope="col"><i class="fas fa-language"></i> Alias</th>
+                  {{-- <th scope="col"><i class="fas fa-language"></i> Alias</th> --}}
                   <th scope="col" ><i class="fas fa-folder"></i> Wygenerowano</th>
-                  <th scope="col"></th>
-                  
+                  {{-- <th scope="col"></th> --}}                  
                 </tr>
               </thead>
-
+              
               <tbody>
+              
                 @foreach (\App\Models\ElementProduction::where('status', 0)->select('date_production')->distinct()->get() as $date_production)
+               
                 <tr>
                   {{-- <th scope="row"></th> --}}
                   <td>
                     <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
                       
+                    <input class="form-check-input" type="checkbox" id="{{$check_number = $check_number+1}}" name="check{{$check_number}}" value="{{$date_production->date_production}}" 
+                    ">
+                    
+                    <label class="form-check-label" for="defaultCheck1">                    
                     </label>
                   </div>
                 </td>
                   <td class="text-left blueiconcolor">
-                    <form method="post" action="{{ route('production')}}" >
+                   
+                    {{-- <form method="post" action="{{ route('production')}}" >
                       @csrf
                       @method('put')
                       <input name="date" value="{{ $date_production->date_production }}" type="hidden">
                     {{ $date_production->date_production }}&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" name="action" value="load" class="btn btn-primary btn-sm"><i class="far fa-folder-open"></i></button>
-                    </form>
+                    </form> --}}
+
+                    {{ $date_production->date_production }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ route('production.get', ['action' => 'load', 'date' => $date_production->date_production])}}" type="submit" name="action" value="load" class="btn btn-primary btn-sm"><i class="far fa-folder-open"></i></a>
                   </td>
-                  
-                  <td></td>
                   <td class="text-left small">{{ (\App\Models\ElementProduction::where('date_production', $date_production->date_production)->first())->created_at->toDateTimeString()}}</td>
-                  <td class="text-left"><button type="submit" name="action" value="load" class="btn btn-sm">@if ((\App\Models\ElementProduction::where('date_production', $date_production->date_production)->first())->status == 0)<i class="fas fa-lock-open"></i> @else<i class="fas fa-lock"></i> @endif</button></td>
+                  {{-- <td class="text-left"><button type="submit" name="action" value="load" class="btn btn-sm">@if ((\App\Models\ElementProduction::where('date_production', $date_production->date_production)->first())->status == 0)<i class="fas fa-lock-open"></i> @else<i class="fas fa-lock"></i> @endif</button></td> --}}
                 </tr>
+              
                 @endforeach
+                <input name="check_number" value="{{$check_number}}" type="hidden">
+              </form>
               </tbody>
             </table>
 
           </div>
         </div>
-        
-        {{-- TUTAJ START GEN. JobOrder --}}
-
-        {{-- <div class="card bg-light my-2">
-          <div class="card-header">
-           
-          </div>
-          <div class="card-body">
-            <div class="row ">
-              <div class="col-md-4">
-
-
-                <div class="list-group mt-2">
-                 
-                  <button class="list-group-item list-group-item-action active" type="button" disabled>
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    <h5 class="mb-2 text-center"><i class="fas fa-box-open white-text"></i> 2022-04-29 — 2022-05-02</h5></button>
-                  <button type="button" class="list-group-item list-group-item-action active text-center" aria-current="true">
-                   
-                  </button>
-                  <button type="button" class="list-group-item list-group-item-action"><i class="fas fa-hockey-puck grey600color"></i>&nbsp;&nbsp;2022-04-29</button>
-                  <button type="button" class="list-group-item list-group-item-action"><i class="fas fa-hockey-puck grey600color"></i>&nbsp;&nbsp;2022-04-29</button>
-                  <button type="button" class="list-group-item list-group-item-action"><i class="fas fa-hockey-puck grey600color"></i>&nbsp;&nbsp;2022-04-29</button>
-                  <button type="button" class="list-group-item list-group-item-action" disabled> </button>
-                </div>
-
-
-                <div class="row">
-                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                  <button type="button" class="btn btn-secondary">Wyczyść</button>
-                  <button type="button" class="btn btn-dark"><i class="fas fa-database"></i>&nbsp;&nbsp;Zatwierdź</button>
-                
-                  <div class="btn-group" role="group">
-                    <button id="btnGroupDrop1" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                      
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                      <li><a class="dropdown-item" href="#"></a></li>
-                      <li><a class="dropdown-item" href="#"></a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-                
-              </div>
-            <div class="col-md-3">
-              <div class="text-center mt-2">
-
-
-
-                
-
-
-
-
-
-            </div>
-
-              <select class="form-select form-select-sm mt-2 border-secondary" multiple aria-label="multiple select example" size="8" aria-label="size 3 select example">
-                @foreach ($production_data = \App\Models\ElementProduction::select('date_production')->distinct()->orderBy('date_production', 'ASC')->get() as $date_production_for_list)
-                <option value="{{$date_production_for_list->date_production}}">{{$date_production_for_list->date_production}}</option>
-                @endforeach
-            </select>
-            
-            <div class="text-left mt-2"><button type="submit" class="btn btn-primary btn-sm" href=""><i class="far fa-hand-pointer"></i> Wybierz</button>&nbsp;&nbsp;<a class="btn btn-secondary btn-sm" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Szczegóły</a></div>
-             
-
-            </div>
-            <div class="col-md-4">
-
-
-              
-              <form class="row mt-2">
-                
-                
-                <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Nazwa zlecenia">
-                <datalist id="datalistOptions">
-                  <option value="San Francisco">
-                  <option value="New York">
-                  <option value="Seattle">
-                  <option value="Los Angeles">
-                  <option value="Chicago">
-                </datalist>
-                
-                <button type="submit" class="btn btn-primary btn-sm">Zapisz</button>
-            </form>
-
-            
-
-
-              
-                <div class="row">
-                  <div class="col">
-                    <div class="collapse multi-collapse mt-2" id="multiCollapseExample1">
-                      <div class="card card-body">
-                        Some placeholder content for the first collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
-                      </div>
-                    </div>
-                  </div>
-                </div>   
-            </div>
-
-            <div class="col-md-1">
-              
-              <div class="btn-group-vertical">
-                
-                
-              </div>
-            </div>
-
-          </div>
-          </div>
-          <div class="card-footer text-muted">
-            <div class="progress">
-              <div class="progress-bar bg-light" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><h6 class="grey600color small mt-2">Oczekujące</h6></div>
-            </div>
-          </div>
-        </div> --}}
-        
-
-
-
-{{-- TUTAJ KONIEC INTERFEJSU DLA GENEROWANIA JobOrder --}}
-
-
-
-
-          </div>   
-                @else
+      </div> 
+      @endif
+      @else
                 
         <div class="card-body">
-
           <div class="row">
             <div class="col-sm-6">
               
-
-
-
               <div class="card mb-3">
                 <div class="card-body">
                   
                   <div class="card" style="width: 18rem;">
                     <ul class="list-group list-group-flush">
                       <li class="list-group-item small"><i class="far fa-clock grey700color"></i>&nbsp;Pierwsze gen. {{(\App\Models\ElementProduction::where('date_production', Session::get('date'))->first())->created_at->toDateTimeString()}}</li>
-                      <li class="list-group-item small"><i class="far fa-bell grey700color"></i>&nbsp;Ostatnie gen. {{(\App\Models\ElementProduction::where('date_production', Session::get('date'))->first())->updated_at->toDateTimeString()}}</li>
-                      <li class="list-group-item small"><i class="far fa-lightbulb grey700color"></i>&nbsp;&nbsp;Najnowsze zam. {{(\App\Models\Order::where('date_production', Session::get('date'))->first())->code}}</li>
-                     
+                      <li class="list-group-item small"><i class="far fa-bell grey700color"></i>&nbsp;Ostatnie gen. {{(\App\Models\ElementProduction::where('date_production', Session::get('date'))->orderBy('updated_at', 'DESC')->first())->updated_at->toDateTimeString()}}</li>
+                      <li class="list-group-item small"><i class="far fa-lightbulb grey700color"></i>&nbsp;&nbsp;Najnowsze zam. {{(\App\Models\Order::where('date_production', Session::get('date'))->orderBy('created_at', 'DESC')->first())->code}}</li>
+              
                     </ul>
                     <div class="card-footer">
-                      <h6 class="card-title"><h6 class="card-title rediconcolor"><i class="fas fa-fire"></i> {{Session::get('date')}}</h6></h6>
+                      {{-- <h6 class="card-title"><h6 class="card-title rediconcolor"><i class="fas fa-fire"></i> {{Session::get('date')}}</h6></h6> --}}
+                      <h6 class="card-title"><h6 class="card-title"><i class="fas fa-hockey-puck grey700color"></i>&nbsp;&nbsp;{{Session::get('date')}}</h6></h6>
                     </div>
                   </div>
                   
@@ -434,7 +326,7 @@
                           <ul class="list-group">
                             @foreach (\App\Models\Material::all() as $material)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                              <h6><i class="fas fa-bookmark greeniconcolor"></i>&nbsp;&nbsp;{{$material->name}}</h6>
+                              <h6><i class="fas fa-bookmark grey700color"></i>&nbsp;&nbsp;{{$material->name}}</h6>
                                @if (\App\Models\Element::where('material_id', $material->id)->count() > 0)<h6>{{\App\Models\ElementProduction::where('date_production', Session::get('date'))->where('material', $material->name)->sum('weight') }} kg</h6> @else @endif
                             </li>
                             @endforeach
@@ -455,13 +347,6 @@
                   </div> --}}
                     
                   </div>
-
-
-                 
-
-
-                
-
               </div>
             </div>
           </div>
@@ -521,13 +406,6 @@
                     </table> 
                         </div>
                         <div class="tab-pane" id="settings" role="tabpanel">
-            
-          
-          
-          
-          
-          
-          
                         </div>
                       </div>
 
@@ -536,11 +414,7 @@
 
           <table class="table table-sm table-striped table-bordered small" id="elementjob">                   
             <thead class="">
-              
                 <tr>
-                    
-                    
-                    {{-- <th>Materiał</th> --}}
                     <th>Materiał</th>
                     <th>Kod</th>
                     <th>Nazwa</th>
@@ -559,14 +433,11 @@
         <script>
           $(function() {
              
-              
-
               $('#elementjob').DataTable({
                   processing: true,
                   serverSide: true,
                   
-                  
-                  
+
                   ajax : '{!! route('DataElementJob', ['date_start'=>$date_start, 'date_end'=>$date_end]) !!}',
               
              
@@ -588,19 +459,7 @@
           });
           </script>
 
-
-
-
-          
-          
-
           </div>
-
-            
-
-
-
-
 
       </div>
       @endif 
@@ -612,9 +471,7 @@
           <i class="fas fa-bell"></i>&nbsp;&nbsp;Wczytano dane prod. {{Session::get('date')}}
           @endif      
         </h6>  --}}
-      </div>
-        
-      
+      </div>   
   </div>
 </div>
 

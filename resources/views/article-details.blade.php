@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-floating mb-4">
                             <input id="price" type="text" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') ?? $article->price }}" placeholder="Cena" disabled/>
-                            <label for="price">Cena (PLN)</label>
+                            <label for="price">Wartość (PLN)</label>
                                     @error('price')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
