@@ -23,7 +23,9 @@ class CreateElementJobsTable extends Migration
             $table->string('material');
 
             $table->decimal('sum_weight');
-            $table->unsignedInteger('sum_amount');
+            $table->unsignedBigInteger('sum_amount');
+
+            $table->unsignedBigInteger('done')->default(0);
 
             $table->date('date_production');
 

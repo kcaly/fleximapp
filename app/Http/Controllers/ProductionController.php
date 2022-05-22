@@ -127,6 +127,7 @@ class ProductionController extends Controller
                         $element_production_record->weight = $element->weight;
 
                         $element_production_record->amount = $amount_suma;
+                        $element_production_record->done = 0;
 
                         $element_production_record->element_id = $element->id;
                         $element_production_record->material_id = $element->material_id;
@@ -170,6 +171,7 @@ class ProductionController extends Controller
                     $suma_for_element_id = ElementProduction::where('date_production','=',$date)->where('element_id','=',$element_gen)->sum('amount');
                     $element_job = new ElementJob();
                     $element_job->sum_amount = $suma_for_element_id;
+                    $element_job->done = 0;
                     $element_job->element_id = $element_prod->element_id;
                     $element_job->code = $element_prod->element->code;
                     $element_job->name = $element_prod->element->name;
@@ -242,10 +244,12 @@ class ProductionController extends Controller
     {
 
         $production = new Production();
+        $production->name = $request->production_name;
         $production->date_first = $request['check1'];
         $production->date_last = $request['check'.$request->check_number];
         $production->dates_textcode = $request['check1'] . ' — ' . $request['check'.$request->check_number];
         $production->sum_elements = 0;
+        $production->done = 0;
         $production->status = 0;
         $production->save();
 
@@ -293,6 +297,7 @@ class ProductionController extends Controller
 
         }
 
+        $production->done = \App\Models\ElementJob::where('production_id', $production->id)->sum('done');
         $production->total = $string_total;
         $production->save();
 

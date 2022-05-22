@@ -192,27 +192,56 @@
                 {{-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><h6 class="font-weight-light mb-4 grey800color"><i class="fas fa-stopwatch"></i> <i class="fas fa-rocket"></i>&nbsp;&nbsp;<strong>Generowanie zleceń produkcyjnych</strong></h6></a> --}}
               </li>
             </ul>
-            <div class="text-left my-4">
+            <div class="list-group">
+              @foreach (\App\Models\Production::where('status',0)->get() as $production)
+
+              {{-- class="list-group-item list-group-item-action active"  KLASA ZMIANY KOLORU NA NIEBIESKI --}}
+              <a href="#" class="list-group-item list-group-item-action">
+
+
+
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{$production->dates_textcode}}</h5>
+                  <p class="mb-1"> <div class="text-right mb-2 mt-1">
+                    
+                    </div>{{$production->name}}</p>
+                  <small class="text-muted">
+                    <button href="#" class="btn btn-light"><i class="fas fa-clipboard-check"></i> Checklisty</button>
+                    <button href="#" class="btn btn-light"><i class="fab fa-digital-ocean"></i> Otwórz</button>
+                  </small>
+                </div>
+                
+                <small class="text-muted text-left">
+                  <div class="text-left my-2">
+                    <button class="btn btn-outline-danger btn-sm" for="danger-outlined"><i class="fas fa-broadcast-tower"></i><i class="fas fa-chalkboard-teacher"></i> Przekaż do realizacji</button></div>
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{$production->done}} / {{$production->sum_elements}} [0%]</div>
+                  </div>
+                </small>
+              </a>
+              @endforeach
+            </div>
+            <div class="text-left mt-4 mb-2">
               <form method="post" action="{{ route('production.create')}}" >
                 @csrf
                 @method('put')
-               
-            <button type="submit" class="btn btn-primary" id="{{$check_number=0}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres produkcyjny</button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="#" class="btn btn-outline-dark"><i class="fas fa-book"></i> <i class="fas fa-mug-hot"></i>&nbsp;Lista zleceń produkcyjnych</a>
+                <input id="production_name" type="text" name="production_name" class="form-floating " value="{{ old('name') }}" placeholder="Nazwa (opcjonalnie)" autofocus @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif/>
+            <button type="submit" class="btn btn-primary btn-sm mb-1" id="{{$check_number=0}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres produkcyjny</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="#" class="btn btn-outline-dark btn-sm mb-1"><i class="fas fa-book"></i> <i class="fas fa-mug-hot"></i>&nbsp;Archiwum</a>
             
 
             {{-- <a href="#" class="btn btn-outline-dark"><i class="fas fa-stopwatch"></i> <i class="fas fa-rocket"></i>&nbsp;&nbsp;Utwórz zlecenia</a> --}}
-            </div>
-            {{-- <div class="text-right mb-1 mt-1">
-              <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off">
-              <label class="btn btn-outline-danger btn-sm" for="danger-outlined"><i class="fas fa-hammer"></i></label>
-              </div> --}}
+           
+          
+            
               
           </div>
           @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null)
           <div class="card-body">            
             <table class="table table-sm table-borderless">
               
+            
+
               <thead class="card-text grey600color small text-left">
                 <tr>
                   <th scope="col" ><h5><i class="fas fa-medkit blueiconcolor"></i></h5></th>
@@ -265,7 +294,7 @@
       </div> 
       @endif
       @else
-                
+     
         <div class="card-body">
           <div class="row">
             <div class="col-sm-6">
@@ -275,9 +304,9 @@
                   
                   <div class="card" style="width: 18rem;">
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item small"><i class="far fa-clock grey700color"></i>&nbsp;Pierwsze gen. {{(\App\Models\ElementProduction::where('date_production', Session::get('date'))->first())->created_at->toDateTimeString()}}</li>
-                      <li class="list-group-item small"><i class="far fa-bell grey700color"></i>&nbsp;Ostatnie gen. {{(\App\Models\ElementProduction::where('date_production', Session::get('date'))->orderBy('updated_at', 'DESC')->first())->updated_at->toDateTimeString()}}</li>
-                      <li class="list-group-item small"><i class="far fa-lightbulb grey700color"></i>&nbsp;&nbsp;Najnowsze zam. {{(\App\Models\Order::where('date_production', Session::get('date'))->orderBy('created_at', 'DESC')->first())->code}}</li>
+                      {{-- <li class="list-group-item small"><i class="far fa-clock grey700color"></i>&nbsp;Pierwsze gen. {{(\App\Models\ElementProduction::where('date_production', Session::get('date'))->first())->created_at->toDateTimeString()}}@endif</li>
+                      <li class="list-group-item small"><i class="far fa-bell grey700color"></i>&nbsp;Ostatnie gen. {{(\App\Models\ElementProduction::where('date_production', Session::get('date')))->updated_at->toDateTimeString()}}</li>
+                      <li class="list-group-item small"><i class="far fa-lightbulb grey700color"></i>&nbsp;&nbsp;Najnowsze zam. {{(\App\Models\Order::where('date_production', Session::get('date'))->orderBy('created_at', 'DESC')->first())->code}}</li> --}}
               
                     </ul>
                     <div class="card-footer">
@@ -396,8 +425,8 @@
                       
                       @endif</td>
                     
-                    <td>{{\App\Models\Machine::find($element_job->machine_id)->name}}</td>
-                    <td>{{\App\Models\JobGroup::find($element_job->job_group_id)->name}}</td>
+                    <td>@if (\App\Models\Machine::find($element_job->machine_id) != null) {{\App\Models\Machine::find($element_job->machine_id)->name}} @endif</td>
+                    <td>@if (\App\Models\JobGroup::find($element_job->job_group_id) != null) {{\App\Models\JobGroup::find($element_job->job_group_id)->name}} @endif</td>
                     </tr>   
                         
                     @endforeach
@@ -430,7 +459,8 @@
         </table>
 
 
-        <script>
+{
+<script>
           $(function() {
              
               $('#elementjob').DataTable({
@@ -458,6 +488,8 @@
               });
           });
           </script>
+}
+        
 
           </div>
 

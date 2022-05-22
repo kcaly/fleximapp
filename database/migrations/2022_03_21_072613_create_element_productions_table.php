@@ -18,6 +18,10 @@ class CreateElementProductionsTable extends Migration
 
             $table->unsignedBigInteger('element_id');
             $table->foreign('element_id')->references('id')->on('elements')->onDelete('cascade');
+
+            $table->unsignedBigInteger('articel_id');
+            $table->foreign('articel_id')->references('id')->on('articels')->onDelete('cascade');
+
              
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
@@ -31,7 +35,8 @@ class CreateElementProductionsTable extends Migration
             $table->string('product_info');
             $table->string('order_info');
 
-            $table->unsignedInteger('amount');
+            $table->unsignedBigInteger('amount')->default(0);
+            $table->unsignedBigInteger('done')->default(0);
 
             $table->date('date_production');           
             $table->tinyInteger('status')->default(0);
