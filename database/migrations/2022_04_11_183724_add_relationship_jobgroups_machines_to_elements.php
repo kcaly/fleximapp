@@ -18,6 +18,7 @@ class AddRelationshipJobgroupsMachinesToElements extends Migration
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->unsignedBigInteger('job_group_id')->nullable();
             $table->foreign('job_group_id')->references('id')->on('job_groups')->onDelete('cascade');
+            
         });
     }
 

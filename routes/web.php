@@ -149,6 +149,9 @@ Route::get('order-product-delete/{order_id}-{product_id}-{amount}', [OrderContro
 
 
 
+Route::get('production/{id}', [ProductionController::class, 'production_select'])->name('production.select');
+Route::get('production/{id}/delete', [ProductionController::class, 'production_delete'])->name('production.delete');
+Route::get('production/{id}/generate', [ProductionController::class, 'production_accept'])->name('production.accept');
 
 
 

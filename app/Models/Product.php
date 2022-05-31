@@ -25,4 +25,15 @@ class Product extends Model
         'product_id',)->withPivot('amount');
     }
 
+    public function job_order()
+    {
+        return $this->belongsTo('App\Models\JobOrder');
+    }
+
+    public function product_group()
+    {
+        return $this->belongsTo('App\Models\ProductGroup');
+    }
+
+
 }

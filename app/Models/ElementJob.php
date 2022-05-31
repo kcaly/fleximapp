@@ -28,4 +28,9 @@ class ElementJob extends Model
     {
         return $this->belongsTo('App\Models\JobGroup');
     }
+
+    public function job_order()
+    {
+        return $this->belongsTo('App\Models\JobOrder');
+    }
 }

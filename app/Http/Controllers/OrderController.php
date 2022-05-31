@@ -71,11 +71,7 @@ class OrderController extends Controller
         
         $order->products()->attach($request->product_id, array('amount' => $request->amount));
 
-
-
         $order_products = $order->products;
-        
-
 
         return view('order-details', compact('order_products'), compact('order'));
 

@@ -24,6 +24,7 @@ class CreateProductionsTable extends Migration
 
             $table->unsignedBigInteger('sum_elements')->nullable();
             $table->unsignedBigInteger('done')->default(0);
+            $table->integer('done_procent')->default(0);
             $table->string('total')->nullable();
 
             $table->tinyInteger('status')->default(0);

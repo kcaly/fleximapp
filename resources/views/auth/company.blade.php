@@ -30,8 +30,8 @@
 
                 </div>
                 <div class="form-floating mb-3">
-                    <input id="contact" type="text" class="form-control @error('contact') is-invalid @enderror" name="contact" value="{{ old('contact') }}" required autocomplete="contact" placeholder="Numer tel. kontaktowy" autofocus />
-                    <label for="contact">{{ __('Numer tel. kontaktowy') }}</label>
+                    <input id="contact" type="text" class="form-control @error('contact') is-invalid @enderror" name="contact" value="{{ old('contact') }}" required autocomplete="contact" placeholder="Telefon" autofocus />
+                    <label for="contact">{{ __('Telefon') }}</label>
                             @error('contact')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

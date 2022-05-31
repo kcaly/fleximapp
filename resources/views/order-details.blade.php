@@ -8,9 +8,26 @@
 <div class="col-lg-4">
     <div class="card shadow-lg border-0 rounded-lg mt-5">
         <div class="card-header">
-            <h4 class="text-center font-weight-light my-4">
-                Zamówienie<br /><div class="small mt-3 greeniconcolor">@if ($order->status !=0) <i class="far fa-check-circle"></i> Wygenerowano @else @endif</div>
+            <h4 class="text-center font-weight-light mt-4 mb-3">
+                Zamówienie<br />
+
+                @if ($order->status == 1)
+                <div class="small mt-3 greeniconcolor">
+                     <i class="far fa-check-circle"></i> Wygenerowano
+                </div>
+                @endif
+
+                @if ($order->status == 2)
+                <div class="small mt-3 rediconcolor text-left">
+                     w trakcie produkcji <i class="fas fa-exclamation"></i> 
+                </div>
+                <a href="{{route('production.select', ['id' => \App\Models\ElementProduction::where('order_id', $order->id)->first()->production_id ])}}"><h6 class="text-left">{{\App\Models\Production::find(\App\Models\ElementProduction::where('order_id', $order->id)->first()->production_id)->dates_textcode}}&nbsp;&nbsp;&nbsp;&nbsp;{{\App\Models\Production::find(\App\Models\ElementProduction::where('order_id', $order->id)->first()->production_id)->name}}</h6></a>
+                @endif
+                
             </h4>
+
+
+            
           </div>
         <div class="card-body">
             @if (session()->has('message'))

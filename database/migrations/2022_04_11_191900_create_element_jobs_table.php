@@ -27,7 +27,7 @@ class CreateElementJobsTable extends Migration
 
             $table->unsignedBigInteger('done')->default(0);
 
-            $table->date('date_production');
+            $table->date('date_production')->nullable();
 
             $table->tinyInteger('status')->default(0);
 

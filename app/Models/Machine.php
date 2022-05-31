@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Machine extends Model
 {
     use HasFactory;
+
+    public function job_orders()
+    {
+        return $this->hasMany('App\Models\JobOrder');
+    }
+
 }

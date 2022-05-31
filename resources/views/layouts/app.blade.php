@@ -163,12 +163,9 @@
                                 Dodaj produkt
                             </a> --}}
                             
-                            {{-- <a class="nav-link" href="{{route('order.list')}}">
-                                <i class="fas fa-cubes"></i>     
+                            <a class="nav-link" href="{{route('order.list')}}">
                                 <i class="fas fa-cube"></i>&nbsp;&nbsp;Magazyn
-                            </a> --}}
-
-
+                            </a>
                             <a class="nav-link" href="{{route('order.list')}}">
                                 <i class="fas fa-shopping-basket"></i>&nbsp;&nbsp;Zamówienia
                             </a>
@@ -178,9 +175,9 @@
                             <a class="nav-link" href="{{route('production.index')}}">
                                 <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
                             </a>
-                            <a class="nav-link" href="{{route('production.plan')}}">
+                            {{-- <a class="nav-link" href="{{route('production.plan')}}">
                                 <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie
-                            </a>
+                            </a> --}}
                             <a class="nav-link" href="{{route('home')}}">
                                 <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Zlecenia
                             </a>
@@ -305,7 +302,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Fleximapp 2021</div>
+                            <div class="text-muted">Copyright &copy; Fleximapp 2022</div>
                             {{-- <div class="small">
                                 <a href="#"><i class="fas fa-user-secret"></i> privacy</a>
                                 &nbsp;&nbsp;&nbsp;

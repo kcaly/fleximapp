@@ -6,8 +6,8 @@
 <div class="col-lg-12">
   <div class="card shadow-lg border-0 rounded-lg mt-4">
     <div class="card-header">
-      <h6 class="text-left font-weight-light my-1 grey600color small">
-        <i class="fas fa-toolbox grey600color"></i>&nbsp;&nbsp;Zarządzanie produkcją
+      <h6 class="text-left font-weight-light my-1 grey700color small">
+        <i class="fas fa-toolbox grey700color"></i>&nbsp;&nbsp;Produkcja
       </h6>
     </div>
       <div class="card-header">
@@ -193,10 +193,10 @@
               </li>
             </ul>
             <div class="list-group">
-              @foreach (\App\Models\Production::where('status',0)->get() as $production)
+              @foreach (\App\Models\Production::where('status',0)->orwhere('status',1)->get() as $production)
 
               {{-- class="list-group-item list-group-item-action active"  KLASA ZMIANY KOLORU NA NIEBIESKI --}}
-              <a href="#" class="list-group-item list-group-item-action">
+              <a href="{{route('production.select', ['id' => $production->id ])}}" class="list-group-item list-group-item-action">
 
 
 
@@ -205,17 +205,17 @@
                   <p class="mb-1"> <div class="text-right mb-2 mt-1">
                     
                     </div>{{$production->name}}</p>
-                  <small class="text-muted">
+                  {{-- <small class="">
                     <button href="#" class="btn btn-light"><i class="fas fa-clipboard-check"></i> Checklisty</button>
-                    <button href="#" class="btn btn-light"><i class="fab fa-digital-ocean"></i> Otwórz</button>
-                  </small>
+                    <button href="{{route('production.select', ['id' => $production->name ])}}" class="btn btn-light"><i class="fab fa-digital-ocean"></i> Otwórz</button>
+                  </small> --}}
                 </div>
                 
                 <small class="text-muted text-left">
-                  <div class="text-left my-2">
-                    <button class="btn btn-outline-danger btn-sm" for="danger-outlined"><i class="fas fa-broadcast-tower"></i><i class="fas fa-chalkboard-teacher"></i> Przekaż do realizacji</button></div>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{$production->done}} / {{$production->sum_elements}} [0%]</div>
+                  <div class="text-left mt-1 mb-2 small">
+                    Utworzono: {{ (\App\Models\Production::where('id', $production->id)->first())->created_at->toDateTimeString()}}</div>
+                  <div class="progress mt-2">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{$production->done_procent}}%;" aria-valuenow="{{$production->done_procent}}" aria-valuemin="0" aria-valuemax="100">{{ $production->done}} / {{$production->sum_elements}} [{{$production->done_procent}}%]</div>
                   </div>
                 </small>
               </a>
@@ -225,8 +225,8 @@
               <form method="post" action="{{ route('production.create')}}" >
                 @csrf
                 @method('put')
-                <input id="production_name" type="text" name="production_name" class="form-floating " value="{{ old('name') }}" placeholder="Nazwa (opcjonalnie)" autofocus @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif/>
-            <button type="submit" class="btn btn-primary btn-sm mb-1" id="{{$check_number=0}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres produkcyjny</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input id="production_name" type="text" name="production_name" class="form-floating small mt-3" value="{{ old('name') }}" placeholder="Nazwa (opcjonalnie)" autofocus @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif/>
+            <button type="submit" class="btn btn-primary btn-sm mb-1" id="{{$check_number=0}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres produkcyjny</button>&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="#" class="btn btn-outline-dark btn-sm mb-1"><i class="fas fa-book"></i> <i class="fas fa-mug-hot"></i>&nbsp;Archiwum</a>
             
 
@@ -261,8 +261,7 @@
                   <td>
                     <div class="form-check">
                       
-                    <input class="form-check-input" type="checkbox" id="{{$check_number = $check_number+1}}" name="check{{$check_number}}" value="{{$date_production->date_production}}" 
-                    ">
+                    <input class="form-check-input" type="checkbox" id="{{$check_number = $check_number+1}}" name="check{{$check_number}}" value="{{$date_production->date_production}}">
                     
                     <label class="form-check-label" for="defaultCheck1">                    
                     </label>
@@ -288,11 +287,11 @@
               </form>
               </tbody>
             </table>
-
+            @endif
           </div>
         </div>
       </div> 
-      @endif
+      
       @else
      
         <div class="card-body">
@@ -459,7 +458,7 @@
         </table>
 
 
-{
+
 <script>
           $(function() {
              
@@ -488,7 +487,7 @@
               });
           });
           </script>
-}
+
         
 
           </div>

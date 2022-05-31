@@ -14,6 +14,11 @@ class ElementProduction extends Model
         return $this->belongsTo('App\Models\Order');
     }
 
+    public function article()
+    {
+        return $this->belongsTo('App\Models\Articel');
+    }
+
     public function element()
     {
         return $this->belongsTo('App\Models\Element');
@@ -22,6 +27,11 @@ class ElementProduction extends Model
     public function material()
     {
         return $this->belongsTo(Material::class);
+    }
+
+    public function production()
+    {
+        return $this->belongsTo('App\Models\Production');
     }
 
 }

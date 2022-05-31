@@ -12,9 +12,11 @@
             <div class="row mb-3 font-weight-light my-4">
                 <div class="col-md-6">
                     <div class="form-floating mb-3 mb-md-0">
-                        <h4 class="text-center font-weight-light my-4">
-                            Lista produktów
-                        </h4>
+                        <h5 class="text-center font-weight-light mb-md-0">
+                            <i class="fas fa-couch"></i><i class="fas fa-chalkboard"></i><i class="fas fa-bars"></i> Lista produktów<br>
+                            <span class="badge text-dark mb-2"><button class="btn btn-outline-link btn-sm" ><i class="far fa-file-alt grey700color"></i> <i class="fas fa-exchange-alt grey700color"></i> <i class="far fa-hdd grey700color"></i></button></span><br>
+                          </h5>
+                        
                     </div>
                 </div>
                 <div class="col-md-6">
