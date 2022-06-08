@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Production;
 use App\Models\ElementProduction;
 use App\Models\ElementJob;
+use App\Models\JobGroup;
+use App\Models\JobOrder;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -233,11 +235,9 @@ class ProductionController extends Controller
     public function production_create(Request $request)
     {
 
-        
-
         $production = new Production();
         $production->name = $request->production_name;
-        for($i=0;$i $request->check_number;
+
         if($request->check_number == 1)
         {
             $production->date_first = $request['check1'];
@@ -260,7 +260,9 @@ class ProductionController extends Controller
 
             asort($sort_dates);
             $dates_sorted = array();
+
             $sort_number = 1;
+
             foreach($sort_dates as $date)
             {
                 if ($date == null || $date == 0)
@@ -369,7 +371,9 @@ class ProductionController extends Controller
     public function production_select($id)
     {
 
-        $production = Production::find($id)->first();
+        
+        $production = Production::find($id);
+
         ProductionController::production_procent_done($id);
         $dates = explode(";", $production->dates_all);
         $materials = explode(";", $production->total);
@@ -401,7 +405,7 @@ class ProductionController extends Controller
 
     public function production_procent_done($id)
     {
-        $production = Production::find($id)->first();
+        $production = Production::find($id);
      
         if ($production->done != 0)
         {
@@ -413,7 +417,7 @@ class ProductionController extends Controller
 
     public function production_delete($id)
     {
-        $production = Production::find($id)->first();
+        $production = Production::find($id);
         $dates = explode(";", $production->dates_all);
         $production->delete();
 
@@ -442,7 +446,7 @@ class ProductionController extends Controller
 
     public function production_accept($id)
     {
-        $production = Production::find($id)->first();
+        $production = Production::find($id);
         
 
         
@@ -542,6 +546,67 @@ class ProductionController extends Controller
         return redirect()->route('production.select', ['id' => $id])->with('message', $message);
 
     }
+
+
+
+    public function job_order_create($id)
+    {
+      
+        $production = Production::find($id);
+        
+
+        $elements_job = ElementJob::where('status', 3)->where('production_id', $production->id)->select('job_group_id')->distinct()->get();
+        
+        
+        foreach($elements_job as $job)
+        {   
+            
+            $job_order = new JobOrder();
+
+            $job_order->production_id = $production->id;
+            $job_order->job_group_id = $job->job_group_id;
+
+            $job_order->sum_elements_amount = ElementJob::where('status', 3)->where('production_id', $production->id)->where('job_group_id', $job->job_group_id)->sum('sum_amount');
+            $job_order->done = 0;
+            $job_order->status = 0;
+
+            $job_order->name = 'test2';
+
+            $job_order->save();     
+            
+        }
+
+        $job_orders = JobOrder::where('status', 0)->where('production_id', $production->id)->get();
+
+        foreach($job_orders as $job_order)
+        {
+            $element_job = ElementJob::where('status', 3)->where('production_id', $production->id)->where('job_group_id', $job_order->job_group_id)->get();
+
+            foreach($element_job as $element)
+            {
+                $element->status = 4;
+                $element->save();
+            }
+        
+        }
+
+        $production->status = 2;
+        $production->save();
+
+        if ($production->name == null)
+        {
+            $message = 'Zlecenie '. $production->dates_textcode . ' przekazano do realizacji.';
+        }
+        else
+        {
+            $message = 'Zlecenie'.' ('.$production->name.') '. $production->dates_textcode . ' przekazano do realizacji.';
+        }
+        
+        
+        return redirect()->route('production.show')->with('message', $message);
+
+    }
+
 
 }
  

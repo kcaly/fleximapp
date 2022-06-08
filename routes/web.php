@@ -159,7 +159,12 @@ Route::view('production-index', 'production-show')->name('production.index');
 Route::view('production', 'production-show')->name('production.show');
 Route::put('production-show', [ProductionController::class, 'show'])->name('production');
 Route::get('production/{action}/{date}', [ProductionController::class, 'show'])->name('production.get');
-Route::put('production-create', [ProductionController::class, 'production_create'])->name('production.create');
+Route::put('production/create', [ProductionController::class, 'production_create'])->name('production.create');
+
+Route::get('order-job/{id}/create', [ProductionController::class, 'job_order_create'])->name('job.order.create');
+
+
+
 Route::view('inplan-prod-to-job', 'production-plan')->name('production.plan');
 
 

@@ -186,18 +186,21 @@
         <div class="card text-center">
           <div class="card-header">
             {{-- <h6 class="card-title"><i class="fas fa-link"></i> <i class="fas fa-th-list"></i>&nbsp;&nbsp;Utwórz zlecenia produkcyjne</h6> --}}
-            <ul class="nav nav-pills card-header-pills">
+            <ul class="nav nav-pills card-header-pills mt-2">
               <li class="nav-item">
                 {{-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><h6 class="small"><i class="fas fa-bullhorn"></i> Procesu scalania nie można cofnąć. Usuń i ponownie wygeneruj.</h6></a> --}}
                 {{-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><h6 class="font-weight-light mb-4 grey800color"><i class="fas fa-stopwatch"></i> <i class="fas fa-rocket"></i>&nbsp;&nbsp;<strong>Generowanie zleceń produkcyjnych</strong></h6></a> --}}
               </li>
             </ul>
             <div class="list-group">
-              @foreach (\App\Models\Production::where('status',0)->orwhere('status',1)->get() as $production)
+              @foreach (\App\Models\Production::where('status',0)->orwhere('status',1)->orwhere('status',2)->get() as $production)
 
               {{-- class="list-group-item list-group-item-action active"  KLASA ZMIANY KOLORU NA NIEBIESKI --}}
-              <a href="{{route('production.select', ['id' => $production->id ])}}" class="list-group-item list-group-item-action">
-
+              @if ($production->status == 2)
+              <a href="{{route('production.select', ['id' => $production->id ])}}" class="list-group-item list-group-item-action active border border-dark">
+              @else
+              <a href="{{route('production.select', ['id' => $production->id ])}}" class="list-group-item list-group-item-action border border-dark">
+              @endif
 
 
                 <div class="d-flex w-100 justify-content-between">
@@ -211,11 +214,11 @@
                   </small> --}}
                 </div>
                 
-                <small class="text-muted text-left">
+                <small class="text-left">
                   <div class="text-left mt-1 mb-2 small">
                     Utworzono: {{ (\App\Models\Production::where('id', $production->id)->first())->created_at->toDateTimeString()}}</div>
                   <div class="progress mt-2">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: {{$production->done_procent}}%;" aria-valuenow="{{$production->done_procent}}" aria-valuemin="0" aria-valuemax="100">{{ $production->done}} / {{$production->sum_elements}} [{{$production->done_procent}}%]</div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$production->done_procent}}%;" aria-valuenow="{{$production->done_procent}}" aria-valuemin="0" aria-valuemax="100">{{ $production->done}} / {{$production->sum_elements}} [{{$production->done_procent}}%]</div>
                   </div>
                 </small>
               </a>
@@ -226,7 +229,7 @@
                 @csrf
                 @method('put')
                 <input id="production_name" type="text" name="production_name" class="form-floating small mt-3" value="{{ old('name') }}" placeholder="Nazwa (opcjonalnie)" autofocus @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif/>
-            <button type="submit" class="btn btn-primary btn-sm mb-1" id="{{$check_number=0}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres produkcyjny</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary btn-sm mb-1" id="{{$check_number=-1}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres produkcyjny</button>&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="#" class="btn btn-outline-dark btn-sm mb-1"><i class="fas fa-book"></i> <i class="fas fa-mug-hot"></i>&nbsp;Archiwum</a>
             
 
