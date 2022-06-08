@@ -410,6 +410,14 @@ class ProductionController extends Controller
         if ($production->done != 0)
         {
             $done_procent = $production->done / $production->sum_elements*100.0;
+
+            
+
+            if ($done_procent < 100 && $done_procent > 99.5 && $production->done != $production->sum_elements)
+            {
+                $done_procent = 99;
+            }
+
             $production->done_procent = $done_procent;
             $production->save();
         }                  
@@ -548,6 +556,28 @@ class ProductionController extends Controller
     }
 
 
+    public function job_order_stop($id)
+    {
+        
+        $production = Production::find($id);
+        $production->status = 1;
+
+        foreach ($production->job_orders->all() as $job_order)
+        {
+            $job_order->status = 0;
+
+            $job = JobOrder::find($job_order->id);
+            dd($job->element_jobs->all());
+            $job_order->save();
+            
+            dd($job_order->element_jobs->all());
+        }
+
+
+
+
+    }
+
 
     public function job_order_create($id)
     {
@@ -568,7 +598,7 @@ class ProductionController extends Controller
 
             $job_order->sum_elements_amount = ElementJob::where('status', 3)->where('production_id', $production->id)->where('job_group_id', $job->job_group_id)->sum('sum_amount');
             $job_order->done = 0;
-            $job_order->status = 0;
+            $job_order->status = 1;
 
             $job_order->name = 'test2';
 
@@ -585,6 +615,7 @@ class ProductionController extends Controller
             foreach($element_job as $element)
             {
                 $element->status = 4;
+                $element->job_order_id = $job_order->id;
                 $element->save();
             }
         
@@ -603,7 +634,7 @@ class ProductionController extends Controller
         }
         
         
-        return redirect()->route('production.show')->with('message', $message);
+        return redirect()->route('production.select', ['id' => $id])->with('message', $message);
 
     }
 

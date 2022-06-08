@@ -181,10 +181,10 @@
       
 
       
-      <div class="card-body">
+      <div class="card-body ">
         
-        <div class="card text-center">
-          <div class="card-header">
+        <div class="card text-center bg-light border border-2 border-white rounded border-bottom-0">
+          <div class="card-header bg-light">
             {{-- <h6 class="card-title"><i class="fas fa-link"></i> <i class="fas fa-th-list"></i>&nbsp;&nbsp;Utwórz zlecenia produkcyjne</h6> --}}
             <ul class="nav nav-pills card-header-pills mt-2">
               <li class="nav-item">
@@ -196,18 +196,33 @@
               @foreach (\App\Models\Production::where('status',0)->orwhere('status',1)->orwhere('status',2)->get() as $production)
 
               {{-- class="list-group-item list-group-item-action active"  KLASA ZMIANY KOLORU NA NIEBIESKI --}}
-              @if ($production->status == 2)
-              <a href="{{route('production.select', ['id' => $production->id ])}}" class="list-group-item list-group-item-action active border border-dark">
-              @else
+              
+              @if ($production->status == 0 || $production->status == 1)
               <a href="{{route('production.select', ['id' => $production->id ])}}" class="list-group-item list-group-item-action border border-dark">
+              @endif
+              @if ($production->status == 2 && $production->done < $production->sum_elements)
+              <a href="{{route('production.select', ['id' => $production->id ])}}" class="list-group-item list-group-item-action active border border-dark">
+              @endif
+              @if ($production->status == 2 && $production->done == $production->sum_elements)
+              <a href="{{route('production.select', ['id' => $production->id ])}}" class="list-group-item list-group-item-action active border border-success bg-success border border-dark">
               @endif
 
 
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">{{$production->dates_textcode}}</h5>
-                  <p class="mb-1"> <div class="text-right mb-2 mt-1">
-                    
-                    </div>{{$production->name}}</p>
+                  <p class="mb-1">
+                    @if ($production->done == $production->sum_elements)
+                    <div class="text-right mb-2 mt-1 text-black">
+                      <strong>Zrealizowano <i class="fas fa-award"></i></strong>
+                    </div>
+                    @else
+                    <div class="text-right mb-2 mt-1 text-black">
+                      <strong>0 <i class="fas fa-user-lock"></i></strong>&nbsp;&nbsp;&nbsp;&nbsp;{{ $production->done}} / {{$production->sum_elements}}
+                    </div>
+                    @endif
+
+                    {{$production->name}}
+                  </p>
                   {{-- <small class="">
                     <button href="#" class="btn btn-light"><i class="fas fa-clipboard-check"></i> Checklisty</button>
                     <button href="{{route('production.select', ['id' => $production->name ])}}" class="btn btn-light"><i class="fab fa-digital-ocean"></i> Otwórz</button>
@@ -217,9 +232,37 @@
                 <small class="text-left">
                   <div class="text-left mt-1 mb-2 small">
                     Utworzono: {{ (\App\Models\Production::where('id', $production->id)->first())->created_at->toDateTimeString()}}</div>
-                  <div class="progress mt-2">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$production->done_procent}}%;" aria-valuenow="{{$production->done_procent}}" aria-valuemin="0" aria-valuemax="100">{{ $production->done}} / {{$production->sum_elements}} [{{$production->done_procent}}%]</div>
-                  </div>
+
+
+                  
+                    
+                    @if ($production->done < $production->sum_elements && $production->status >= 2)
+                    <div class="progress mt-2">                
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{$production->done_procent}}%;" aria-valuenow="{{$production->done_procent}}" aria-valuemin="0" aria-valuemax="100">{{$production->done_procent}}% [{{ $production->done}}/{{$production->sum_elements}}]</div></div>
+                    @endif
+                    
+
+                    @if ($production->done == $production->sum_elements && $production->status >= 2)
+                    <div class="progress mb-1" style="height: 1px;">
+                      <div class="progress-bar bg-light" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress">
+                    <div class="progress-bar bg-success text-left" role="progressbar" style="width: {{$production->done_procent}}%;" aria-valuenow="{{$production->done_procent}}" aria-valuemin="0" aria-valuemax="100">Wykonano wszystkie rekordy.&nbsp;&nbsp;&nbsp;&nbsp;{{$production->done_procent}}% [{{ $production->done}}/{{$production->sum_elements}}]</div></div>
+                    @endif
+
+                    
+
+                    @if ($production->done == 0 && $production->status < 2)
+                    <div class="progress mt-2">
+                    <div class="progress-bar bg-white text-muted" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><strong>Oczekujące.</strong></div></div>
+                    @endif
+                    @if ($production->done != 0 && $production->status < 2)
+                    <div class="progress mt-2">
+                    <div class="progress-bar bg-transparent" role="progressbar" style="width: 100%" aria-valuenow="{{$production->done_procent}}" aria-valuemin="0" aria-valuemax="100"><h6 class="rediconcolor small mt-2"><strong>Wstrzymano.&nbsp;&nbsp;&nbsp;&nbsp;{{$production->done_procent}}% [{{ $production->done}}/{{$production->sum_elements}}]</strong></h6></div></div>
+                    @endif
+                    
+
+                  
                 </small>
               </a>
               @endforeach
@@ -240,7 +283,7 @@
               
           </div>
           @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null)
-          <div class="card-body">            
+          <div class="card-body bg-light">            
             <table class="table table-sm table-borderless">
               
             
@@ -496,16 +539,14 @@
           </div>
 
       </div>
-      @endif 
-      <div class="card-footer text-center py-3">
-        {{-- <h6 class="text-left font-weight-light mt-2 small greeniconcolor">
-          @if(Session::get('date') == null)                
-          
-          @else
-          <i class="fas fa-bell"></i>&nbsp;&nbsp;Wczytano dane prod. {{Session::get('date')}}
-          @endif      
-        </h6>  --}}
-      </div>   
+      @endif
+      @if(Session::get('date') == null) 
+
+      @else
+      <div class="card-footer text-center mt-3">
+
+      </div>
+      @endif   
   </div>
 </div>
 
