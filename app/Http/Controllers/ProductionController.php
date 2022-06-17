@@ -237,6 +237,7 @@ class ProductionController extends Controller
 
         $production = new Production();
         $production->name = $request->production_name;
+ 
 
         if($request->check_number == 1)
         {
@@ -262,6 +263,7 @@ class ProductionController extends Controller
             $dates_sorted = array();
 
             $sort_number = 1;
+            $number = 0;
 
             foreach($sort_dates as $date)
             {
@@ -271,16 +273,18 @@ class ProductionController extends Controller
                 }
                 else
                 {
-                    $dates_sorted[$sort_number] = $date;
+                    $dates_sorted[$number] = $date;
                     $sort_number = $sort_number + 1;
+                    $number = $number + 1;
                 }               
                 
             }
            
-            $production->date_first = $dates_sorted[1];
+            $production->date_first = $dates_sorted[0];
             $production->date_last = end($dates_sorted);
-            $production->dates_textcode = $dates_sorted[1] . ' — ' . end($dates_sorted);
+            $production->dates_textcode = $dates_sorted[0] . ' — ' . end($dates_sorted);
         }
+
         
         $production->sum_elements = 0;
         $production->done = 0;
@@ -293,50 +297,52 @@ class ProductionController extends Controller
         $dates_all = '';
       
         foreach($dates as $date)
-        {   
-           
-
-            for($i=1; $i <= $request->check_number; $i++)
-            {   
-                
-                if ($date->date_production == $dates_sorted[$i])
-                {  
-                    $elements_jobs = \App\Models\ElementJob::where('date_production', $date->date_production)->get();
-                    
-                    foreach($elements_jobs as $element_job)
-                    {
-                        $element_job->status = 1;
-                        $element_job->production_id = $production_id;
-                        $element_job->save();  
-                    }
-
-                    $elements_productions = \App\Models\ElementProduction::where('date_production', $date->date_production)->get();
-                    foreach($elements_productions as $element_prod)
-                    {
-                        $element_prod->production_id = $production_id;
-                        $element_prod->status = 1;
-                        $element_prod->save();
-
-                        $order = Order::find($element_prod->order_id);
-                        $order->status = 2;
-                        $order->save();
-                    }
-
-                    if($dates_all == '')
-                    {
-                        $dates_all = $date->date_production;
-                    }
-                    else
-                    {
-                        $dates_all = $dates_all.';'.$date->date_production;
-                    }
-                    
-
-                }
-
-            }
+        {             
+            $number = 0;
             
+                foreach($dates_sorted as $date_prod)
+                {
+
+                    if ($date_prod == $date->date_production)
+                    {  
+                        $elements_jobs = \App\Models\ElementJob::where('date_production', $date->date_production)->get();
+                        
+                        foreach($elements_jobs as $element_job)
+                        {
+                            $element_job->status = 1;
+                            $element_job->production_id = $production_id;
+                            $element_job->save();  
+                        }
+
+                        $elements_productions = \App\Models\ElementProduction::where('date_production', $date->date_production)->get();
+                        foreach($elements_productions as $element_prod)
+                        {
+                            $element_prod->production_id = $production_id;
+                            $element_prod->status = 1;
+                            $element_prod->save();
+
+                            $order = Order::find($element_prod->order_id);
+                            $order->status = 2;
+                            $order->save();
+                        }
+
+                        if($dates_all == '')
+                        {
+                            $dates_all = $date->date_production;
+                        }
+                        else
+                        {
+                            $dates_all = $dates_all.';'.$date->date_production;
+                        }
+                        
+
+                    }
+
+                }                           
+                    $number = $number + 1;
+
         }
+
 
         $sum_elements = ElementJob::where('production_id', $production_id)->sum('sum_amount');
         $production->sum_elements = $sum_elements;
@@ -567,15 +573,38 @@ class ProductionController extends Controller
             $job_order->status = 0;
 
             $job = JobOrder::find($job_order->id);
-            dd($job->element_jobs->all());
-            $job_order->save();
             
-            dd($job_order->element_jobs->all());
+            $job_order->save();
+                    
         }
 
+        $production->save();
+
+        $message = 'Zlecenie zostało wstrzymane.';
+        return redirect()->route('production.select', ['id' => $id])->with('message', $message);
+    }
 
 
+    public function job_order_start($id)
+    {
+        
+        $production = Production::find($id);
+        $production->status = 2;
 
+        foreach ($production->job_orders->all() as $job_order)
+        {
+            $job_order->status = 1;
+
+            $job = JobOrder::find($job_order->id);
+            
+            $job_order->save();
+                    
+        }
+
+        $production->save();
+
+        $message = 'Zlecenie zostało wznowione.';
+        return redirect()->route('production.select', ['id' => $id])->with('message', $message);
     }
 
 
@@ -600,13 +629,11 @@ class ProductionController extends Controller
             $job_order->done = 0;
             $job_order->status = 1;
 
-            $job_order->name = 'test2';
-
             $job_order->save();     
             
         }
 
-        $job_orders = JobOrder::where('status', 0)->where('production_id', $production->id)->get();
+        $job_orders = JobOrder::where('status', 1)->where('production_id', $production->id)->get();
 
         foreach($job_orders as $job_order)
         {

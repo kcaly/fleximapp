@@ -163,6 +163,7 @@ Route::put('production/create', [ProductionController::class, 'production_create
 
 Route::get('order-job/{id}/create', [ProductionController::class, 'job_order_create'])->name('job.order.create');
 Route::get('order-job/{id}/stop', [ProductionController::class, 'job_order_stop'])->name('job.order.stop');
+Route::get('order-job/{id}/start', [ProductionController::class, 'job_order_start'])->name('job.order.start');
 
 
 
