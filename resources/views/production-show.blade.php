@@ -271,8 +271,8 @@
               <form method="post" action="{{ route('production.create')}}" >
                 @csrf
                 @method('put')
-                <input id="production_name" type="text" name="production_name" class="form-floating small mt-3" value="{{ old('name') }}" placeholder="Nazwa (opcjonalnie)" autofocus @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif/>
-            <button type="submit" class="btn btn-primary btn-sm mb-1" id="{{$check_number=0}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres produkcyjny</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input id="production_name" type="hidden" name="production_name" class="form-floating small mt-3" value="{{ old('name') }}" placeholder="Nazwa (opcjonalnie)" autofocus @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif/>
+            <button type="submit" id="{{$check_number=0}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) class="btn btn-primary btn-sm mb-1" @else class="btn btn-outline-secondary btn-sm mb-1" disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres produkcyjny</button>&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="#" class="btn btn-outline-dark btn-sm mb-1"><i class="fas fa-book"></i> <i class="fas fa-mug-hot"></i>&nbsp;Archiwum</a>
             
 
@@ -286,14 +286,23 @@
           <div class="card-body bg-light">            
             <table class="table table-sm table-borderless">
               
-            
-
-              <thead class="card-text grey600color small text-left">
+              <thead class="card-text grey700color small text-left">
                 <tr>
                   <th scope="col" ><h5><i class="fas fa-medkit blueiconcolor"></i></h5></th>
-                  <th scope="col" >Data prod.</th>
+                  <th scope="col" >
+                    Data prod.&nbsp;&nbsp;
+                    <a href=""><i class="fas fa-sort grey600color"></i></a>
+                  </th>
+
                   {{-- <th scope="col"><i class="fas fa-language"></i> Alias</th> --}}
-                  <th scope="col" ><i class="fas fa-folder"></i> Wygenerowano</th>
+                  <th scope="col" >
+                    <i class="fas fa-folder"></i> Wygenerowano&nbsp;&nbsp;
+                    <a href=""><i class="fas fa-sort grey600color"></i></a>
+
+                    {{-- <a href=""><i class="fas fa-sort-down grey800color"></i></a>
+                    <a href=""><i class="fas fa-sort-up grey800color"></i></a> --}}
+                  
+                  </th>
                   {{-- <th scope="col"></th> --}}                  
                 </tr>
               </thead>
@@ -322,7 +331,7 @@
                     {{ $date_production->date_production }}&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" name="action" value="load" class="btn btn-primary btn-sm"><i class="far fa-folder-open"></i></button>
                     </form> --}}
 
-                    {{ $date_production->date_production }}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ route('production.get', ['action' => 'load', 'date' => $date_production->date_production])}}" type="submit" name="action" value="load" class="btn btn-primary btn-sm"><i class="far fa-folder-open"></i></a>
+                    {{ $date_production->date_production }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ route('production.get', ['action' => 'load', 'date' => $date_production->date_production])}}" type="submit" name="action" value="load" class="btn btn-primary btn-sm"><i class="far fa-folder-open"></i></a>
                   </td>
                   <td class="text-left small">{{ (\App\Models\ElementProduction::where('date_production', $date_production->date_production)->first())->created_at->toDateTimeString()}}</td>
                   {{-- <td class="text-left"><button type="submit" name="action" value="load" class="btn btn-sm">@if ((\App\Models\ElementProduction::where('date_production', $date_production->date_production)->first())->status == 0)<i class="fas fa-lock-open"></i> @else<i class="fas fa-lock"></i> @endif</button></td> --}}

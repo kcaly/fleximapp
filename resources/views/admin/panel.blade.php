@@ -31,15 +31,15 @@
             </div>     
           </div>
         <div class="card-body">
-            <table class="table table-striped table-hover">
-                <thead>
+            <table class="table table-striped table-hover table-borderless">
+                <thead class="border-bottom border-dark">
                   <tr>
-                    <th scope="col">Status</th>
+                    <th scope="col"><h6 class=""><i class="fas fa-hammer"></i><i class="fas fa-street-view"></i></h6></th>
                     <th scope="col"></th>
-                    <th scope="col">Tag</th>
+                    <th scope="col"><h6 class="small">Tag</h6></th>
                     <th scope="col"></th>
-                    <th scope="col">Imię i nazwisko</th>
-                    <th scope="col">E-mail</th>
+                    <th scope="col"><h6 class="small">Imię i nazwisko</h6></th>
+                    <th scope="col"><h6 class="small">E-mail</h6></th>
                     
                     <th scope="col"></th>
                   </tr>
@@ -50,14 +50,14 @@
     <td scope="row"><form method="post" action={{route('change.status', ['user_id' => $user->id]) }} >
         @csrf
         @method('put')
-        @if($user->status == 0)<button type="submit" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></button></form>@else<button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-eye-slash"></i></button></form>@endif</td>
+        @if($user->status == 0)<button type="submit" class="btn btn-success btn-sm"><i class="fas fa-user-check"></i></button></form>@else<button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-user-times"></i></button></form>@endif</td>
         <td>@if($user->role_id == 1)<div class="small">Administrator</div>@endif</td>
     <td>{{$user->tag_user}}</td>
     <td>
         <form method="get" action={{route('user.edit', ['company_id' => Auth::user()->company_id, 'id' => $user->id]) }} >
         @csrf
         @method('get')
-        <button type="submit" class="btn btn-secondary btn-sm">Edytuj</button></form>
+        <button type="submit" class="btn btn-outline-secondary btn-sm"><i class="fas fa-pencil-alt"></i> Edytuj</button></form>
         
     </td>
     <td>{{$user->first_name}} {{$user->last_name}}</td>

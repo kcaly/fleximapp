@@ -109,7 +109,7 @@ class ElementController extends Controller
             {
                 if($element_in_article->id != $element->id)
                 {
-
+                    
                 }
                 else
                 {

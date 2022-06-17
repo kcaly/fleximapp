@@ -57,8 +57,8 @@
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
-                    <input class="form-control" type="text" placeholder="" aria-label="" aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                    <input class="form-control form-control-sm bg-light border border-secondary border-2 rounded-start" type="text" placeholder="" aria-label=".form-control-sm example" aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-outline-secondary border border-secondary border-1 border-start-0" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
                 </div>
             </form>
             <!-- Navbar-->
@@ -74,8 +74,8 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-cog"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         
-                        <li><a class="dropdown-item" href="{{ route('profile')}}"><i class="fas fa-id-badge"></i> Mój profil</a></li>
-                        <li><a class="dropdown-item" href="{{ route('password.change')}}"><i class="fas fa-lock"></i> Zmień hasło</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile')}}"><i class="fas fa-user-circle"></i> Mój profil</a></li>
+                        <li><a class="dropdown-item" href="{{ route('password.change')}}"><i class="fas fa-key"></i> Zmień hasło</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         {{-- <li>
                             <a class="dropdown-item small" href="#"><h6 class="rediconcolor"><i class="fas fa-bug rediconcolor"></i> Raport błędu</h6></a>
@@ -120,11 +120,48 @@
                             <div class="collapse" id="articles" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     
-                                    {{-- <div class="small bg-primary mt-2 mb-1 grey600color">&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-down grey600color"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-pencil-ruler grey600color"></i>&nbsp;&nbsp;Specyfikacja</div> --}}
+                                    
                                     
                                     <a class="nav-link" href="{{route('element.list')}}">
                                         <i class="fas fa-layer-group"></i>&nbsp;&nbsp;Elementy
                                     </a>
+
+                                        <a href="{{route('job.group.list')}}">
+                                            <div class="small mt-2 mb-1 grey600color">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="far fa-list-alt"></i>&nbsp;
+                                                <i class="far fa-paper-plane"></i>&nbsp;&nbsp;Grupy zleceń</div></a>
+                                                
+                                        <a href="{{route('machine.list')}}">
+                                            <div class="small mt-2 mb-3 grey600color">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <i class="fas fa-list-alt"></i>&nbsp;
+                                                <i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;Lista maszyn</div></a>
+                                    
+                                    
+                                    {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#elements" aria-expanded="false" aria-controls="elements">
+                                        <i class="fas fa-layer-group"></i>&nbsp;&nbsp;Elementy
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="elements" aria-labelledby="headingOne" data-bs-parent="#elements">
+                                        <nav class="sb-sidenav-menu-nested nav">
+
+                                            <a class="nav-link" href="{{route('element.list')}}">
+                                                <i class="fas fa-shapes"></i><i class="fas fa-chalkboard"></i><i class="fas fa-bars"></i>&nbsp;&nbsp;Lista
+                                            </a>
+
+                                        </nav>
+                                    </div> --}}
+
+
+
+
+
+
+
+
+
+                                    
                                     <a class="nav-link" href="{{route('article.list')}}">
                                         <i class="fas fa-clone"></i>&nbsp;&nbsp;Artykuły
                                     </a>

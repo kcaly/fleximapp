@@ -149,21 +149,24 @@ Route::get('order-product-delete/{order_id}-{product_id}-{amount}', [OrderContro
 
 
 
-Route::get('production/{id}', [ProductionController::class, 'production_select'])->name('production.select');
-Route::get('production/{id}/delete', [ProductionController::class, 'production_delete'])->name('production.delete');
-Route::get('production/{id}/generate', [ProductionController::class, 'production_accept'])->name('production.accept');
 
-
-
-Route::view('production-index', 'production-show')->name('production.index');
+Route::view('productions', 'production-show')->name('production.index');
 Route::view('production', 'production-show')->name('production.show');
-Route::put('production-show', [ProductionController::class, 'show'])->name('production');
+Route::put('production/show', [ProductionController::class, 'show'])->name('production');
 Route::get('production/{action}/{date}', [ProductionController::class, 'show'])->name('production.get');
+
 Route::put('production/create', [ProductionController::class, 'production_create'])->name('production.create');
+Route::get('production/{id}/delete', [ProductionController::class, 'production_delete'])->name('production.delete');
+Route::get('production/{id}', [ProductionController::class, 'production_select'])->name('production.select');
+Route::get('production/{id}/generate', [ProductionController::class, 'production_accept'])->name('production.accept');
+Route::put('production/view', [ProductionController::class, 'production_data'])->name('production.data');
+
+
 
 Route::get('order-job/{id}/create', [ProductionController::class, 'job_order_create'])->name('job.order.create');
 Route::get('order-job/{id}/stop', [ProductionController::class, 'job_order_stop'])->name('job.order.stop');
 Route::get('order-job/{id}/start', [ProductionController::class, 'job_order_start'])->name('job.order.start');
+
 
 
 

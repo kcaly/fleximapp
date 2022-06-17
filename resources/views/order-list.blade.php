@@ -4,7 +4,7 @@
 
 
 <div class="col-lg-12">
-    <div class="card shadow-lg border-0 rounded-lg mt-5">
+    <div class="card shadow-lg border-0 rounded-lg mt-3">
         <div class="card-header">
             <h6 class="text-left font-weight-light my-1 grey700color small">
               <i class="fas fa-shopping-basket grey700color"></i>&nbsp;&nbsp;Zamówienia

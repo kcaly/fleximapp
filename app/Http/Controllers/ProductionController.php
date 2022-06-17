@@ -244,6 +244,7 @@ class ProductionController extends Controller
             $production->date_first = $request['check1'];
             $production->date_last = $request['check1'];
             $production->dates_textcode = $request['check1'] . ' — ' . $request['check1'];
+            $dates_sorted = $request['check1'];
         }
         else
         {
@@ -298,8 +299,10 @@ class ProductionController extends Controller
       
         foreach($dates as $date)
         {             
-            $number = 0;
-            
+
+            if(is_array($dates_sorted))
+            {
+
                 foreach($dates_sorted as $date_prod)
                 {
 
@@ -338,8 +341,47 @@ class ProductionController extends Controller
 
                     }
 
-                }                           
-                    $number = $number + 1;
+                }
+
+            }
+            else
+            {
+                if ($dates_sorted == $date->date_production)
+                    {  
+                        $elements_jobs = \App\Models\ElementJob::where('date_production', $date->date_production)->get();
+                        
+                        foreach($elements_jobs as $element_job)
+                        {
+                            $element_job->status = 1;
+                            $element_job->production_id = $production_id;
+                            $element_job->save();  
+                        }
+
+                        $elements_productions = \App\Models\ElementProduction::where('date_production', $date->date_production)->get();
+                        foreach($elements_productions as $element_prod)
+                        {
+                            $element_prod->production_id = $production_id;
+                            $element_prod->status = 1;
+                            $element_prod->save();
+
+                            $order = Order::find($element_prod->order_id);
+                            $order->status = 2;
+                            $order->save();
+                        }
+
+                        if($dates_all == '')
+                        {
+                            $dates_all = $date->date_production;
+                        }
+                        else
+                        {
+                            $dates_all = $dates_all.';'.$date->date_production;
+                        }
+                        
+
+                    }
+                
+            }                                         
 
         }
 
@@ -371,43 +413,128 @@ class ProductionController extends Controller
 
        
         $message = 'Pomyślnie utworzono zakres produkcyjny: '.$production->dates_textcode;
-        return redirect()->route('production.show')->with('message', $message);
+        // return redirect()->route('production.show')->with('message', $message);
+
+        return redirect()->route('production.select', ['id' => $production->id])->with('message', $message);
+
     }
 
     public function production_select($id)
     {
 
-        
         $production = Production::find($id);
-
         ProductionController::production_procent_done($id);
+
         $dates = explode(";", $production->dates_all);
         $materials = explode(";", $production->total);
-    
-        $totals = array ();
-        $total_number = 0;
-
-       
+        $totals = array();
+        $temp = 0;
         foreach($materials as $material)
         {
 
             $total_material = explode("=", $material);
-           
             $sum_material = ElementProduction::where('material', $total_material[0])->sum('amount');
             
             if ($material != null)
             {
-                $totals[$total_number] = $total_material[0] . ': ' . $total_material[1] . ' kg' . ' [' . $sum_material .']';
+                $totals[$temp] = $total_material[0] . ': ' . $total_material[1] . ' kg' . ' [' . $sum_material .']';
             }
             
-            $total_number = $total_number + 1;            
+            $total_number = $temp + 1;            
         }
-    
         asort($dates);
 
-        return view('production-select', compact(['production', 'dates', 'totals']));
+        $job_orders = $production->job_orders;
+        $temp = 1;
+        $elements = null;
+        $job_order_select = null;
+        $machine_select = null;
+        
+
+        // foreach($job_orders as $job_order)
+        // {
+        //     $pos = $job_order->id . $job_order->job_group->id;
+        //     $data_job_orders[$temp] = array ('name' => $job_order->job_group->name,
+        //                                     'sum' => $job_order->sum_elements_amount,
+        //                                     'done' => $job_order->done,
+        //                                     'pos' => $pos);
+            
+        // }
+        
+        return view('production-select', compact(['production', 'dates', 'totals', 'job_orders', 'temp', 'elements', 'job_order_select', 'machine_select']));
+    }
+
+
+
+    public function production_data(Request $request)
+    {
+        
+        $job_order = JobOrder::find($request->job_order_id);
+        $production = Production::find($job_order->production_id);
+        ProductionController::production_procent_done($production->id);
+
+        $dates = explode(";", $production->dates_all);
+        $materials = explode(";", $production->total);
+        $totals = array();
+        $temp = 0;
+        foreach($materials as $material)
+        {
+
+            $total_material = explode("=", $material);
+            $sum_material = ElementProduction::where('material', $total_material[0])->sum('amount');
+            
+            if ($material != null)
+            {
+                $totals[$temp] = $total_material[0] . ': ' . $total_material[1] . ' kg' . ' [' . $sum_material .']';
+            }
+            
+            $total_number = $temp + 1;            
+        }
+        asort($dates);
+        
+        $job_orders = $production->job_orders;
+        $temp = 1;
+        
+        $job_order_select = array(
+            'id' => $job_order->id,
+            'name' => $job_order->job_group->name
+        );
+
+        $machine_select = null;
+
+        
+
+        $elements = ElementJob::where('job_order_id', $request->job_order_id)->get();
+
+
+
+        
+        
+
+
+
+
+
+
+
+
+
+        return view('production-select', compact(['production', 'dates', 'totals', 'job_orders', 'temp', 'elements', 'job_order_select', 'machine_select']));
+
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function production_procent_done($id)
     {
