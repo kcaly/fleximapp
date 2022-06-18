@@ -15,7 +15,7 @@
                           
                           <div class=" text-left">                            
                             &nbsp;
-                            <a href="{{route('job.group.list')}}" class="btn btn-outline-light"><h5 class="small mt-1 grey800color"><i class="far fa-list-alt grey700color"></i>&nbsp;<i class="far fa-paper-plane grey700color"></i>&nbsp;&nbsp;Lista zleceń</h5><div class="small grey800color"></div></a>
+                            <a href="{{route('job.group.list')}}" class="btn btn-outline-light"><h5 class="small mt-1 grey800color"><i class="far fa-list-alt grey700color"></i>&nbsp;<i class="far fa-paper-plane grey700color"></i>&nbsp;&nbsp;Grupy zleceń</h5><div class="small grey800color"></div></a>
                             &nbsp;&nbsp;
                             <a href="{{route('machine.list')}}" class="btn btn-outline-light"><h5 class="small mt-1 grey800color"><i class="fas fa-list-alt grey700color"></i>&nbsp;<i class="fas fa-map-marker-alt grey700color"></i>&nbsp;&nbsp;Lista maszyn</h5><div class="small grey800color"></div></a>
                           </div>   
@@ -551,7 +551,7 @@
                       <form method="post" action={{ route('material.create') }}>
                         @csrf
                         @method('post')  
-                        <h6 class="small"><a href="" data-bs-toggle="modal" data-bs-target="#exampleModal5"><i class="fas fa-box grey600color"></i></a>&nbsp;Materiał</h6>
+                        <h6 class="small">Materiał&nbsp;<a href="" data-bs-toggle="modal" data-bs-target="#exampleModal5"><i class="fab fa-whmcs"></i></a></h6>
                     </th>
 
                     <!-- Modal Material-->
@@ -559,7 +559,7 @@
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-boxes"></i> <i class="fas fa-list"></i> Materiały</h5>
+                              <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-box"></i> <i class="fas fa-list"></i> Materiały</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">                          
