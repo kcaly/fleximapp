@@ -57,7 +57,7 @@
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
-                    <input class="form-control form-control-sm bg-light border border-secondary border-2 rounded-start" type="text" placeholder="" aria-label=".form-control-sm example" aria-describedby="btnNavbarSearch" />
+                    <input class="form-control form-control-sm bg-light border border-secondary border-1 rounded-start" type="text" placeholder="" aria-label=".form-control-sm example" aria-describedby="btnNavbarSearch" />
                     <button class="btn btn-outline-secondary border border-secondary border-1 border-start-0" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
                 </div>
             </form>
@@ -105,7 +105,7 @@
         @guest
         @else 
             <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <nav class="sb-sidenav accordion sb-sidenav-dark sidenav-bg-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
 
@@ -215,7 +215,7 @@
                             {{-- <a class="nav-link" href="{{route('production.plan')}}">
                                 <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie
                             </a> --}}
-                            <a class="nav-link" href="{{route('home')}}">
+                            <a class="nav-link" href="{{route('job.index')}}">
                                 <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Zlecenia
                             </a>
                             {{-- <a class="nav-link" href="{{route('home')}}">

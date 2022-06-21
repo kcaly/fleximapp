@@ -11,6 +11,8 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
  
+ .bg-flex-grey{background-color: #d3d3d3}
+ .bg-flex-darkgrey{background-color: #595959}
  .greyiconcolor {color:#909294}
  .rediconcolor {color: var(--bs-red);}
  .greeniconcolor {color: var(--bs-green)}
@@ -4060,6 +4062,19 @@ textarea.form-control-lg {
   display: block;
 }
 
+
+.navbar-custom {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4rem;
+  padding-bottom: 5rem;
+  
+}
+
+
 .navbar {
   position: relative;
   display: flex;
@@ -4068,6 +4083,7 @@ textarea.form-control-lg {
   justify-content: space-between;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  
 }
 .navbar > .container,
 .navbar > .container-fluid,
@@ -11409,6 +11425,7 @@ body {
 .sb-nav-fixed .sb-topnav {
   z-index: 1039;
 }
+
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
   width: 225px;
   height: 100vh;
@@ -11509,8 +11526,13 @@ body {
   flex-shrink: 0;
 }
 
-.sb-sidenav-dark {
+.sidenav-bg-dark{
   background-color: #212529;
+}
+.sidenav-bg-light{
+  background-color: #d3d3d3;
+}
+.sb-sidenav-dark {
   color: rgba(255, 255, 255, 0.5);
 }
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {

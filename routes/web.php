@@ -9,6 +9,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductionController;
+use App\Http\Controllers\JobController;
 use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 
@@ -155,24 +156,35 @@ Route::view('production', 'production-show')->name('production.show');
 Route::put('production/show', [ProductionController::class, 'show'])->name('production');
 Route::get('production/{action}/{date}', [ProductionController::class, 'show'])->name('production.get');
 
-Route::put('production/create', [ProductionController::class, 'production_create'])->name('production.create');
-Route::get('production/{id}/delete', [ProductionController::class, 'production_delete'])->name('production.delete');
-Route::get('production/{id}', [ProductionController::class, 'production_select'])->name('production.select');
-Route::get('production/{id}/generate', [ProductionController::class, 'production_accept'])->name('production.accept');
-Route::put('production/view', [ProductionController::class, 'production_data'])->name('production.data');
+Route::put('prod/create', [ProductionController::class, 'production_create'])->name('production.create');
+Route::get('prod/{id}/delete', [ProductionController::class, 'production_delete'])->name('production.delete');
+Route::get('prod/{id}', [ProductionController::class, 'production_select'])->name('production.select');
+Route::get('prod/{id}/generate', [ProductionController::class, 'production_accept'])->name('production.accept');
+Route::put('prod/dataview', [ProductionController::class, 'production_data'])->name('production.data');
+Route::get('prod/{production_id}/details/element/{element_id}', [ProductionController::class, 'details_element'])->name('production.details.element');
+
+Route::get('joborders/{id}/create', [ProductionController::class, 'job_order_create'])->name('job.order.create');
+Route::get('joborders/{id}/stop', [ProductionController::class, 'job_order_stop'])->name('job.order.stop');
+Route::get('joborders/{id}/start', [ProductionController::class, 'job_order_start'])->name('job.order.start');
+
+
+Route::view('jobs', 'joborder-show')->name('job.index');
+Route::view('job', 'joborder-show')->name('job.show');
+Route::put('job/show', [JobController::class, 'show'])->name('job');
+Route::get('job/{id}', [JobController::class, 'list'])->name('list.get');
+Route::view('jobs/list', 'joborder-list')->name('job.list');
+Route::put('job/open', [JobController::class, 'open'])->name('job.open');
+Route::view('run', 'workstation')->name('job.active');
+Route::get('job/{job_order_id}/{element_id}', [JobController::class, 'read'])->name('job.read');
 
 
 
-Route::get('order-job/{id}/create', [ProductionController::class, 'job_order_create'])->name('job.order.create');
-Route::get('order-job/{id}/stop', [ProductionController::class, 'job_order_stop'])->name('job.order.stop');
-Route::get('order-job/{id}/start', [ProductionController::class, 'job_order_start'])->name('job.order.start');
+
 
 
 
 
 Route::view('inplan-prod-to-job', 'production-plan')->name('production.plan');
-
-
 
 
     Route::middleware('admin')->group(function(){

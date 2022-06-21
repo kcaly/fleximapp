@@ -422,7 +422,9 @@ class ProductionController extends Controller
     public function production_select($id)
     {
 
+
         $production = Production::find($id);
+        
         ProductionController::production_procent_done($id);
 
         $dates = explode(";", $production->dates_all);
@@ -440,7 +442,7 @@ class ProductionController extends Controller
                 $totals[$temp] = $total_material[0] . ': ' . $total_material[1] . ' kg' . ' [' . $sum_material .']';
             }
             
-            $total_number = $temp + 1;            
+            $temp = $temp + 1;            
         }
         asort($dates);
 
@@ -508,15 +510,6 @@ class ProductionController extends Controller
 
 
 
-        
-        
-
-
-
-
-
-
-
 
 
         return view('production-select', compact(['production', 'dates', 'totals', 'job_orders', 'temp', 'elements', 'job_order_select', 'machine_select']));
@@ -542,9 +535,7 @@ class ProductionController extends Controller
      
         if ($production->done != 0)
         {
-            $done_procent = $production->done / $production->sum_elements*100.0;
-
-            
+            $done_procent = $production->done / $production->sum_elements*100.0;           
 
             if ($done_procent < 100 && $done_procent > 99.5 && $production->done != $production->sum_elements)
             {
@@ -791,6 +782,20 @@ class ProductionController extends Controller
         return redirect()->route('production.select', ['id' => $id])->with('message', $message);
 
     }
+
+
+    public function details_element($production_id, $element_id)
+    {
+
+        dd($element_id);
+    }
+
+
+
+
+
+
+
 
 
 }
