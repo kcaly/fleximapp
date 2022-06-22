@@ -143,7 +143,7 @@
                                             <a class="nav-link" href="{{route('job.group.list')}}">
                                                 <i class="far fa-paper-plane"></i>&nbsp;&nbsp;Grupy zleceń
                                             </a>
-                                            <a class="nav-link" href="{{route('job.group.list')}}">
+                                            <a class="nav-link" href="{{route('machine.list')}}">
                                                 <i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;Maszyny
                                             </a>
 
