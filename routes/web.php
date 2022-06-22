@@ -176,6 +176,8 @@ Route::view('jobs/list', 'joborder-list')->name('job.list');
 Route::put('job/open', [JobController::class, 'open'])->name('job.open');
 Route::view('run', 'workstation')->name('job.active');
 Route::get('job/{job_order_id}/{element_id}', [JobController::class, 'read'])->name('job.read');
+Route::put('search/jobs', [JobController::class, 'search'])->name('job.search');
+Route::put('out', [JobController::class, 'out'])->name('job.out');
 
 
 

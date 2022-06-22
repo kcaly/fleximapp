@@ -126,48 +126,29 @@
                                         <i class="fas fa-layer-group"></i>&nbsp;&nbsp;Elementy
                                     </a>
 
-                                        <a href="{{route('job.group.list')}}">
-                                            <div class="small mt-2 mb-1 grey600color">
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <i class="far fa-list-alt"></i>&nbsp;
-                                                <i class="far fa-paper-plane"></i>&nbsp;&nbsp;Grupy zleceń</div></a>
-                                                
-                                        <a href="{{route('machine.list')}}">
-                                            <div class="small mt-2 mb-3 grey600color">
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <i class="fas fa-list-alt"></i>&nbsp;
-                                                <i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;Lista maszyn</div></a>
-                                    
-                                    
-                                    {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#elements" aria-expanded="false" aria-controls="elements">
-                                        <i class="fas fa-layer-group"></i>&nbsp;&nbsp;Elementy
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="elements" aria-labelledby="headingOne" data-bs-parent="#elements">
-                                        <nav class="sb-sidenav-menu-nested nav">
-
-                                            <a class="nav-link" href="{{route('element.list')}}">
-                                                <i class="fas fa-shapes"></i><i class="fas fa-chalkboard"></i><i class="fas fa-bars"></i>&nbsp;&nbsp;Lista
-                                            </a>
-
-                                        </nav>
-                                    </div> --}}
-
-
-
-
-
-
-
-
-
-                                    
                                     <a class="nav-link" href="{{route('article.list')}}">
                                         <i class="fas fa-clone"></i>&nbsp;&nbsp;Artykuły
                                     </a>
                                     <a class="nav-link" href="{{route('product.list')}}">
                                         <i class="fas fa-archive"></i>&nbsp;&nbsp;Produkty
                                     </a>
+
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#elements" aria-expanded="false" aria-controls="elements">
+                                        <i class="fas fa-tools"></i>&nbsp;&nbsp;Zasoby
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="elements" aria-labelledby="headingOne" data-bs-parent="#elements">
+                                        <nav class="sb-sidenav-menu-nested nav">
+
+                                            <a class="nav-link" href="{{route('job.group.list')}}">
+                                                <i class="far fa-paper-plane"></i>&nbsp;&nbsp;Grupy zleceń
+                                            </a>
+                                            <a class="nav-link" href="{{route('job.group.list')}}">
+                                                <i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;Maszyny
+                                            </a>
+
+                                        </nav>
+                                    </div>
                                     
                                     {{-- <br />
                                     <div class="small bg-primary mt-2 mb-1 grey600color">&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-down grey600color"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-business-time grey600color"></i>&nbsp;&nbsp;Optymalizacja</div>

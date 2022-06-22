@@ -23,6 +23,7 @@ class CreateMachinesTable extends Migration
             $table->boolean('export')->default(0);
             $table->boolean('execute')->default(1);
             $table->boolean('status')->default(1);
+            $table->unsignedBigInteger('protection_user_id')->nullable();
             $table->timestamps();
         });
     }
