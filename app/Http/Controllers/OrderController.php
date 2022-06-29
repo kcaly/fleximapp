@@ -22,12 +22,12 @@ class OrderController extends Controller
         {
                 
         }        
-        $code = '1' . $flexim_id[2] . '0' . $flexim_id[1];
+        $code = '10'.$flexim_id[1].$flexim_id[2].'4';
         $order->code = $code;
         $order->save();
             
         $order_add_id_to_code = Order::where('name', $request->name)->orderBy('id', 'DESC')->first();
-        $order_add_id_to_code->code = $code . $order_add_id_to_code->id + 22;
+        $order_add_id_to_code->code = $code . $order_add_id_to_code->id;
         $order_add_id_to_code->save();
 
         return redirect()->route('order.list')->with('message', 'Pomyślnie dodano nowe zamówienie.');

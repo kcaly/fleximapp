@@ -193,9 +193,9 @@
                             <a class="nav-link" href="{{route('production.index')}}">
                                 <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
                             </a>
-                            {{-- <a class="nav-link" href="{{route('production.plan')}}">
+                            <a class="nav-link" href="{{route('production.planning')}}">
                                 <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie
-                            </a> --}}
+                            </a>
                             <a class="nav-link" href="{{route('job.index')}}">
                                 <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Zlecenia
                             </a>

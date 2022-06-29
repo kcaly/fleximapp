@@ -24,12 +24,12 @@ class ProductController extends Controller
         {
                 
         }        
-        $code = '1' . $flexim_id[2] . '0' . $flexim_id[1];
+        $code = '10'.$flexim_id[1].$flexim_id[2].'3';
         $product->code = $code;
         $product->save();
             
         $product_add_id_to_code = Product::where('name', $request->name)->orderBy('id', 'DESC')->first();
-        $product_add_id_to_code->code = $code . $product_add_id_to_code->id + 22;
+        $product_add_id_to_code->code = $code . $product_add_id_to_code->id;
         $product_add_id_to_code->save();
 
         return redirect()->route('product.list')->with('message', 'Pomyślnie dodano nowy produkt.');

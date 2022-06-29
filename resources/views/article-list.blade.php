@@ -50,7 +50,7 @@
             @method('get')
             <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-sign-in-alt"></i></button></form>
     </td>
-    <td>A{{ $article->code }}</td>
+    <td>{{ $article->code }}</td>
     <td>{{ $article->name }}</td>
     <td>
         <form method="get" action={{route('article.details.show', ['id' => $article->id]) }} >

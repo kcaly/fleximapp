@@ -675,7 +675,7 @@
                   @foreach ($elements as $element)	
                   <tr>
                       <td>
-                          <form method="get" action={{route('element.edit', ['id' => $element->id]) }} >
+                          <form method="get" action={{route('element.edit', ['flexim_id' => (\App\Models\Company::find(auth()->user()->company_id))->flexim_id, 'id' => $element->id])}} >
                               @csrf
                               @method('get')
                               <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-sign-in-alt"></i></button>
@@ -701,7 +701,7 @@
                           {{ \App\Models\JobGroup::find($element->job_group_id)->name }}
                           @endif
                       </td>
-                      <td>E{{ $element->code }}</td>
+                      <td>{{ $element->code }}</td>
                       <td>{{ $element->name }}</td>
                       <td>{{ $element->length }}</td>
                       <td>{{ $element->width }}</td>

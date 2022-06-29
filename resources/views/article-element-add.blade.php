@@ -106,7 +106,29 @@
             @endif
 
 
-
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-9">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                    
+                            <form class="d-flex" method="post" action="{{route('job.search')}}" >
+                              @csrf
+                              @method('put')
+                              <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Wyszukaj">
+                <datalist id="datalistOptions">
+                    @foreach (\App\Models\Element::all() as $element)
+                  <option value="{{$element->code}}&nbsp;&nbsp;{{$element->name}}">
+                    @endforeach
+                </datalist>
+                              <button class="btn btn-outline-dark" type="submit" action="search"><i class="fas fa-search"></i></button>
+                            </form>
+                        
+                      </nav>
+                    
+                </div>
+                
+            </div>
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="form-floating mb-3 mb-md-0">
@@ -122,16 +144,16 @@
                 <div class="col-md-9">                  
                         <div class="form-floating">
                             
-                            <select name="element_id" class="form-select" id="floatingSelect" aria-label="Wybierz element...">
+                            <select name="element_id" class="form-select" id="floatingSelect" aria-label="Lista elementów">
                                 
                                 
                               <option selected></option>
                               @foreach (\App\Models\Element::all() as $element)
-                                <option value="{{ $element->id }}">{{ $element->name }}</option>
+                                <option value="{{ $element->id }}">{{$element->code}}&nbsp;&nbsp;{{$element->name}}</option>
                                 @endforeach
                                 
                             </select>
-                            <label for="floatingSelect">Wybierz element</label>
+                            <label for="floatingSelect">Wybierz</label>
                           </div>         
                 </div>
             </div>

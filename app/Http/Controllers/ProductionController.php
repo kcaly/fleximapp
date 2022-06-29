@@ -421,11 +421,8 @@ class ProductionController extends Controller
 
     public function production_select($id)
     {
-
-
         $production = Production::find($id);
-        
-        ProductionController::production_procent_done($id);
+        ProductionController::production_done_calc($id);
 
         $dates = explode(";", $production->dates_all);
         $materials = explode(";", $production->total);
@@ -451,17 +448,7 @@ class ProductionController extends Controller
         $elements = null;
         $job_order_select = null;
         $machine_select = null;
-        
 
-        // foreach($job_orders as $job_order)
-        // {
-        //     $pos = $job_order->id . $job_order->job_group->id;
-        //     $data_job_orders[$temp] = array ('name' => $job_order->job_group->name,
-        //                                     'sum' => $job_order->sum_elements_amount,
-        //                                     'done' => $job_order->done,
-        //                                     'pos' => $pos);
-            
-        // }
         
         return view('production-select', compact(['production', 'dates', 'totals', 'job_orders', 'temp', 'elements', 'job_order_select', 'machine_select']));
     }
@@ -469,11 +456,9 @@ class ProductionController extends Controller
 
 
     public function production_data(Request $request)
-    {
-        
+    {     
         $job_order = JobOrder::find($request->job_order_id);
         $production = Production::find($job_order->production_id);
-        ProductionController::production_procent_done($production->id);
 
         $dates = explode(";", $production->dates_all);
         $materials = explode(";", $production->total);
@@ -504,35 +489,28 @@ class ProductionController extends Controller
 
         $machine_select = null;
 
-        
-
         $elements = ElementJob::where('job_order_id', $request->job_order_id)->get();
-
-
-
-
+       
 
         return view('production-select', compact(['production', 'dates', 'totals', 'job_orders', 'temp', 'elements', 'job_order_select', 'machine_select']));
-
-
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    public function production_procent_done($id)
+    public function production_done_calc($id)
     {
         $production = Production::find($id);
-     
+
+        $sum_done = ElementJob::where('production_id', $production->id)->where('status','>=', 4)->where('status','<', 10)->sum('done');
+        $production->done = $sum_done;
+        $production->save();
+
+        $job_orders = $production->job_orders;
+        foreach($job_orders as $job_order)
+        {
+            $sum_done = ElementJob::where('job_order_id', $job_order->id)->where('status','>=', 4)->where('status','<', 10)->sum('done');
+            $job_order->done = $sum_done;
+            $job_order->save();
+        }
+    
         if ($production->done != 0)
         {
             $done_procent = $production->done / $production->sum_elements*100.0;           
@@ -580,12 +558,8 @@ class ProductionController extends Controller
     {
         $production = Production::find($id);
         
-
-        
-
         $element_jobs = ElementJob::where('status', 1)->where('production_id', $id)->select('production_id', 'machine_id', 'job_group_id', 'element_id')->distinct()->get();
        
-        
         foreach($element_jobs as $element_job)
         {
             $element = \App\Models\Element::find($element_job->element_id);
@@ -731,10 +705,8 @@ class ProductionController extends Controller
       
         $production = Production::find($id);
         
-
         $elements_job = ElementJob::where('status', 3)->where('production_id', $production->id)->select('job_group_id')->distinct()->get();
-        
-        
+            
         foreach($elements_job as $job)
         {   
             
@@ -791,12 +763,31 @@ class ProductionController extends Controller
     }
 
 
+    public function production_planning_view()
+    {
+        $status = 0;
+        return view('production-planning', compact('status'));
+    }
+
+    public function production_planning_loader(Request $request)
+    {
+        $status = 1;
+        $prod = Production::find($request->production_id);
+        $elements = ElementJob::where('production_id', $prod->id)->get();
+        $job_groups_ids = ElementJob::where('production_id', $prod->id)->select('job_group_id')->distinct()->get();
+        
+        //$dates_string = explode(";", $prod->dates_all);
+        
+        
+        $dates = ElementJob::where('production_id', $prod->id)->where('status', 1)->select('date_production')->distinct()->orderBy('date_production', 'ASC')->get();
+        
+        $temp = 1;
+        $temp2 = 1;
 
 
 
-
-
-
+        return view('production-planning', compact('status', 'prod', 'elements', 'job_groups_ids', 'dates', 'temp', 'temp2'));
+    }
 
 }
  

@@ -39,12 +39,12 @@ class ElementController extends Controller
             {
                 
             }        
-            $code = '1' . $flexim_id[2] . '0' . $flexim_id[1];
+            $code = '10'.$flexim_id[1].$flexim_id[2].'1';
             $element->code = $code;
             $element->save();
             
             $element_add_id_to_code = Element::where('name', $request->name)->orderBy('id', 'DESC')->first();
-            $element_add_id_to_code->code = $code . $element_add_id_to_code->id + 22;
+            $element_add_id_to_code->code = $code . $element_add_id_to_code->id;
             $element_add_id_to_code->save();
 
                          
@@ -75,7 +75,7 @@ class ElementController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit($flexim_id, $id)
     {
         $element = Element::find($id);
         $articles = Article::with('elements')->get();
@@ -536,6 +536,17 @@ class ElementController extends Controller
         $job_group->name = $request->name;
         $job_group->titel = $request->titel;
         $job_group->status = $request->status;
+        $job_group->machine_id = $request->primary_machine_id;
+        $job_group->autoselect_machine_id = $request->secondary_machine_id;
+        if ($request->machine_restrict == 1 && $job_group->method_production < 10)
+        {
+            $job_group->method_production = 10;
+        }
+        if ($request->machine_restrict != 1 && $job_group->method_production >= 10)
+        {
+            $job_group->method_production = $job_group->method_production - 10;
+            
+        }
         if ($request->execute == null)
         {
             $job_group->execute = 0;

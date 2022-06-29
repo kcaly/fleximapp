@@ -22,12 +22,12 @@ class ArticleController extends Controller
         {
                 
         }        
-        $code = '1' . $flexim_id[2] . '0' . $flexim_id[1];
+        $code = '10'.$flexim_id[1].$flexim_id[2].'2';
         $article->code = $code;
         $article->save();
             
         $article_add_id_to_code = Article::where('name', $request->name)->orderBy('id', 'DESC')->first();
-        $article_add_id_to_code->code = $code . $article_add_id_to_code->id + 22;
+        $article_add_id_to_code->code = $code . $article_add_id_to_code->id;
         $article_add_id_to_code->save();
 
         // $article->time = 0;

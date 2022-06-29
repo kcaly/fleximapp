@@ -11,6 +11,8 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
  
+ .flexblue{color: #556776}
+ .bg-flex-blue{background-color: #556776}
  .bg-flex-grey{background-color: #d3d3d3}
  .bg-flex-darkgrey{background-color: #595959}
  .greyiconcolor {color:#909294}

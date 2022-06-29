@@ -89,7 +89,7 @@ Route::get('material/{id}/delete', [MaterialController::class, 'delete'])->name(
 Route::post('element-create', [ElementController::class, 'create'])->name('element.create');
 Route::post('elements', [ElementController::class, 'show_custom_size'])->name('element.list.custom-size');
 Route::get('elements', [ElementController::class, 'show'])->name('element.list');
-Route::get('element-edit/{id}', [ElementController::class, 'edit'])->name('element.edit');
+Route::get('{flexim_id}/element/edit/{id}', [ElementController::class, 'edit'])->name('element.edit');
 Route::post('element-update', [ElementController::class, 'update'])->name('element.update');
 Route::post('element-file-pdf-/{id}', [ElementController::class, 'filepdf_delete'])->name('elementfilepdf.delete');
 Route::post('element-file-dxf-/{id}', [ElementController::class, 'filedxf_delete'])->name('elementfiledxf.delete');
@@ -182,11 +182,14 @@ Route::put('out', [JobController::class, 'out'])->name('job.out');
 
 
 
+Route::get('production-planning', [ProductionController::class, 'production_planning_view'])->name('production.planning');
+Route::put('production-planning', [ProductionController::class, 'production_planning_loader'])->name('production.planning.loader');
 
 
 
 
-Route::view('inplan-prod-to-job', 'production-plan')->name('production.plan');
+
+
 
 
     Route::middleware('admin')->group(function(){
