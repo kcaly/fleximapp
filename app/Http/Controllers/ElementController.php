@@ -75,7 +75,7 @@ class ElementController extends Controller
     }
 
 
-    public function edit($flexim_id, $id)
+    public function edit($id)
     {
         $element = Element::find($id);
         $articles = Article::with('elements')->get();

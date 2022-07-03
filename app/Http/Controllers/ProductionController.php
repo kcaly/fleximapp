@@ -121,8 +121,10 @@ class ProductionController extends Controller
                         // }
                         
                         $element_production_record->article_info = $article->name;
+                        $element_production_record->article_quantity = $amount_article;
                         $element_production_record->product_info = $product->name;
-                        $element_production_record->order_info = 'Z'.$order->code.' ['.$order->date_order.']';
+                        $element_production_record->product_quantity = $amount_product;
+                        $element_production_record->order_info = $order->code.' ['.$order->date_order.']';
                         // $material_element = \App\Models\Material::find($element->material_id)->first();
                         $element_production_record->material = $element->material->name;
                         $element_production_record->weight = $element->weight;
@@ -771,23 +773,163 @@ class ProductionController extends Controller
 
     public function production_planning_loader(Request $request)
     {
+        if ($request->production_id != 0)
+        {
+            $status = 1;
+            $prod = Production::find($request->production_id);
+            $elements = ElementJob::where('production_id', $prod->id)->where('status', 1)->get();
+            $job_groups_ids = ElementJob::where('production_id', $prod->id)->select('job_group_id')->distinct()->get();
+            $dates = ElementJob::where('production_id', $prod->id)->where('status', 1)->select('date_production')->distinct()->orderBy('date_production', 'ASC')->get();
+            $temp = 1;
+            $temp2 = 1;
+
+            return view('production-planning', compact('status', 'prod', 'elements', 'job_groups_ids', 'dates', 'temp', 'temp2'));
+        }
+        else
+        {
+            $status = 0;
+            return view('production-planning', compact('status'));
+        }
+    }
+
+    public function production_planning_load_get($production_id)
+    {
         $status = 1;
-        $prod = Production::find($request->production_id);
-        $elements = ElementJob::where('production_id', $prod->id)->get();
+        $prod = Production::find($production_id);
+        $elements = ElementJob::where('production_id', $prod->id)->where('status', 1)->get();
         $job_groups_ids = ElementJob::where('production_id', $prod->id)->select('job_group_id')->distinct()->get();
-        
-        //$dates_string = explode(";", $prod->dates_all);
-        
-        
         $dates = ElementJob::where('production_id', $prod->id)->where('status', 1)->select('date_production')->distinct()->orderBy('date_production', 'ASC')->get();
-        
         $temp = 1;
         $temp2 = 1;
 
+        return view('production-planning', compact('status', 'prod', 'elements', 'job_groups_ids', 'dates', 'temp', 'temp2'));
+    }
 
+    public function production_planning_save(Request $request)
+    {
+        $dates = ElementJob::where('production_id', $request->production_id)->where('status', 1)->select('date_production')->distinct()->orderBy('date_production', 'ASC')->get();
+        $job_groups_ids = ElementJob::where('production_id', $request->production_id)->select('job_group_id')->distinct()->get();
+
+        foreach($job_groups_ids as $job_group_id)
+        {
+            foreach($dates as $date)
+            {
+                $check = $job_group_id->job_group_id.'_'.$date->date_production;
+               
+                if ($request[$check] != $date->date_production)
+                {
+                    $elements_job = ElementJob::where('production_id', $request->production_id)->where('status', 1)->where('job_group_id', $job_group_id->job_group_id)->where('date_production', $date->date_production)->get();
+
+                    foreach($elements_job as $element)
+                    {
+                            if ($element->date_production == $request[$check])
+                            {
+                                $element->date_production_virtual = null;
+                                $element->save();
+                            }
+                            else
+                            {
+                                $element->date_production_virtual = $request[$check];
+                                $element->save();
+                            }
+                    }
+                }
+                else
+                {
+                    $elements_job = ElementJob::where('production_id', $request->production_id)->where('status', 1)->where('job_group_id', $job_group_id->job_group_id)->where('date_production', $date->date_production)->get();
+
+                    foreach($elements_job as $element)
+                    {
+                           
+                                $element->date_production_virtual = null;
+                                $element->save();
+                    }
+                            
+                }
+            }
+        }  
+
+        $status = 1;
+        $prod = Production::find($request->production_id);
+        $elements = ElementJob::where('production_id', $prod->id)->where('status', 1)->get();
+        $job_groups_ids = ElementJob::where('production_id', $prod->id)->select('job_group_id')->distinct()->get();    
+        $dates = ElementJob::where('production_id', $prod->id)->where('status', 1)->select('date_production')->distinct()->orderBy('date_production', 'ASC')->get();    
+        $temp = 1;
+        $temp2 = 1;
 
         return view('production-planning', compact('status', 'prod', 'elements', 'job_groups_ids', 'dates', 'temp', 'temp2'));
     }
+
+    public function production_planning_ingroup($production_id, $job_group_id)
+    {
+        $status = 1;
+        $prod = Production::find($production_id);
+        $job_group = JobGroup::find($job_group_id);
+        $element_ids = ElementJob::where('production_id', $production_id)->where('status', 1)->where('job_group_id', $job_group_id)->select('element_id')->distinct()->get();
+        $temp = 1;
+        $temp2 = 1;
+
+        return view('production-planning-ingroup', compact('status', 'prod', 'job_group', 'element_ids', 'temp', 'temp2'));
+    }
+
+    public function production_planning_ingroup_save(Request $request)
+    {
+        
+        $dates = ElementJob::where('production_id', $request->production_id)->where('status', 1)->where('job_group_id', $request->job_group_id)->select('date_production')->distinct()->orderBy('date_production', 'ASC')->get();
+        
+        $element_ids = ElementJob::where('production_id', $request->production_id)->where('status', 1)->where('job_group_id', $request->job_group_id)->select('element_id')->distinct()->get();
+
+        
+            
+            foreach($element_ids as $element)
+            {
+
+                foreach($dates as $date)
+                { 
+                    $check = $element->element_id.'_'.$date->date_production;
+               
+                    $elements_job = ElementJob::where('production_id', $request->production_id)->where('status', 1)->where('date_production', $date->date_production)->where('job_group_id', $request->job_group_id)->where('element_id', $element->element_id)->get();
+                
+                    foreach ($elements_job as $element_job)
+                    {
+                        
+                            if($element_job->job_group_id != $request[$check])
+                            {
+                            $element_job->job_group_id = $request[$check];
+                            $element_job->date_production_virtual = null;
+                            $element_job->save();
+                            }
+                    }
+                }
+            }
+        
+        
+        
+        $status = 1;
+        $prod = Production::find($request->production_id);
+        $job_group = JobGroup::find($request->job_group_id);
+        $element_ids = ElementJob::where('production_id', $request->production_id)->where('status', 1)->where('job_group_id', $request->job_group_id)->select('element_id')->distinct()->get();
+        $temp = 1;
+        $temp2 = 1;
+        
+        if (ElementJob::where('production_id', $request->production_id)->where('status', 1)->where('job_group_id', $request->job_group_id)->sum('sum_amount') != 0)
+        {
+            return view('production-planning-ingroup', compact('status', 'prod', 'job_group', 'element_ids', 'temp', 'temp2'));
+        }
+        else
+        {
+            $elements = ElementJob::where('production_id', $prod->id)->where('status', 1)->get();
+            $job_groups_ids = ElementJob::where('production_id', $prod->id)->select('job_group_id')->distinct()->get();
+            $dates = ElementJob::where('production_id', $prod->id)->where('status', 1)->select('date_production')->distinct()->orderBy('date_production', 'ASC')->get();
+            return view('production-planning', compact('status', 'prod', 'elements', 'job_groups_ids', 'dates', 'temp', 'temp2'));
+        }
+        
+
+
+
+    }
+
+
 
 }
  

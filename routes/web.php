@@ -89,7 +89,7 @@ Route::get('material/{id}/delete', [MaterialController::class, 'delete'])->name(
 Route::post('element-create', [ElementController::class, 'create'])->name('element.create');
 Route::post('elements', [ElementController::class, 'show_custom_size'])->name('element.list.custom-size');
 Route::get('elements', [ElementController::class, 'show'])->name('element.list');
-Route::get('{flexim_id}/element/edit/{id}', [ElementController::class, 'edit'])->name('element.edit');
+Route::get('element/edit/{id}', [ElementController::class, 'edit'])->name('element.edit');
 Route::post('element-update', [ElementController::class, 'update'])->name('element.update');
 Route::post('element-file-pdf-/{id}', [ElementController::class, 'filepdf_delete'])->name('elementfilepdf.delete');
 Route::post('element-file-dxf-/{id}', [ElementController::class, 'filedxf_delete'])->name('elementfiledxf.delete');
@@ -149,12 +149,11 @@ Route::put('orders-products', [OrderController::class, 'orders_products_add'])->
 Route::get('order-product-delete/{order_id}-{product_id}-{amount}', [OrderController::class, 'order_product_delete'])->name('order.product.delete');
 
 
-
-
 Route::view('productions', 'production-show')->name('production.index');
 Route::view('production', 'production-show')->name('production.show');
 Route::put('production/show', [ProductionController::class, 'show'])->name('production');
 Route::get('production/{action}/{date}', [ProductionController::class, 'show'])->name('production.get');
+
 
 Route::put('prod/create', [ProductionController::class, 'production_create'])->name('production.create');
 Route::get('prod/{id}/delete', [ProductionController::class, 'production_delete'])->name('production.delete');
@@ -162,6 +161,7 @@ Route::get('prod/{id}', [ProductionController::class, 'production_select'])->nam
 Route::get('prod/{id}/generate', [ProductionController::class, 'production_accept'])->name('production.accept');
 Route::put('prod/dataview', [ProductionController::class, 'production_data'])->name('production.data');
 Route::get('prod/{production_id}/details/element/{element_id}', [ProductionController::class, 'details_element'])->name('production.details.element');
+
 
 Route::get('joborders/{id}/create', [ProductionController::class, 'job_order_create'])->name('job.order.create');
 Route::get('joborders/{id}/stop', [ProductionController::class, 'job_order_stop'])->name('job.order.stop');
@@ -180,10 +180,12 @@ Route::put('search/jobs', [JobController::class, 'search'])->name('job.search');
 Route::put('out', [JobController::class, 'out'])->name('job.out');
 
 
-
-
 Route::get('production-planning', [ProductionController::class, 'production_planning_view'])->name('production.planning');
 Route::put('production-planning', [ProductionController::class, 'production_planning_loader'])->name('production.planning.loader');
+Route::get('production-planning/{production_id}', [ProductionController::class, 'production_planning_load_get'])->name('production.planning.load.get');
+Route::put('production-planning/save', [ProductionController::class, 'production_planning_save'])->name('production.planning.save');
+Route::get('production-planning/group/{production_id}{job_group_id}', [ProductionController::class, 'production_planning_ingroup'])->name('production.planning.ingroup');
+Route::put('production-planning/group/save', [ProductionController::class, 'production_planning_ingroup_save'])->name('production.planning.ingroup.save');
 
 
 

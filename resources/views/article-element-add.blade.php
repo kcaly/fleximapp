@@ -19,10 +19,7 @@
                 </div> 
             @endif
 
-            <form method="POST" action="{{ route('articles_elements.add') }}">
-                @csrf
-                @method('put')
-
+            
 
 
 
@@ -54,7 +51,7 @@
                   </div>     --}}
 
 
-                  <input name="article_id" value="{{$article->id}}" type="hidden">
+                  
                   <div class="form-floating">
                     <input id="article_id" type="text" class="form-control" value="{{$article->name}}" placeholder="Artykuł" disabled/>
                     <label for="article_id">Nazwa</label>
@@ -115,7 +112,7 @@
                             <form class="d-flex" method="post" action="{{route('job.search')}}" >
                               @csrf
                               @method('put')
-                              <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Wyszukaj">
+                              <input name="search" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Wyszukaj">
                 <datalist id="datalistOptions">
                     @foreach (\App\Models\Element::all() as $element)
                   <option value="{{$element->code}}&nbsp;&nbsp;{{$element->name}}">
@@ -129,7 +126,12 @@
                 </div>
                 
             </div>
+            <form method="POST" action="{{ route('articles_elements.add') }}">
+                @csrf
+                @method('put')
             <div class="row mb-3">
+                
+    
                 <div class="col-md-3">
                     <div class="form-floating mb-3 mb-md-0">
                         <input id="amount" type="number" class="form-control @error('amount') is-invalid @enderror" name="amount" value="{{ old('amount') }}" required autocomplete="amount" autofocus placeholder="Ilość" />
@@ -143,7 +145,7 @@
                 </div>
                 <div class="col-md-9">                  
                         <div class="form-floating">
-                            
+                            <input name="article_id" value="{{$article->id}}" type="hidden">
                             <select name="element_id" class="form-select" id="floatingSelect" aria-label="Lista elementów">
                                 
                                 
@@ -168,7 +170,7 @@
 
 
                 <div class="row mt-4 mb-4">
-
+                    <input name="article_id" value="{{$article->id}}" type="hidden">
                    <div class="text-right"><button type="submit" class="btn btn-primary btn-lg" href="login.html"><i class="far fa-check-circle"></i> Zatwierdź</button></div>
                 </div>
              

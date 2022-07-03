@@ -82,7 +82,7 @@ class ArticleController extends Controller
 
     public function articles_elements_add(Request $request)
     {
-
+        
         $article = Article::find($request->article_id);
         
         $article->elements()->attach($request->element_id, array('amount' => $request->amount));

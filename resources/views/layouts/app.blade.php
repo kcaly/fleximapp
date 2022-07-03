@@ -181,8 +181,11 @@
                                 Dodaj produkt
                             </a> --}}
                             
-                            <a class="nav-link" href="{{route('order.list')}}">
+                            {{-- <a class="nav-link" href="{{route('order.list')}}">
                                 <i class="fas fa-cube"></i>&nbsp;&nbsp;Magazyn
+                            </a> --}}
+                            <a class="nav-link" href="{{route('order.list')}}">
+                                <i class="fas fa-warehouse"></i>&nbsp;&nbsp;Magazyn
                             </a>
                             <a class="nav-link" href="{{route('order.list')}}">
                                 <i class="fas fa-shopping-basket"></i>&nbsp;&nbsp;Zamówienia
