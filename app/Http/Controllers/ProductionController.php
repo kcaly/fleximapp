@@ -979,7 +979,35 @@ class ProductionController extends Controller
     public function production_panel()
     {
         $now = Carbon::now()->format('Y-m-d');
-        
+    
+        $yyyy = Carbon::parse($now)->year;
+        $mm = Carbon::parse($now)->month;
+
+        $month_names_PL = array (
+            1 => 'Styczeń',
+            2 => 'Luty',
+            3 => 'Marzec',
+            4 => 'Kwiecień',
+            5 => 'Maj',
+            6 => 'Czerwiec',
+            7 => 'Lipiec',
+            8 => 'Sierpień',
+            9 => 'Wrzesień',
+            10 => 'Październik',
+            11 => 'Listopad',
+            12 => 'Grudzień',
+        );
+
+        $day_names_PL = array (
+            1 => 'pon.',
+            2 => 'wt.',
+            3 => 'śr.',
+            4 => 'czw.',
+            5 => 'pt.',
+            6 => 'sob.',
+            7 => 'niedz.', 
+        );
+
         $year = strtotime(Carbon::parse($now)->year);
         $month = strtotime(Carbon::parse($now)->month);
         $week = strtotime(Carbon::parse($now)->week);
@@ -1001,10 +1029,16 @@ class ProductionController extends Controller
         switch ($first_name_day) {
             case "Monday":
                 $first_int_day = 1;
-
+                $first_name_day = $day_names_PL[1];
+                for ($i=1; $i <= $last_int; $i++)
+                {
+                    $days[$i] = $start_day;
+                    $start_day = $start_day + 1;
+                }
                 break;
             case "Tuesday":
                 $first_int_day = 2;
+                $first_name_day = $day_names_PL[2];
                 for ($i=2; $i <= $last_int; $i++)
                 {
                     $days[1] = null;
@@ -1014,6 +1048,7 @@ class ProductionController extends Controller
                 break;
             case "Wednesday":
                 $first_int_day = 3;
+                $first_name_day = $day_names_PL[3];
                 for ($i=3; $i <= $last_int; $i++)
                 {
                     $days[1] = null;
@@ -1024,6 +1059,7 @@ class ProductionController extends Controller
                 break;
             case "Thursday":
                 $first_int_day = 4;
+                $first_name_day = $day_names_PL[4];
                 for ($i=4; $i <= $last_int; $i++)
                 {
                     $days[1] = null;
@@ -1035,6 +1071,7 @@ class ProductionController extends Controller
                 break;
             case "Friday":
                 $first_int_day = 5;
+                $first_name_day = $day_names_PL[5];
                 for ($i=5; $i <= $last_int; $i++)
                 {
                     $days[1] = null;
@@ -1047,6 +1084,7 @@ class ProductionController extends Controller
                 break;
             case "Saturday":
                 $first_int_day = 6;
+                $first_name_day = $day_names_PL[6];
                 for ($i=6; $i <= $last_int; $i++)
                 {
                     $days[1] = null;
@@ -1060,6 +1098,7 @@ class ProductionController extends Controller
                 break;
             case "Sunday":
                 $first_int_day = 7;
+                $first_name_day = $day_names_PL[7];
                 for ($i=7; $i <= $last_int; $i++)
                 {
                     $days[1] = null;
@@ -1076,7 +1115,7 @@ class ProductionController extends Controller
 
        
 
-        return view('production-panel', compact('year', 'month', 'week', 'days', 'first_int_day', 'last_int'));
+        return view('production-panel', compact('yyyy', 'mm', 'month_names_PL', 'days', 'day_names_PL', 'first_name_day', 'first_int_day', 'last_int'));
     }
 
 
