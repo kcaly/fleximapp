@@ -158,6 +158,7 @@ Route::get('production/{action}/{date}', [ProductionController::class, 'show'])-
 Route::put('prod/create', [ProductionController::class, 'production_create'])->name('production.create');
 Route::get('prod/{id}/delete', [ProductionController::class, 'production_delete'])->name('production.delete');
 Route::get('prod/{id}', [ProductionController::class, 'production_select'])->name('production.select');
+Route::put('prod/edit', [ProductionController::class, 'production_select_edit'])->name('production.select.edit');
 Route::get('prod/{id}/generate', [ProductionController::class, 'production_accept'])->name('production.accept');
 Route::put('prod/dataview', [ProductionController::class, 'production_data'])->name('production.data');
 Route::get('prod/{production_id}/details/element/{element_id}', [ProductionController::class, 'details_element'])->name('production.details.element');
