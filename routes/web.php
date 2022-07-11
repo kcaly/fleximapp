@@ -155,6 +155,9 @@ Route::put('production/show', [ProductionController::class, 'show'])->name('prod
 Route::get('production/{action}/{date}', [ProductionController::class, 'show'])->name('production.get');
 
 
+Route::view('prod/home', 'production-panel')->name('production.panel.home');
+Route::get('prod/panel', [ProductionController::class, 'production_panel'])->name('production.panel');
+
 Route::put('prod/create', [ProductionController::class, 'production_create'])->name('production.create');
 Route::get('prod/{id}/delete', [ProductionController::class, 'production_delete'])->name('production.delete');
 Route::get('prod/{id}', [ProductionController::class, 'production_select'])->name('production.select');

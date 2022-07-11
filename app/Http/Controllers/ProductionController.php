@@ -171,6 +171,7 @@ class ProductionController extends Controller
                     $element_job->code = $element_prod->element->code;
                     $element_job->name = $element_prod->element->name;
                     $element_job->date_production = $date;
+                    $element_job->date_production_virtual = $date;
                     $element_job->status = 0;
                     $element_job->length = $element_prod->element->length;
                     $element_job->width = $element_prod->element->width;
@@ -507,8 +508,9 @@ class ProductionController extends Controller
     {
         $production = Production::find($id);
 
-        $sum_done = ElementJob::where('production_id', $production->id)->where('status','>=', 4)->where('status','<', 10)->sum('done');
-        $production->done = $sum_done;
+        $done_1 = ElementJob::where('production_id', $production->id)->where('status','>=', 4)->where('status','<', 10)->sum('done');
+        $done_2 = ElementJob::where('production_id', $production->id)->where('status', 10)->sum('sum_amount');
+        $production->done = $done_1 + $done_2;
         $production->save();
 
         $job_orders = $production->job_orders;
@@ -566,12 +568,14 @@ class ProductionController extends Controller
     {
         $production = Production::find($id);
         
-        $element_jobs = ElementJob::where('status', 1)->where('production_id', $id)->select('production_id', 'machine_id', 'job_group_id', 'element_id')->distinct()->get();
+        $element_jobs = ElementJob::where('status', 1)->where('production_id', $id)->select('production_id', 'machine_id', 'job_group_id', 'element_id', 'date_production_virtual')->distinct()->orderBy('date_production_virtual', 'ASC')->get();
 
-        $dates = ElementJob::where('status', 1)->where('production_id', $id)->select('date_production')->distinct()->get();
+        $dates = ElementJob::where('status', 1)->where('production_id', $id)->select('date_production_virtual')->distinct()->get();
        
         foreach($element_jobs as $element_job)
         {
+            foreach($dates as $date)
+            {
             $element = \App\Models\Element::find($element_job->element_id);
 
             $element_jobs_records = ElementJob::where('status', 1)
@@ -579,6 +583,7 @@ class ProductionController extends Controller
             ->where('machine_id', $element_job->machine_id)
             ->where('job_group_id', $element_job->job_group_id)
             ->where('element_id', $element_job->element_id)
+            ->where('date_production_virtual', $date->date_production_virtual)
             ->get();
 
             $sum_amount = ElementJob::where('status', 1)
@@ -586,12 +591,14 @@ class ProductionController extends Controller
             ->where('machine_id', $element_job->machine_id)
             ->where('job_group_id', $element_job->job_group_id)
             ->where('element_id', $element_job->element_id)
+            ->where('date_production_virtual', $date->date_production_virtual)
             ->sum('sum_amount');
         
             $sum_weight = ElementJob::where('status', 1)->where('production_id', $id)
             ->where('machine_id', $element_job->machine_id)
             ->where('job_group_id', $element_job->job_group_id)
             ->where('element_id', $element_job->element_id)
+            ->where('date_production_virtual', $date->date_production_virtual)
             ->sum('sum_weight');
         
             $element_job_order = new ElementJob();
@@ -604,18 +611,12 @@ class ProductionController extends Controller
                         $element_job_order->done = 0;
                         $element_job_order->element_id = $element_job->element_id;
 
-                        $element_job_order->code = \App\Models\Company::where('id', auth()->user()->company_id)->first()->flexim_id;
+                        $element_job_order->code = $element->code;
 
                         $element_job_order->name = $element->name;
-                        if ($element_job_record->date_production_virtual != null)
-                        {
-                            $element_job_order->date_production = $element_job_record->date_production_virtual;
-                            $element_job_order->date_production_virtual = $element_job_record->date_production;
-                        }
-                        else
-                        {
-                            $element_job_order->date_production = $element_job_record->date_production;
-                        }                        
+
+                        $element_job_order->date_production = $date->date_production_virtual;
+                                           
                         $element_job_order->production_id = $production->id;
                         $element_job_order->status = 3;
                         $element_job_order->length = $element->length;
@@ -636,6 +637,7 @@ class ProductionController extends Controller
                         $element_productions = ElementProduction::where('status', 1)
                         ->where('production_id', $id)
                         ->where('element_id', $element_job_order->element_id)
+                        ->where('date_production', $element_job_record->date_production)
                         ->get();
 
                         foreach($element_productions as $element_production)
@@ -649,7 +651,7 @@ class ProductionController extends Controller
                             $element_job_record->save();
       
                     }
-                        
+                }             
         }
 
         if(ElementProduction::where('production_id', $id)->sum('amount') != ElementJob::where('production_id', $id)->where('status', 2)->sum('sum_amount')
@@ -661,6 +663,23 @@ class ProductionController extends Controller
         }
 
         ElementJob::where('production_id', $id)->where('status', 2)->delete();
+
+        $elements_job = ElementJob::where('status', 3)->where('production_id', $production->id)->select('job_group_id', 'date_production')->distinct()->get();
+            
+        foreach($elements_job as $job)
+        {            
+            $job_order = new JobOrder();
+
+            $job_order->production_id = $production->id;
+            $job_order->date_production = $job->date_production;
+            $job_order->job_group_id = $job->job_group_id;
+
+            $job_order->sum_elements_amount = ElementJob::where('status', 3)->where('production_id', $production->id)->where('date_production', $job->date_production)->where('job_group_id', $job->job_group_id)->sum('sum_amount');
+            $job_order->done = 0;
+            $job_order->status = 1;
+
+            $job_order->save();               
+        }
 
         $production->status = 1;
         $production->save();
@@ -722,25 +741,6 @@ class ProductionController extends Controller
       
         $production = Production::find($id);
         
-        $elements_job = ElementJob::where('status', 3)->where('production_id', $production->id)->select('job_group_id', 'date_production')->distinct()->get();
-            
-        foreach($elements_job as $job)
-        {   
-            
-            $job_order = new JobOrder();
-
-            $job_order->production_id = $production->id;
-            $job_order->date_production = $job->date_production;
-            $job_order->job_group_id = $job->job_group_id;
-
-            $job_order->sum_elements_amount = ElementJob::where('status', 3)->where('production_id', $production->id)->where('date_production', $job->date_production)->where('job_group_id', $job->job_group_id)->sum('sum_amount');
-            $job_order->done = 0;
-            $job_order->status = 1;
-
-            $job_order->save();     
-            
-        }
-
         $job_orders = JobOrder::where('status', 1)->where('production_id', $production->id)->get();
 
         foreach($job_orders as $job_order)
@@ -792,7 +792,9 @@ class ProductionController extends Controller
     {
         if ($request->production_id != 0)
         {                   
-            if (JobOrder::where('production_id', $request->production_id)->count() > 0)           
+            $prod = Production::find($request->production_id);
+
+            if (JobOrder::where('production_id', $prod->id)->count() > 0)           
             {
                 $status = 0;
                 return view('production-planning', compact('status'));
@@ -800,7 +802,6 @@ class ProductionController extends Controller
             else
             {
                 $status = 1;
-                $prod = Production::find($request->production_id);
                 $elements = ElementJob::where('production_id', $prod->id)->where('status', 1)->get();
                 $job_groups_ids = ElementJob::where('production_id', $prod->id)->select('job_group_id')->distinct()->get();
                 $days = $job_groups_ids->count();
@@ -825,6 +826,8 @@ class ProductionController extends Controller
 
     public function production_planning_load_get($production_id)
     {
+        $prod = Production::find($production_id);
+
         if (JobOrder::where('production_id', $production_id)->count() > 0)           
         {
             $status = 0;
@@ -833,7 +836,6 @@ class ProductionController extends Controller
         else
         {
             $status = 1;
-            $prod = Production::find($production_id);
             $elements = ElementJob::where('production_id', $prod->id)->where('status', 1)->get();
             $job_groups_ids = ElementJob::where('production_id', $prod->id)->select('job_group_id')->distinct()->get();
             $days = $job_groups_ids->count();
@@ -865,7 +867,7 @@ class ProductionController extends Controller
                     {
                             if ($element->date_production == $request[$check])
                             {
-                                $element->date_production_virtual = null;
+                                $element->date_production_virtual = $element->date_production;
                                 $element->save();
                             }
                             else
@@ -882,7 +884,7 @@ class ProductionController extends Controller
                     foreach($elements_job as $element)
                     {
                            
-                                $element->date_production_virtual = null;
+                                $element->date_production_virtual = $element->date_production;
                                 $element->save();
                     }
                             
@@ -905,6 +907,8 @@ class ProductionController extends Controller
 
     public function production_planning_ingroup($production_id, $job_group_id)
     {
+        $prod = Production::find($production_id);
+
         if (JobOrder::where('production_id', $production_id)->count() > 0)           
         {
             $status = 0;
@@ -913,7 +917,6 @@ class ProductionController extends Controller
         else
         {
             $status = 1;
-            $prod = Production::find($production_id);
             $job_group = JobGroup::find($job_group_id);
             $element_ids = ElementJob::where('production_id', $production_id)->where('status', 1)->where('job_group_id', $job_group_id)->select('element_id')->distinct()->get();
             $temp = 1;
@@ -971,6 +974,109 @@ class ProductionController extends Controller
             $dates = ElementJob::where('production_id', $prod->id)->where('status', 1)->select('date_production')->distinct()->orderBy('date_production', 'ASC')->get();
             return view('production-planning', compact('status', 'prod', 'elements', 'job_groups_ids', 'dates', 'temp', 'temp2', 'days'));
         }
+    }
+
+    public function production_panel()
+    {
+        $now = Carbon::now()->format('Y-m-d');
+        
+        $year = strtotime(Carbon::parse($now)->year);
+        $month = strtotime(Carbon::parse($now)->month);
+        $week = strtotime(Carbon::parse($now)->week);
+
+        $firstDay = Carbon::now()->startOfMonth();
+        $lastDay = Carbon::now()->endOfMonth()->day;
+
+        $last_str = substr($lastDay,0);
+        $last_int = (int)$last_str;
+        $first_int = 1;
+
+        $now_name_day = Carbon::now()->format('l');
+        $first_name_day = Carbon::now()->startOfMonth()->format('l');
+        $first_int_day = 0;
+
+        $days = array();
+        $start_day = 1;
+        
+        switch ($first_name_day) {
+            case "Monday":
+                $first_int_day = 1;
+
+                break;
+            case "Tuesday":
+                $first_int_day = 2;
+                for ($i=2; $i <= $last_int; $i++)
+                {
+                    $days[1] = null;
+                    $days[$i] = $start_day;
+                    $start_day = $start_day + 1;
+                }
+                break;
+            case "Wednesday":
+                $first_int_day = 3;
+                for ($i=3; $i <= $last_int; $i++)
+                {
+                    $days[1] = null;
+                    $days[2] = null;
+                    $days[$i] = $start_day;
+                    $start_day = $start_day + 1;
+                }
+                break;
+            case "Thursday":
+                $first_int_day = 4;
+                for ($i=4; $i <= $last_int; $i++)
+                {
+                    $days[1] = null;
+                    $days[2] = null;
+                    $days[3] = null;
+                    $days[$i] = $start_day;
+                    $start_day = $start_day + 1;
+                }
+                break;
+            case "Friday":
+                $first_int_day = 5;
+                for ($i=5; $i <= $last_int; $i++)
+                {
+                    $days[1] = null;
+                    $days[2] = null;
+                    $days[3] = null;
+                    $days[4] = null;
+                    $days[$i] = $start_day;
+                    $start_day = $start_day + 1;
+                }
+                break;
+            case "Saturday":
+                $first_int_day = 6;
+                for ($i=6; $i <= $last_int; $i++)
+                {
+                    $days[1] = null;
+                    $days[2] = null;
+                    $days[3] = null;
+                    $days[4] = null;
+                    $days[5] = null;
+                    $days[$i] = $start_day;
+                    $start_day = $start_day + 1;
+                }
+                break;
+            case "Sunday":
+                $first_int_day = 7;
+                for ($i=7; $i <= $last_int; $i++)
+                {
+                    $days[1] = null;
+                    $days[2] = null;
+                    $days[3] = null;
+                    $days[4] = null;
+                    $days[5] = null;
+                    $days[6] = null;
+                    $days[$i] = $start_day;
+                    $start_day = $start_day + 1;
+                }
+                break;
+        }
+
+       
+
+        return view('production-panel', compact('year', 'month', 'week', 'days', 'first_int_day', 'last_int'));
     }
 
 
