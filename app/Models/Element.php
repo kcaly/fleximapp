@@ -9,6 +9,17 @@ class Element extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'code',
+        'name',
+        'length',
+        'width',
+        'height',
+        'weight',
+        'import_material',
+        'import_status',
+    ];
+
 
     public function articles()
     {

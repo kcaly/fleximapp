@@ -982,6 +982,16 @@ class ProductionController extends Controller
     
         $yyyy = Carbon::parse($now)->year;
         $mm = Carbon::parse($now)->month;
+        $dd = Carbon::parse($now)->day;
+
+        if ($mm < 10)
+        {
+            $mm2 = '0'."$mm";
+        }
+        if ($dd < 10)
+        {
+            $dd = '0'."$dd";
+        }
 
         $month_names_PL = array (
             1 => 'Styczeń',
@@ -1011,6 +1021,7 @@ class ProductionController extends Controller
         $year = strtotime(Carbon::parse($now)->year);
         $month = strtotime(Carbon::parse($now)->month);
         $week = strtotime(Carbon::parse($now)->week);
+        $day = strtotime(Carbon::parse($now)->day);
 
         $firstDay = Carbon::now()->startOfMonth();
         $lastDay = Carbon::now()->endOfMonth()->day;
@@ -1028,100 +1039,218 @@ class ProductionController extends Controller
         
         switch ($first_name_day) {
             case "Monday":
-                $first_int_day = 1;
-                $first_name_day = $day_names_PL[1];
+                $number_day = 1;
                 for ($i=1; $i <= $last_int; $i++)
                 {
-                    $days[$i] = $start_day;
-                    $start_day = $start_day + 1;
+                    if ($i < 10)
+                    {
+                        $dd2 = '0'."$i";
+                    }
+                    else
+                    {
+                        $dd2 = $i;
+                    }
+                    $days[$i] = [
+                        'day' => $i,
+                        'name' => $day_names_PL[$number_day],
+                        'date' => $yyyy.'-'.$mm2.'-'.$dd2,
+                        'status' => 0,         
+                    ];                    
+                    $number_day = $number_day + 1;
+                    if ($number_day > 7)
+                    {
+                        $number_day = 1;
+                    }  
                 }
                 break;
             case "Tuesday":
-                $first_int_day = 2;
-                $first_name_day = $day_names_PL[2];
-                for ($i=2; $i <= $last_int; $i++)
+                $number_day = 2;
+                for ($i=1; $i <= $last_int; $i++)
                 {
-                    $days[1] = null;
-                    $days[$i] = $start_day;
-                    $start_day = $start_day + 1;
+                    if ($i < 10)
+                    {
+                        $dd2 = '0'."$i";
+                    }
+                    else
+                    {
+                        $dd2 = $i;
+                    }
+                    $days[$i] = [
+                        'day' => $i,
+                        'name' => $day_names_PL[$number_day],
+                        'date' => $yyyy.'-'.$mm2.'-'.$dd2,
+                        'status' => 0,         
+                    ];                    
+                    $number_day = $number_day + 1;
+                    if ($number_day > 7)
+                    {
+                        $number_day = 1;
+                    }  
                 }
                 break;
             case "Wednesday":
-                $first_int_day = 3;
-                $first_name_day = $day_names_PL[3];
-                for ($i=3; $i <= $last_int; $i++)
+                $number_day = 3;
+                for ($i=1; $i <= $last_int; $i++)
                 {
-                    $days[1] = null;
-                    $days[2] = null;
-                    $days[$i] = $start_day;
-                    $start_day = $start_day + 1;
+                    if ($i < 10)
+                    {
+                        $dd2 = '0'."$i";
+                    }
+                    else
+                    {
+                        $dd2 = $i;
+                    }
+                    $days[$i] = [
+                        'day' => $i,
+                        'name' => $day_names_PL[$number_day],
+                        'date' => $yyyy.'-'.$mm2.'-'.$dd2,
+                        'status' => 0,         
+                    ];                    
+                    $number_day = $number_day + 1;
+                    if ($number_day > 7)
+                    {
+                        $number_day = 1;
+                    }  
                 }
                 break;
             case "Thursday":
-                $first_int_day = 4;
-                $first_name_day = $day_names_PL[4];
-                for ($i=4; $i <= $last_int; $i++)
+                $number_day = 4;
+                for ($i=1; $i <= $last_int; $i++)
                 {
-                    $days[1] = null;
-                    $days[2] = null;
-                    $days[3] = null;
-                    $days[$i] = $start_day;
-                    $start_day = $start_day + 1;
+                    if ($i < 10)
+                    {
+                        $dd2 = '0'."$i";
+                    }
+                    else
+                    {
+                        $dd2 = $i;
+                    }
+                    $days[$i] = [
+                        'day' => $i,
+                        'name' => $day_names_PL[$number_day],
+                        'date' => $yyyy.'-'.$mm2.'-'.$dd2,
+                        'status' => 0,         
+                    ];                    
+                    $number_day = $number_day + 1;
+                    if ($number_day > 7)
+                    {
+                        $number_day = 1;
+                    }  
                 }
                 break;
             case "Friday":
-                $first_int_day = 5;
-                $first_name_day = $day_names_PL[5];
-                for ($i=5; $i <= $last_int; $i++)
+                $number_day = 5;
+                for ($i=1; $i <= $last_int; $i++)
                 {
-                    $days[1] = null;
-                    $days[2] = null;
-                    $days[3] = null;
-                    $days[4] = null;
-                    $days[$i] = $start_day;
-                    $start_day = $start_day + 1;
+                    if ($i < 10)
+                    {
+                        $dd2 = '0'."$i";
+                    }
+                    else
+                    {
+                        $dd2 = $i;
+                    }
+                    $days[$i] = [
+                        'day' => $i,
+                        'name' => $day_names_PL[$number_day],
+                        'date' => $yyyy.'-'.$mm2.'-'.$dd2,
+                        'status' => 0,         
+                    ];                    
+                    $number_day = $number_day + 1;
+                    if ($number_day > 7)
+                    {
+                        $number_day = 1;
+                    }  
                 }
                 break;
             case "Saturday":
-                $first_int_day = 6;
-                $first_name_day = $day_names_PL[6];
-                for ($i=6; $i <= $last_int; $i++)
+                $number_day = 6;
+                for ($i=1; $i <= $last_int; $i++)
                 {
-                    $days[1] = null;
-                    $days[2] = null;
-                    $days[3] = null;
-                    $days[4] = null;
-                    $days[5] = null;
-                    $days[$i] = $start_day;
-                    $start_day = $start_day + 1;
+                    if ($i < 10)
+                    {
+                        $dd2 = '0'."$i";
+                    }
+                    else
+                    {
+                        $dd2 = $i;
+                    }
+                    $days[$i] = [
+                        'day' => $i,
+                        'name' => $day_names_PL[$number_day],
+                        'date' => $yyyy.'-'.$mm2.'-'.$dd2,
+                        'status' => 0,         
+                    ];                    
+                    $number_day = $number_day + 1;
+                    if ($number_day > 7)
+                    {
+                        $number_day = 1;
+                    }  
                 }
                 break;
             case "Sunday":
-                $first_int_day = 7;
-                $first_name_day = $day_names_PL[7];
-                for ($i=7; $i <= $last_int; $i++)
+                $number_day = 7;
+                for ($i=1; $i <= $last_int; $i++)
                 {
-                    $days[1] = null;
-                    $days[2] = null;
-                    $days[3] = null;
-                    $days[4] = null;
-                    $days[5] = null;
-                    $days[6] = null;
-                    $days[$i] = $start_day;
-                    $start_day = $start_day + 1;
+                    if ($i < 10)
+                    {
+                        $dd2 = '0'."$i";
+                    }
+                    else
+                    {
+                        $dd2 = $i;
+                    }
+                    $days[$i] = [
+                        'day' => $i,
+                        'name' => $day_names_PL[$number_day],
+                        'date' => $yyyy.'-'.$mm2.'-'.$dd2,
+                        'status' => 0,         
+                    ];                    
+                    $number_day = $number_day + 1;
+                    if ($number_day > 7)
+                    {
+                        $number_day = 1;
+                    }  
                 }
                 break;
         }
+      
+        if (ElementProduction::where('status', 0)->select('date_production')->first() != null)
+        {
+            foreach(ElementProduction::where('status', 0)->select('date_production')->distinct()->get() as $date_production)
+            {
+                $date_for_day = explode("-", $date_production->date_production);
+                
+                if ($date_for_day[2] < 10)
+                {
+                    $d1 = explode("0", $date_for_day[2]);
+                    $d2 = $d1[1];
+                }
+                else
+                {
+                    $d2 = $date_for_day[2];
+                }
+                
+                $days[$d2] = [
+                    'day' => $days[$d2]['day'],
+                    'name' => $days[$d2]['name'],
+                    'date' => $days[$d2]['date'],
+                    'status' => 1,   
+                ];
+            }
+        }
 
-       
+        $check_number = 1;
 
-        return view('production-panel', compact('yyyy', 'mm', 'month_names_PL', 'days', 'day_names_PL', 'first_name_day', 'first_int_day', 'last_int'));
+        return view('production-panel', compact('yyyy', 'mm', 'month_names_PL', 'days', 'day_names_PL', 'first_name_day', 'first_int_day', 'last_int', 'check_number'));
     }
 
 
+    public function production_panel_set_date(Request $request)
+    {
 
  
-
+    }
 
 }
  

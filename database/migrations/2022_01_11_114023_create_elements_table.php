@@ -20,7 +20,9 @@ class CreateElementsTable extends Migration
             $table->integer('length');
             $table->integer('width');
             $table->integer('height');
-            $table->decimal('weight');
+            $table->decimal('weight')->nullable();
+            $table->string('import_material')->nullable();
+            $table->tinyInteger('import_status')->default(0);
             $table->timestamps();
 
 

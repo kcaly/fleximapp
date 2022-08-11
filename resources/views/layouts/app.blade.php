@@ -56,10 +56,10 @@
             @endguest
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
+                {{-- <div class="input-group">
                     <input class="form-control form-control-sm bg-light border border-secondary border-1 rounded-start" type="text" placeholder="" aria-label=".form-control-sm example" aria-describedby="btnNavbarSearch" />
                     <button class="btn btn-outline-secondary border border-secondary border-1 border-start-0" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
+                </div> --}}
             </form>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -193,12 +193,60 @@
                             {{-- <a class="nav-link" href="{{route('order.new')}}">
                                 Dodaj zamówienie
                             </a> --}}
+
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#production" aria-expanded="false" aria-controls="production">
+                                
+                                <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="production" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    
+                                    
+                                    
+                                    <a class="nav-link" href="{{route('production.panel')}}">
+                                        <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Panel zarządzania
+                                    </a>
+
+                                    <a class="nav-link" href="{{route('production.planning')}}">
+                                        <i class="fas fa-clipboard-list"></i>&nbsp;&nbsp;Listy produkcyjne
+                                    </a>
+
+                                    <a class="nav-link" href="{{route('production.planning')}}">
+                                        <i class="fas fa-poll-h"></i>&nbsp;&nbsp;Planowanie zleceń
+                                    </a>
+
+                                    
+                                    
+                                    
+                                    {{-- <br />
+                                    <div class="small bg-primary mt-2 mb-1 grey600color">&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-down grey600color"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-business-time grey600color"></i>&nbsp;&nbsp;Optymalizacja</div>
+                                    <br />
+                                    <a class="nav-link" href="{{route('job.group.list')}}">
+                                        <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Zlecenia
+                                    </a>
+                                    <a class="nav-link" href="{{route('machine.list')}}">
+                                        <i class="fas fa-luggage-cart"></i>&nbsp;&nbsp;Maszyny
+                                    </a> --}}
+                                    
+                                    
+                                </nav>
+
+                               
+
+
+                            </div>
+                            <a class="nav-link" href="{{route('production.index')}}">
+                                <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
+                            </a>
+
+{{-- 
                             <a class="nav-link" href="{{route('production.index')}}">
                                 <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
                             </a>
                             <a class="nav-link" href="{{route('production.planning')}}">
                                 <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie
-                            </a>
+                            </a> --}}
                             <a class="nav-link" href="{{route('job.index')}}">
                                 <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Zlecenia
                             </a>

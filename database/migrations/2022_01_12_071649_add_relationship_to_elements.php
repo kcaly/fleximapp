@@ -14,7 +14,7 @@ class AddRelationshipToElements extends Migration
     public function up()
     {
         Schema::table('elements', function (Blueprint $table) {
-            $table->unsignedBigInteger('material_id');
+            $table->unsignedBigInteger('material_id')->nullable();
             $table->foreign('material_id')->references('id')->on('materials');
         });
     }

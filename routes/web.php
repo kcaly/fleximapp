@@ -67,16 +67,15 @@ Route::view('profile/password', 'auth.passwords.change')->name('password.change'
 Route::view('element-new', 'element-new')->name('element.new');
 
 Route::post('material-create', [MaterialController::class, 'create'])->name('material.create');
-Route::post('job_group_create', [ElementController::class, 'create_job_group'])->name('job.group.create');
-Route::post('machine_create', [ElementController::class, 'create_machine'])->name('machine.create');
+Route::post('job-group-create', [ElementController::class, 'create_job_group'])->name('job.group.create');
+Route::post('machine-create', [ElementController::class, 'create_machine'])->name('machine.create');
 
 Route::get('elements/groups', [ElementController::class, 'job_group_list'])->name('job.group.list');
 Route::get('elements/group/{id}/turn', [ElementController::class, 'job_group_status'])->name('job.group.status');
 Route::get('elements/group/{id}', [ElementController::class, 'job_group_select'])->name('job.group.select');
 Route::get('elements/group/{id}/run', [ElementController::class, 'job_group_run_filter'])->name('job.group.run.filter');
-Route::get('elements/group/{id}/filtr-off', [ElementController::class, 'job_group_filter_nulls'])->name('job.group.filter.nulls');
+Route::get('elements/group/{id}/filtr/clear', [ElementController::class, 'job_group_filter_nulls'])->name('job.group.filter.nulls');
 Route::post('elements/group/edit', [ElementController::class, 'job_group_edit'])->name('job.group.edit');
-
 
 Route::get('elements/machines', [ElementController::class, 'machine_list'])->name('machine.list');
 Route::get('elements/machine/{id}/turn', [ElementController::class, 'machine_status'])->name('machine.status');
@@ -91,14 +90,18 @@ Route::post('elements', [ElementController::class, 'show_custom_size'])->name('e
 Route::get('elements', [ElementController::class, 'show'])->name('element.list');
 Route::get('element/edit/{id}', [ElementController::class, 'edit'])->name('element.edit');
 Route::post('element-update', [ElementController::class, 'update'])->name('element.update');
-Route::post('element-file-pdf-/{id}', [ElementController::class, 'filepdf_delete'])->name('elementfilepdf.delete');
-Route::post('element-file-dxf-/{id}', [ElementController::class, 'filedxf_delete'])->name('elementfiledxf.delete');
+Route::post('element/files/pdf/{id}', [ElementController::class, 'filepdf_delete'])->name('elementfilepdf.delete');
+Route::post('element/files/dxf/{id}', [ElementController::class, 'filedxf_delete'])->name('elementfiledxf.delete');
 Route::get('element/delete/{id}', [ElementController::class, 'element_delete'])->name('element.delete');
-
 
 Route::post('elements-filter',[ElementController::class, 'filter'])->name('element.filter');
 Route::post('add-elements-to-group', [ElementController::class, 'add_elements_to_jobgroup'])->name('addition.elements.jobgroup');
 Route::post('add-elements-to-machine', [ElementController::class, 'add_elements_to_machine'])->name('addition.elements.machine');
+
+Route::get('element-import', [ElementController::class, 'element_import'])->name('element.import');
+Route::post('element-upload', [ElementController::class, 'element_upload'])->name('element.upload');
+
+
 
 Route::view('article-new', 'article-new')->name('article.new');
 Route::put('article-create', [ArticleController::class, 'create'])->name('article.create');
@@ -157,6 +160,7 @@ Route::get('production/{action}/{date}', [ProductionController::class, 'show'])-
 
 Route::view('prod/home', 'production-panel')->name('production.panel.home');
 Route::get('prod/panel', [ProductionController::class, 'production_panel'])->name('production.panel');
+Route::post('prod/panel/set-date', [ProductionController::class, 'production_panel_set_date'])->name('production.panel.set.date');
 
 Route::put('prod/create', [ProductionController::class, 'production_create'])->name('production.create');
 Route::get('prod/{id}/delete', [ProductionController::class, 'production_delete'])->name('production.delete');
