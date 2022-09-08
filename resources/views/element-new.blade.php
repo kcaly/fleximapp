@@ -19,17 +19,42 @@
                 {{ csrf_field() }}
                 
 
-
-
-                <div class="form-floating mb-4">
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nazwa" autofocus required />
-                    <label for="name">Nazwa</label>
-                            @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <small class="grey600color">Brak=auto.</small>
+                        <div class="mb-3 mb-md-0">
+                            <input id="code" type="text" class="form-control form-control-sm @error('code') is-invalid @enderror" name="code" value="{{ old('code') }}" autofocus placeholder="Kod"/>
+                            
+                            @error('code')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
+                            
+                            
+                        </div>
+
+                        
+                    </div>
+                    <div class="col-md-10">
+                        <small class="grey600color">Kod ostatniego dodanego rekordu: {{\App\Models\Element::all()->last()->code}}</small>
+                        <div class="form-floating mb-4">
+                            
+                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nazwa" autofocus required />
+                            <label for="name">Nazwa</label>
+                                    @error('name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                    @enderror
+                        </div>
+                    </div>
+                    
                 </div>
+
+
+
+                
                 
 
                 <div class="row mb-3">

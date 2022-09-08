@@ -61,7 +61,7 @@ class ProductionController extends Controller
 
                     $message = 'Usunięto dane produkcyjne: ' . $request->date; 
                     // return redirect()->route('production.show')->with('message', $message)->with('date', $request->date);
-                    return redirect()->route('production.show')->with('message', $message);
+                    return redirect()->route('production.panel')->with('message', $message);
                     break;
 
 
@@ -101,6 +101,11 @@ class ProductionController extends Controller
     
                     foreach($elements as $element)
                     {   
+                        if($element->job_group_id == null || $element->machine_id == null)
+                        {
+                            return redirect()->route('production.panel')->with('message', 'Nie wszystkie elementy mają przydzieloną grupę lub maszynę. Sprawdź dane i wygeneruj ponownie.');
+                        }
+                        
                         $amount_element = $element->pivot->amount;
                         
                         $amount_suma = $amount_product * $amount_article * $amount_element;
@@ -212,7 +217,7 @@ class ProductionController extends Controller
    
             $message = 'Wygenerowano dane produkcyjne dla ' . $order_records . ' zam.'; 
             // return redirect()->route('production.show')->with('message', $message)->with('date', $request->date);
-            return redirect()->route('production.show')->with('message', $message);
+            return redirect()->route('production.panel')->with('message', $message);
 
                     break;
                                       
@@ -226,7 +231,7 @@ class ProductionController extends Controller
         }
         else
         {
-            return redirect()->route('production.show')->with('message', 'Brak rekordu daty dla wybranego działania.');
+            return redirect()->route('production.panel')->with('message', 'Brak rekordu daty dla wybranego działania.');
         }
         
     }
@@ -659,7 +664,7 @@ class ProductionController extends Controller
         || ElementJob::where('production_id', $id)->where('status', 2)->sum('sum_amount') != ElementJob::where('production_id', $id)->where('status', 3)->sum('sum_amount'))
         {
             $message = 'Wykryto niezgodność w wartościach sumy elementów. Proces generowania został przerwany.';
-            return redirect()->route('production.show')->with('message', $message);
+            return redirect()->route('production.panel')->with('message', $message);
         }
 
         ElementJob::where('production_id', $id)->where('status', 2)->delete();

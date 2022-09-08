@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ArticlesImport;
+use App\Imports\ElementsImport;
 use App\Models\Article;
 use App\Models\Element;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ArticleController extends Controller
 {
@@ -167,6 +170,19 @@ class ArticleController extends Controller
 
         return view('article-list')->with('message', 'Usunięto artykuł.');
 
+    }
+
+    public function article_import ()
+    {
+        return view('article-import');
+    }
+
+    public function article_upload(Request $request)
+    {
+        
+        Excel::import(new ArticlesImport, $request->file);
+ 
+        return redirect()->route('article.list')->with('message', 'Pomyślnie zaimportowano listę artykułów.');
     }
 
 

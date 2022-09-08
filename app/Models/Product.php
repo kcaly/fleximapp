@@ -9,6 +9,11 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'code',
+        'name',
+    ];
+
     public function articles()
     {
         return $this->belongsToMany(Article::class,

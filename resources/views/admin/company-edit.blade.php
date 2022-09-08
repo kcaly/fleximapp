@@ -4,7 +4,7 @@
 <div class="col-lg-6">
     <div class="card shadow-lg border-0 rounded-lg mt-5">
         <div class="card-header">
-            <h3 class="text-center font-weight-light my-4">Edytujesz organizację <br />Flexim ID: {{ $company->flexim_id  }}</h3></div>
+            <h4 class="text-center font-weight-light my-4"><small>Edycja organizacji</small><br />Flexim ID: {{ $company->flexim_id  }}</h4></div>
         <div class="card-body">
             <form method="POST" action="{{ route('company.save') }}">
                 @csrf

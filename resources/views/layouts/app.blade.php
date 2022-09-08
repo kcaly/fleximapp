@@ -74,7 +74,7 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-cog"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         
-                        <li><a class="dropdown-item" href="{{ route('profile')}}"><i class="fas fa-user-circle"></i> Mój profil</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile')}}"><i class="fas fa-user-circle"></i> Profil użytk.</a></li>
                         <li><a class="dropdown-item" href="{{ route('password.change')}}"><i class="fas fa-key"></i> Zmień hasło</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         {{-- <li>
@@ -181,12 +181,12 @@
                                 Dodaj produkt
                             </a> --}}
                             
-                            {{-- <a class="nav-link" href="{{route('order.list')}}">
-                                <i class="fas fa-cube"></i>&nbsp;&nbsp;Magazyn
-                            </a> --}}
                             <a class="nav-link" href="{{route('order.list')}}">
-                                <i class="fas fa-warehouse"></i>&nbsp;&nbsp;Magazyn
+                                <i class="fas fa-cube"></i>&nbsp;&nbsp;Magazyn
                             </a>
+                            {{-- <a class="nav-link" href="{{route('order.list')}}">
+                                <i class="fas fa-warehouse"></i>&nbsp;&nbsp;Magazyn
+                            </a> --}}
                             <a class="nav-link" href="{{route('order.list')}}">
                                 <i class="fas fa-shopping-basket"></i>&nbsp;&nbsp;Zamówienia
                             </a>
@@ -194,16 +194,14 @@
                                 Dodaj zamówienie
                             </a> --}}
 
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#production" aria-expanded="false" aria-controls="production">
+                            {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#production" aria-expanded="false" aria-controls="production">
                                 
                                 <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="production" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    
-                                    
-                                    
+
                                     <a class="nav-link" href="{{route('production.panel')}}">
                                         <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Panel zarządzania
                                     </a>
@@ -214,30 +212,15 @@
 
                                     <a class="nav-link" href="{{route('production.planning')}}">
                                         <i class="fas fa-poll-h"></i>&nbsp;&nbsp;Planowanie zleceń
-                                    </a>
-
-                                    
-                                    
-                                    
-                                    {{-- <br />
-                                    <div class="small bg-primary mt-2 mb-1 grey600color">&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-down grey600color"></i>&nbsp;&nbsp;&nbsp;<i class="fas fa-business-time grey600color"></i>&nbsp;&nbsp;Optymalizacja</div>
-                                    <br />
-                                    <a class="nav-link" href="{{route('job.group.list')}}">
-                                        <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Zlecenia
-                                    </a>
-                                    <a class="nav-link" href="{{route('machine.list')}}">
-                                        <i class="fas fa-luggage-cart"></i>&nbsp;&nbsp;Maszyny
-                                    </a> --}}
-                                    
-                                    
+                                    </a>                     
                                 </nav>
+                            </div> --}}
 
-                               
-
-
-                            </div>
-                            <a class="nav-link" href="{{route('production.index')}}">
+                            <a class="nav-link" href="{{route('production.panel')}}">
                                 <i class="fas fa-toolbox"></i>&nbsp;&nbsp;Produkcja
+                            </a>
+                            <a class="nav-link" href="{{route('production.planning')}}">
+                                <i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Planowanie
                             </a>
 
 {{-- 

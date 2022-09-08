@@ -98,8 +98,14 @@ Route::post('elements-filter',[ElementController::class, 'filter'])->name('eleme
 Route::post('add-elements-to-group', [ElementController::class, 'add_elements_to_jobgroup'])->name('addition.elements.jobgroup');
 Route::post('add-elements-to-machine', [ElementController::class, 'add_elements_to_machine'])->name('addition.elements.machine');
 
+
+// Imports
 Route::get('element-import', [ElementController::class, 'element_import'])->name('element.import');
 Route::post('element-upload', [ElementController::class, 'element_upload'])->name('element.upload');
+Route::get('article-import', [ArticleController::class, 'article_import'])->name('article.import');
+Route::post('article-upload', [ArticleController::class, 'article_upload'])->name('article.upload');
+Route::get('product-import', [ProductController::class, 'product_import'])->name('product.import');
+Route::post('product-upload', [ProductController::class, 'product_upload'])->name('product.upload');
 
 
 

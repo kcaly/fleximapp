@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ElementsImport;
+use App\Imports\ProductsImport;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -125,6 +128,19 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         return view('product-edit', compact('product'));
+    }
+
+    public function product_import ()
+    {
+        return view('product-import');
+    }
+
+    public function product_upload(Request $request)
+    {
+        
+        Excel::import(new ProductsImport, $request->file);
+ 
+        return redirect()->route('product.list')->with('message', 'Pomyślnie zaimportowano listę produktów.');
     }
     
 }

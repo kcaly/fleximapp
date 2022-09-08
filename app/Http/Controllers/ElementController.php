@@ -268,6 +268,13 @@ class ElementController extends Controller
             
         }
         
+        
+        $elements_nulls_weight = Element::where('weight', null)->get();
+        foreach($elements_nulls_weight as $element_nulls_weight)
+        {
+            ElementController::wylicz_wage_elementu($element_nulls_weight->id);
+            ElementController::rekalkuacja_artykulow($element_nulls_weight->id);   
+        }
 
         return redirect()->route('element.list')->with('message', 'Pomyślnie zaimportowano listę elementów');
 

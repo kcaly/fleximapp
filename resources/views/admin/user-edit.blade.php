@@ -7,7 +7,7 @@
             <h4 class="text-center font-weight-light my-4">
                 
 
-                Edytujesz użytkownika<br />{{$user->first_name}} {{$user->last_name}}
+                <small>Edycja użytkownika</small><br />{{$user->first_name}} {{$user->last_name}}
 
                 
             </h4>
