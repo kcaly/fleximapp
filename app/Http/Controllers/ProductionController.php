@@ -223,7 +223,15 @@ class ProductionController extends Controller
                                       
 
                 case "load":
-                    return redirect()->route('production.show')->with('date', $request->date);
+                    
+                    if($request->temp_prod_id != null || $request->temp_prod_id != 0)
+                    {
+                        return redirect()->route('production.showdate')->with('date', $request->date)->with('temp_prod_id', $request->temp_prod_id);
+                        break;
+                    }
+
+                    $temp_prod_id = 0;
+                    return redirect()->route('production.showdate')->with('date', $request->date)->with('temp_prod_id',$temp_prod_id);
                     break;
                 
             }
@@ -565,7 +573,7 @@ class ProductionController extends Controller
         }
 
         $message = 'Usunięto zakres produkcyjny.';
-        return redirect()->route('production.show')->with('message', $message);
+        return redirect()->route('production.panel')->with('message', $message);
     }
 
 

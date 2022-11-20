@@ -548,6 +548,7 @@
           </div>
 
       </div>
+      
       @endif
       @if(Session::get('date') == null) 
 

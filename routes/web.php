@@ -159,13 +159,14 @@ Route::get('order-product-delete/{order_id}-{product_id}-{amount}', [OrderContro
 
 
 Route::view('productions', 'production-show')->name('production.index');
-Route::view('production', 'production-show')->name('production.show');
+
 Route::put('production/show', [ProductionController::class, 'show'])->name('production');
-Route::get('production/{action}/{date}', [ProductionController::class, 'show'])->name('production.get');
+Route::get('production/{action}/{temp_prod_id}/{date}', [ProductionController::class, 'show'])->name('production.get');
 
 
 Route::view('prod/home', 'production-panel')->name('production.panel.home');
 Route::get('prod/panel', [ProductionController::class, 'production_panel'])->name('production.panel');
+Route::view('prod/date', 'production-showdate')->name('production.showdate');
 Route::post('prod/panel/set-date', [ProductionController::class, 'production_panel_set_date'])->name('production.panel.set.date');
 
 Route::put('prod/create', [ProductionController::class, 'production_create'])->name('production.create');
