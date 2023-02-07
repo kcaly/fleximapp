@@ -26,7 +26,8 @@ class ProductionController extends Controller
         
         if ($request->refresh != 0 && $request->action != 'load')
         {
-            ElementProduction::where('date_production', $request->date)->delete();
+    // - - - > button "Wygeneruj ponownie" usuwa także dane będące w trakcie produkcji mając na celu permanente odświeżenie danych        
+                    ElementProduction::where('date_production', $request->date)->delete();
                     ElementJob::where('date_production', $request->date)->delete();
                     $orders = Order::where('date_production', $request->date)->get();
                     foreach ($orders as $single_order)
@@ -44,6 +45,8 @@ class ProductionController extends Controller
         if ($request->date != null)
         {
             switch ($request->action) {
+
+    // - - - > button "Usuń" do usuwania danych produkcyjnych, które nie są powiązane ze zleceniami
                 case "delete":
                                        
                     $orders = Order::where('date_production', $request->date)->where('status', 1)->get();
@@ -218,8 +221,7 @@ class ProductionController extends Controller
             $message = 'Wygenerowano dane produkcyjne dla ' . $order_records . ' zam.'; 
             // return redirect()->route('production.show')->with('message', $message)->with('date', $request->date);
             return redirect()->route('production.panel')->with('message', $message);
-
-                    break;
+            break;
                                       
 
                 case "load":
@@ -447,7 +449,6 @@ class ProductionController extends Controller
         $production = Production::find($id);
         ProductionController::production_done_calc($id);
 
-        $dates = explode(";", $production->dates_all);
         $materials = explode(";", $production->total);
         $totals = array();
         $temp = 0;
@@ -464,7 +465,46 @@ class ProductionController extends Controller
             
             $temp = $temp + 1;            
         }
-        asort($dates);
+
+        $dates = explode(";", $production->dates_all);
+        $dates_elements_prod = ElementProduction::where('production_id', $id)->select('date_production')->distinct()->get();      
+
+        if (count($dates) != count($dates_elements_prod))
+            {                
+                $dates_all = '';
+                if (count($dates_elements_prod) == 1)
+                {
+                    $dates_all = $dates_elements_prod->date_production;
+                }
+                else
+                {
+                    foreach($dates_elements_prod as $date_prod)
+                {
+                    if($dates_all == '')
+                        {
+                            $dates_all = $date_prod->date_production;
+                        }
+                        else
+                        {
+                            $dates_all = $dates_all.';'.$date_prod->date_production;
+                        }
+                }
+                }
+
+                $production->dates_all = $dates_all;
+                $dates = explode(";", $dates_all);
+                asort($dates);
+                $production->date_last = $dates[0];
+                $production->date_last = end($dates);
+                $production->save();
+                $production = Production::find($id);
+                ProductionController::production_done_calc($id);
+          
+            }
+            else
+            {
+                asort($dates);
+            } 
 
         $job_orders = $production->job_orders;
         $temp = 1;
@@ -548,11 +588,17 @@ class ProductionController extends Controller
         }                  
     }
 
-    public function production_delete($id)
+    public function production_delete($id, $list)
     {
         $production = Production::find($id);
-        $dates = explode(";", $production->dates_all);
-        $production->delete();
+        if ($list == 'main')
+        {
+            $production->delete();
+        }
+        else
+        {
+            $dates = explode(";", $production->dates_all);
+            $production->delete();
 
         foreach($dates as $date)
         {
@@ -571,6 +617,8 @@ class ProductionController extends Controller
                 $order->save();
             }
         }
+        }
+        
 
         $message = 'Usunięto zakres produkcyjny.';
         return redirect()->route('production.panel')->with('message', $message);
@@ -961,6 +1009,8 @@ class ProductionController extends Controller
                             {
                             $element_job->job_group_id = $request[$check];
                             $element_job->date_production_virtual = null;
+                            $element_job->date_production_virtual = $element_job->date_production;
+
                             $element_job->save();
                             } 
                     }
@@ -1253,9 +1303,21 @@ class ProductionController extends Controller
             }
         }
 
+        $dates_prod = ElementProduction::where('status', 0)->select('date_production')->distinct()->get();
+        $preproductions = array();
+                                
         $check_number = 1;
 
-        return view('production-panel', compact('yyyy', 'mm', 'month_names_PL', 'days', 'day_names_PL', 'first_name_day', 'first_int_day', 'last_int', 'check_number'));
+        foreach ($dates_prod as $date_prod)
+        {
+            $presum = ElementProduction::where('status', 0)->where('date_production', $date_prod->date_production)->select('date_production', 'amount', 'weight')->get();
+            $preproductions[$check_number] = [$date_prod->date_production, $presum->sum('amount'), $presum->sum('weight')];
+            $check_number = $check_number + 1;
+        }
+
+        $check_number = 1;
+
+        return view('production-panel', compact('preproductions', 'yyyy', 'mm', 'month_names_PL', 'days', 'day_names_PL', 'first_name_day', 'first_int_day', 'last_int', 'check_number'));
     }
 
 

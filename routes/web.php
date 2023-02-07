@@ -170,7 +170,7 @@ Route::view('prod/date', 'production-showdate')->name('production.showdate');
 Route::post('prod/panel/set-date', [ProductionController::class, 'production_panel_set_date'])->name('production.panel.set.date');
 
 Route::put('prod/create', [ProductionController::class, 'production_create'])->name('production.create');
-Route::get('prod/{id}/delete', [ProductionController::class, 'production_delete'])->name('production.delete');
+Route::get('prod/{id}/delete/{list}', [ProductionController::class, 'production_delete'])->name('production.delete');
 Route::get('prod/{id}', [ProductionController::class, 'production_select'])->name('production.select');
 Route::put('prod/edit', [ProductionController::class, 'production_select_edit'])->name('production.select.edit');
 Route::get('prod/{id}/generate', [ProductionController::class, 'production_accept'])->name('production.accept');

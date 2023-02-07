@@ -181,7 +181,7 @@
                                 Dodaj produkt
                             </a> --}}
                             
-                            <a class="nav-link" href="{{route('order.list')}}">
+                            <a class="nav-link disabled" href="{{route('order.list')}}">
                                 <i class="fas fa-cube"></i>&nbsp;&nbsp;Magazyn
                             </a>
                             {{-- <a class="nav-link" href="{{route('order.list')}}">
@@ -354,7 +354,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Fleximapp 2022</div>
+                            <div class="text-muted">Copyright &copy; Fleximapp 202X</div>
                             {{-- <div class="small">
                                 <a href="#"><i class="fas fa-user-secret"></i> privacy</a>
                                 &nbsp;&nbsp;&nbsp;

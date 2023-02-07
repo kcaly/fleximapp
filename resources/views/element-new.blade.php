@@ -37,7 +37,7 @@
                         
                     </div>
                     <div class="col-md-10">
-                        <small class="grey600color">Kod ostatniego dodanego rekordu: {{\App\Models\Element::all()->last()->code}}</small>
+                        <small class="grey600color">Kod ostatniego dodanego rekordu: @if (\App\Models\Element::all()->count() != 0){{\App\Models\Element::all()->last()->code}}@else brak @endif</small>
                         <div class="form-floating mb-4">
                             
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nazwa" autofocus required />
