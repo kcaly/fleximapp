@@ -236,36 +236,36 @@ class ElementController extends Controller
 
     public function element_upload(Request $request)
     {
-        
         Excel::import(new ElementsImport, $request->file);
-        $materials = Element::where('import_status', 1)->select('import_material')->distinct()->get();
-        foreach($materials as $material)
-        {
-            $material3 = \App\Models\Material::where('name', $material->import_material)->first();
-            if (asset($material3))
-            {
-                if (asset($material3->name))
-                {
+
+
+        // $materials = Element::where('import_status', 1)->select('import_material')->distinct()->get();
+        // foreach($materials as $material)
+        // {
+        //     $material3 = \App\Models\Material::where('name', $material->import_material)->first();
+        //     if (asset($material3))
+        // {
+        //         if (asset($material3->name))
+        //     {
                 
-                $elements = Element::where('import_status', 1)->where('import_material', $material3->name)->get();
-                foreach($elements as $element)
-                {
-                    $element->material_id = $material3->id;
-                    $element->save();
+        //         $elements = Element::where('import_status', 1)->where('import_material', $material3->name)->get();
+        //         foreach($elements as $element)
+        //         {
+        //             $element->material_id = $material3->id;
+        //             $element->save();
 
-                }
-            }
-        }
-           
+        //         }
+        //     }
+        // }           
+        // }
 
-
-        }
 
         $elements = Element::where('import_status', 1)->get();
 
         foreach($elements as $element)
         {
-            
+            $element->material_id = $element->import_material;
+            $element->save();
         }
         
         

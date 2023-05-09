@@ -568,10 +568,14 @@
                                 
                                 <li class="list-group-item d-flex justify-content-between align-items-start"><h5><i class="far fa-bookmark grey700color"></h5></i>
                                   <div class="ms-2 me-auto">
+                                    
                                     <div class="" disabled><h5>{{$material->name}}</h5></div>
                                     <div class="small grey800color"><strong>x</strong> {{$material->length}}&nbsp;&nbsp;&nbsp;&nbsp;<strong>y</strong> {{$material->width}}&nbsp;&nbsp;&nbsp;&nbsp;<strong>z</strong> {{$material->height}} </div>
                                   </div>
-                                  <span class="badge bg-primary rounded-pill text-dark">@if (\App\Models\Element::where('material_id', $material->id)->count() > 0) <h5>{{\App\Models\Element::where('material_id', $material->id)->count()}}</h5> @else <a href="{{route('material.delete', ['id' => $material->id])}}"><h6 class="rediconcolor small"><i class="fas fa-ban"></i></h6></a>@endif</span>
+                                  
+                                  <span class="badge bg-primary rounded-pill text-dark">@if (\App\Models\Element::where('material_id', $material->id)->count() > 0) <h5>{{\App\Models\Element::where('material_id', $material->id)->count()}}</h5> @else <a href="{{route('material.delete', ['id' => $material->id])}}"><h6 class="rediconcolor small"><i class="fas fa-ban"></i> Usuń</h6></a>@endif</span>
+
+                                  <h6 class="small badge rounded-pill text-white">ID: {{$material->id}}</h6>
                                 </li>
                                 @endforeach
                               </ol>
