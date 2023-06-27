@@ -94,7 +94,7 @@
             @endif
             @if ($order->status == 2)
             <div class="progress-bar bg-light" role="progressbar" style="width: 100%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                <h6 class="greeniconcolor small mt-2">Oczekujące</h6>
+                <h6 class="greeniconcolor small mt-2">W trakcie realizacji</h6>
             </div>
             @endif
             @else

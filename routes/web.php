@@ -169,6 +169,10 @@ Route::get('prod/panel', [ProductionController::class, 'production_panel'])->nam
 Route::view('prod/date', 'production-showdate')->name('production.showdate');
 Route::post('prod/panel/set-date', [ProductionController::class, 'production_panel_set_date'])->name('production.panel.set.date');
 
+Route::view('prod/orders', 'production-orders')->name('production.orders');
+
+
+
 Route::put('prod/create', [ProductionController::class, 'production_create'])->name('production.create');
 Route::get('prod/{id}/delete/{list}', [ProductionController::class, 'production_delete'])->name('production.delete');
 Route::get('prod/{id}', [ProductionController::class, 'production_select'])->name('production.select');
@@ -199,7 +203,7 @@ Route::get('production-planning', [ProductionController::class, 'production_plan
 Route::put('production-planning', [ProductionController::class, 'production_planning_loader'])->name('production.planning.loader');
 Route::get('production-planning/{production_id}', [ProductionController::class, 'production_planning_load_get'])->name('production.planning.load.get');
 Route::put('production-planning/save', [ProductionController::class, 'production_planning_save'])->name('production.planning.save');
-Route::get('production-planning/group/{production_id}{job_group_id}', [ProductionController::class, 'production_planning_ingroup'])->name('production.planning.ingroup');
+Route::get('production-planning/group/{production_id}/{job_group_id}', [ProductionController::class, 'production_planning_ingroup'])->name('production.planning.ingroup');
 Route::put('production-planning/group/save', [ProductionController::class, 'production_planning_ingroup_save'])->name('production.planning.ingroup.save');
 
 

@@ -119,6 +119,7 @@ class OrderController extends Controller
         }
         $order->save();
 
+        
         return redirect()->route('order.list')->with('message', 'Pomyślnie zapisano zamówienie.');
 
     }

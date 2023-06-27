@@ -43,7 +43,7 @@
                                   
                 </div>
 
-                <div class="row mb-3">
+                {{-- <div class="row mb-3">
                     
                     <div class="col-md-9">
                         
@@ -57,7 +57,7 @@
                           </div>
                     </div>
 
-                </div>
+                </div> --}}
 
 
                 <div class="row mt-4 mb-4">

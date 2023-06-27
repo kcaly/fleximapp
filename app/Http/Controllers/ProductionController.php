@@ -546,7 +546,8 @@ class ProductionController extends Controller
         
         $job_order_select = array(
             'id' => $job_order->id,
-            'name' => $job_order->job_group->name
+            'name' => $job_order->job_group->name,
+            'date' => $job_order->date_production
         );
 
         $machine_select = null;
@@ -968,6 +969,7 @@ class ProductionController extends Controller
 
     public function production_planning_ingroup($production_id, $job_group_id)
     {
+        
         $prod = Production::find($production_id);
 
         if (JobOrder::where('production_id', $production_id)->count() > 0)           
@@ -984,6 +986,7 @@ class ProductionController extends Controller
             $temp2 = 1;
             $job_groups = JobGroup::orderBy('position', 'ASC')->get();
 
+           
             return view('production-planning-ingroup', compact('status', 'prod', 'job_group', 'element_ids', 'temp', 'temp2', 'job_groups'));
         }
     }
