@@ -45,10 +45,20 @@ class ElementController extends Controller
             // $code = '10'.$flexim_id[1].$flexim_id[2].'1';
             // $element->code = $code;
            
+                $temp = 0;
             if ($request->code == null)
             {
-                $element_last = Element::all()->last();
-                $element->code = $element_last->id + 1;
+                if(Element::all()->count() == 0)
+                {
+                    $element->code = 0;
+                    $temp = 1;
+                }   
+                else
+                {
+                    $element_last = Element::all()->last();
+                    $element->code = $element_last->id + 1;
+                }
+                
             }
             else
             {
@@ -56,12 +66,16 @@ class ElementController extends Controller
             }
             
             $element->save();
+
+            if ($temp != 0)
+            {
+                $element->code = $element->id;
+                $element->save();
+            }     
             
             // $element_add_id_to_code = Element::where('name', $request->name)->orderBy('id', 'DESC')->first();
             // $element_add_id_to_code->code = $code . $element_add_id_to_code->id;
-            // $element_add_id_to_code->save();
-
-                         
+            // $element_add_id_to_code->save();                      
 
             if ($request->pdf)
             {
@@ -150,6 +164,7 @@ class ElementController extends Controller
     public function update(ElementRequest $request)
     {
         $element = Element::find($request->id);
+        $element->code = $request->code;
         $element->name = $request->name;
         
 

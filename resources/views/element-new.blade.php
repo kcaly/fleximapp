@@ -21,7 +21,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-2">
-                        <small class="grey600color">Brak=auto.</small>
+                        <small class="grey600color"></small>
                         <div class="mb-3 mb-md-0">
                             <input id="code" type="text" class="form-control form-control-sm @error('code') is-invalid @enderror" name="code" value="{{ old('code') }}" autofocus placeholder="Kod"/>
                             
@@ -33,8 +33,6 @@
                             
                             
                         </div>
-
-                        
                     </div>
                     <div class="col-md-10">
                         <small class="grey600color">Kod ostatniego dodanego rekordu: @if (\App\Models\Element::all()->count() != 0){{\App\Models\Element::all()->last()->code}}@else brak @endif</small>
@@ -49,13 +47,8 @@
                                     @enderror
                         </div>
                     </div>
-                    
                 </div>
 
-
-
-                
-                
 
                 <div class="row mb-3">
                     <div class="col-md-4">

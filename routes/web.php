@@ -170,6 +170,8 @@ Route::view('prod/date', 'production-showdate')->name('production.showdate');
 Route::post('prod/panel/set-date', [ProductionController::class, 'production_panel_set_date'])->name('production.panel.set.date');
 
 Route::view('prod/orders', 'production-orders')->name('production.orders');
+Route::view('prod/orders/archive', 'production-orders-archive')->name('production.orders.archive');
+
 
 
 
@@ -180,6 +182,7 @@ Route::put('prod/edit', [ProductionController::class, 'production_select_edit'])
 Route::get('prod/{id}/generate', [ProductionController::class, 'production_accept'])->name('production.accept');
 Route::put('prod/dataview', [ProductionController::class, 'production_data'])->name('production.data');
 Route::get('prod/{production_id}/details/element/{element_id}', [ProductionController::class, 'details_element'])->name('production.details.element');
+Route::get('prod/{id}/end', [ProductionController::class, 'production_end'])->name('production.end');
 
 
 Route::get('joborders/{id}/create', [ProductionController::class, 'job_order_create'])->name('job.order.create');

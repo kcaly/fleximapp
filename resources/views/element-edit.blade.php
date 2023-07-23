@@ -25,9 +25,34 @@
                     
                     <input name="id" value="{{ $element->id }}" type="hidden">
     
-    
-    
-                    <div class="form-floating mb-4">
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <small class="grey600color">ID: {{$element->id}}</small>
+                            <div class="mb-3 mb-md-0">
+                                <input id="code" type="text" class="form-control form-control-sm @error('code') is-invalid @enderror" name="code" value="{{ old('code') ?? $element->code }}" autofocus placeholder="Kod"/>
+                                
+                                @error('code')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror 
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <small class="grey600color"></small>
+                            <div class="form-floating mb-4">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') ?? $element->name }}" placeholder="Nazwa" autofocus required />
+                                <label for="name">Nazwa</label>
+                                        @error('name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                        @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- <div class="form-floating mb-4">
                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') ?? $element->name }}" placeholder="Nazwa" />
                         <label for="name">Nazwa</label>
                                 @error('name')
@@ -36,31 +61,8 @@
                                         </span>
                                 @enderror
                     </div>
-                    
+                     --}}
 
-
-
-
-                    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <div class="form-floating mb-3 mb-md-0">
@@ -199,30 +201,28 @@
 
                     <div class="form-floating my-4">
                         <div class="input-group mb-3">
-                            
                             @if($element->elementfiles->where('type', 'pdf')->first())
 
-                            
-
                             @else
+
                             <label name ="pdf" class="input-group-text" for="pdf">PDF</label>
                             <input id="pdf" name="pdf" type="file" class="form-control" placeholder="Plik PDF" />
                             @endif
         
                         </div>
                     </div>
-                        <div class="form-floating mb-4">
-                            <div class="input-group mb-3">
-                                @if($element->elementfiles->where('type', 'dxf')->first())
+                    <div class="form-floating mb-4">
+                        <div class="input-group mb-3">
+                            @if($element->elementfiles->where('type', 'dxf')->first())
 
-                                @else
+                            @else
 
-                                <label name ="dxf" class="input-group-text" for="pdf">DXF</label>
-                                <input id="dxf" name="dxf" type="file" class="form-control" placeholder="Plik DXF" />
-                                @endif      
+                            <label name ="dxf" class="input-group-text" for="pdf">DXF</label>
+                            <input id="dxf" name="dxf" type="file" class="form-control" placeholder="Plik DXF" />
+                            @endif      
             
-                            </div>
                         </div>
+                    </div>
 
                     
 

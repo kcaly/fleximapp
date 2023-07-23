@@ -575,7 +575,7 @@
                                   
                                   <span class="badge bg-primary rounded-pill text-dark">@if (\App\Models\Element::where('material_id', $material->id)->count() > 0) <h5>{{\App\Models\Element::where('material_id', $material->id)->count()}}</h5> @else <a href="{{route('material.delete', ['id' => $material->id])}}"><h6 class="rediconcolor small"><i class="fas fa-ban"></i> Usuń</h6></a>@endif</span>
 
-                                  <h6 class="small badge rounded-pill text-white">ID: {{$material->id}}</h6>
+                                  <h6 class="small badge rounded-pill text-muted">ID: {{$material->id}}</h6>
                                 </li>
                                 @endforeach
                               </ol>
@@ -667,7 +667,7 @@
                     </th>                   
                   </form>
                     <th scope="col"><h6 class="small">Grupa zlecenia</h6></th>
-                    <th scope="col"><h6 class="small">Kod</h6></th>
+                    <th scope="col"><h6 class="small">ID</h6></th>
                     <th scope="col"><h6 class="small">Nazwa</h6></th>
                     <th scope="col"><h6 class="small">X(dł.)</h6></th>
                     <th scope="col"><h6 class="small">Y(szer.)</h6></th>
@@ -705,7 +705,7 @@
                           {{ \App\Models\JobGroup::find($element->job_group_id)->name }}
                           @endif
                       </td>
-                      <td>{{ $element->code }}</td>
+                      <td>{{ $element->id }}</td>
                       <td>{{ $element->name }}</td>
                       <td>{{ $element->length }}</td>
                       <td>{{ $element->width }}</td>

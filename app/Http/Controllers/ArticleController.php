@@ -114,11 +114,12 @@ class ArticleController extends Controller
     public function articles_elements_show($id)
     {
         $article = Article::find($id);
+        ArticleController::rekalkulacja_wyceny_artykylu($article->id);
+
+        $article = Article::find($id);
         $article_elements = $article->elements;
         
         return view('article-details', compact('article_elements'), compact('article'));
-
-
     }
 
     public function articles_elements_delete($article_id, $element_id, $amount)
@@ -153,7 +154,6 @@ class ArticleController extends Controller
             $price_for_element = $element->weight * $element->material->price * $element->pivot->amount;
             
             $article->price = $article->price + $price_for_element;
-            
 
         }
         

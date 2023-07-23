@@ -25,7 +25,7 @@
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <h6>{{ Session::get('message') }}</h6>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                            </div>
                     @endif           
                     </div>
                 </div>
@@ -50,7 +50,7 @@
             @method('get')
             <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-sign-in-alt"></i></button></form>
     </td>
-    <td>{{ $article->code }}</td>
+    <td>{{ $article->id }}</td>
     <td>{{ $article->name }}</td>
     <td>
         <form method="get" action={{route('article.details.show', ['id' => $article->id]) }} >

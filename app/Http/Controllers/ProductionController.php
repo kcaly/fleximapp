@@ -626,6 +626,50 @@ class ProductionController extends Controller
     }
 
 
+    public function production_end($id)
+    {
+        $production = Production::find($id);
+        $production->status = 99;
+        $production->save();
+
+        $elements_prod = ElementProduction::where('production_id', $production->id)->get();
+
+        foreach($elements_prod as $element_prod)
+        {
+            $element_prod->status = 99;
+            $element_prod->save();
+        }
+
+        $elements_job = ElementJob::where('production_id', $production->id)->get();
+        
+        foreach($elements_job as $element_job)
+        {
+            $element_job->status = 99;
+            $element_job->save();
+        }
+
+        $job_orders = JobOrder::where('production_id', $production->id)->get();
+
+        foreach($job_orders as $job_order)
+        {
+            $job_order->status = 99;
+            $job_order->save();
+        }
+
+        $order_ids = ElementProduction::where('production_id', $production->id)->select('order_id')->distinct()->get();
+        
+        foreach($order_ids as $order_id)
+        {
+            $order = Order::find($order_id->order_id);
+            $order->status = 99;
+            $order->save();
+        }
+
+        return view('production-orders-archive');
+
+    }
+
+
     public function production_accept($id)
     {
         $production = Production::find($id);
