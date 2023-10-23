@@ -130,7 +130,7 @@ class ProductionController extends Controller
                         $element_production_record->article_quantity = $amount_article;
                         $element_production_record->product_info = $product->name;
                         $element_production_record->product_quantity = $amount_product;
-                        $element_production_record->order_info = $order->code.' ['.$order->date_order.']';
+                        $element_production_record->order_info = $order->id.' ['.$order->date_order.']';
                         // $material_element = \App\Models\Material::find($element->material_id)->first();
                         $element_production_record->material = $element->material->name;
                         $element_production_record->weight = $element->weight;
@@ -446,7 +446,17 @@ class ProductionController extends Controller
 
     public function production_select($id)
     {
+
+      
         $production = Production::find($id);
+        if($production->status == 99)
+        {
+            if(ElementProduction::where('production_id', $id)->count() == 0)
+            {
+                return view('production-orders-archive');
+            }
+        }
+
         ProductionController::production_done_calc($id);
 
         $materials = explode(";", $production->total);
@@ -518,7 +528,12 @@ class ProductionController extends Controller
 
 
     public function production_data(Request $request)
-    {     
+    {   
+        if ($request->job_order_id == null || $request->job_order_id == 0)
+        {
+            return view('home');
+        }
+        
         $job_order = JobOrder::find($request->job_order_id);
         $production = Production::find($job_order->production_id);
 
@@ -1094,11 +1109,11 @@ class ProductionController extends Controller
         $mm = Carbon::parse($now)->month;
         $dd = Carbon::parse($now)->day;
 
-        if ($mm < 10)
+        if ($mm <= 10)
         {
             $mm2 = '0'."$mm";
         }
-        if ($dd < 10)
+        if ($dd <= 10)
         {
             $dd = '0'."$dd";
         }

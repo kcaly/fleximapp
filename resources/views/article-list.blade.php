@@ -36,7 +36,7 @@
                 <thead>
                   <tr>
                     <th scope="col"><a href="{{route('article.new')}}"><i class="fas fa-plus"></i></a></th>
-                    <th scope="col">Kod</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Nazwa</th>
                     <th scope="col"></th>
                   </tr>

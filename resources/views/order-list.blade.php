@@ -41,6 +41,7 @@
                   <tr>
                     <th scope="col"><a href="{{route('order.new')}}"><i class="fas fa-plus"></i></a></th>
                     <th scope="col"></th>
+                    <th scope="col">ID</th>
                     <th scope="col">Nazwa</th>
                     
                     <th scope="col">Data zam.</th>
@@ -68,6 +69,7 @@
     <i class="far fa-check-circle greeniconcolor"></i>
     @endif
     @endif</td>
+    <td>{{ $order->id }}</td>
     <td>{{ $order->name }}</td>
     
     <td>{{ $order->date_order}}</td>
