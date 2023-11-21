@@ -29,7 +29,7 @@ class CreateAdmin extends Seeder
         User::create([
             'tag_user' => 'Admin',
             'first_name' => 'Karol',
-            'last_name' => 'Karol',
+            'last_name' => 'Cały',
             'role_id' => '1',
             'email' => 'admin@fleximapp.com',
             'email_verified_at' => now(),
