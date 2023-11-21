@@ -39,7 +39,7 @@
             <table class="table table-striped table-hover">
                 <thead class="small">
                   <tr>
-                    <th scope="col"><a href="{{route('order.new')}}"><i class="fas fa-plus"></i></a></th>
+                    <th scope="col"><a href="{{route('order.new')}}"><i class="fas fa-plus"></i> Nowe zamówienie</a></th>
                     <th scope="col"></th>
                     <th scope="col">ID</th>
                     <th scope="col">Nazwa</th>

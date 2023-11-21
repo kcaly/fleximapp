@@ -26,8 +26,9 @@
                 </ul>
                 
                   
-
-                  <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" method="post" action="{{route('job.search')}}" >
+                
+                
+                  {{-- <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" method="post" action="{{route('job.search')}}" >
                     @csrf
                     @method('put')
                     <div class="input-group">
@@ -35,7 +36,11 @@
                         <button class="btn btn-lg btn-outline-secondary border border-secondary border-1 border-start-0" id="btnNavbarSearch" type="button"><i class="fas fa-pencil-ruler"></i></button>
                     </div>
                
-                </form>
+                </form> --}}
+
+
+
+
               </div>
             </div>
           </nav>
@@ -59,10 +64,6 @@
               @foreach (\App\Models\JobOrder::where('production_id',Session::get('prod_id'))->where('date_production', $date->date_production)->orderBy('date_production', 'ASC')->get() as $job)
 
               {{-- class="list-group-item list-group-item-action active"  KLASA ZMIANY KOLORU NA NIEBIESKI --}}
-              
-             
-              
-              
               
               {{-- @if ($production->status == 2 && $production->done == $production->sum_elements)
               <a href="{{route('production.select', ['id' => $production->id ])}}" class="list-group-item list-group-item-action active border border-success bg-success border border-dark">

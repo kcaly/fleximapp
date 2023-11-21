@@ -22,6 +22,7 @@
                 <div class="row mb-3">
                     <div class="col-md-2">
                         <small class="grey600color"></small>
+                        <br />
                         <div class="mb-3 mb-md-0">
                             <input id="code" type="text" class="form-control form-control-sm @error('code') is-invalid @enderror" name="code" value="{{ old('code') }}" autofocus placeholder="Kod"/>
                             

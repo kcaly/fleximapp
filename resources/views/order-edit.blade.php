@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="form-floating mb-4">
-                    <input id="date_order" type="date" class="form-control @error('date_order') is-invalid @enderror" name="date_order" value="{{ old('date_order') ?? $order->date_order }}" placeholder="Data zamówienia" @if ($order->status !=0) disabled @else @endif/>
+                    <input id="date_order" type="date" class="form-control @error('date_order') is-invalid @enderror" name="date_order" value="{{ old('date_order') ?? $order->date_order }}" placeholder="Data zamówienia" disabled @if ($order->status !=0) disabled @else @endif/>
                     <label for="date_order">Data zamówienia</label>
                             @error('date_order')
                                     <span class="invalid-feedback" role="alert">

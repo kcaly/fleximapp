@@ -130,7 +130,7 @@ class ProductionController extends Controller
                         $element_production_record->article_quantity = $amount_article;
                         $element_production_record->product_info = $product->name;
                         $element_production_record->product_quantity = $amount_product;
-                        $element_production_record->order_info = $order->id.' ['.$order->date_order.']';
+                        $element_production_record->order_info = '['.$order->id.'] '.$order->name.' ['.$order->date_order.']';
                         // $material_element = \App\Models\Material::find($element->material_id)->first();
                         $element_production_record->material = $element->material->name;
                         $element_production_record->weight = $element->weight;
@@ -1113,6 +1113,10 @@ class ProductionController extends Controller
         {
             $mm2 = '0'."$mm";
         }
+        if ($mm > 10)
+        {
+            $mm2 = $mm;
+        }
         if ($dd <= 10)
         {
             $dd = '0'."$dd";
@@ -1162,6 +1166,7 @@ class ProductionController extends Controller
         $days = array();
         $start_day = 1;
         
+
         switch ($first_name_day) {
             case "Monday":
                 $number_day = 1;

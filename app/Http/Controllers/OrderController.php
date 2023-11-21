@@ -106,9 +106,9 @@ class OrderController extends Controller
         
         $order = Order::find($request->id);
         $order->name = $request->name;
-        if (!$request->date_order == null){
-        $order->date_order = $request->date_order;
-        }
+        // if (!$request->date_order == null){
+        // $order->date_order = $request->date_order;
+        // }
         if (!$request->date_production == null)
         {
             $order->date_production = $request->date_production;

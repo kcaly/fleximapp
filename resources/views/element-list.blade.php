@@ -705,7 +705,7 @@
                           {{ \App\Models\JobGroup::find($element->job_group_id)->name }}
                           @endif
                       </td>
-                      <td>{{ $element->id }}</td>
+                      <td>@if ( $element->code == $element->id) {{ $element->id }} @else {{ $element->code }}@endif</td>
                       <td>{{ $element->name }}</td>
                       <td>{{ $element->length }}</td>
                       <td>{{ $element->width }}</td>

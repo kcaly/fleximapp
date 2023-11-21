@@ -20,7 +20,7 @@
                 @method('put')
 
                 <div class="form-floating mb-4">
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nazwa" autofocus />
+                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nazwa" autofocus required/>
                     <label for="name">Nazwa</label>
                             @error('name')
                                     <span class="invalid-feedback" role="alert">

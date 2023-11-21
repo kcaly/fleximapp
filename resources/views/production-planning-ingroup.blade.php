@@ -43,7 +43,7 @@
                             <li class="nav-item">
                               <a class="nav-link" href="{{route('production.select', ['id' => $prod->id])}}"><i class="fas fa-door-open"></i> Zamknij</a>
                             </li>
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                               <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Szablony widoku
                               </a>
@@ -53,7 +53,7 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item small" href="#">Podsumowanie materiałowe</a></li>
                               </ul>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
                               <a class="nav-link active" aria-current="page" href="#"><i class="fas fa-print"></i> Drukuj</a>
                             </li>
