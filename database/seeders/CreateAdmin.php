@@ -19,7 +19,7 @@ class CreateAdmin extends Seeder
         Company::create([
             'name' => 'Karol Cały',
             'nip' => '7393925559',
-            'contact' => '+48 888 8884 710',
+            'contact' => '+48 888 884 710',
             'address' => 'Rataja 19A/1',
             'postcode' => '10-202',
             'city' => 'Olsztyn',
