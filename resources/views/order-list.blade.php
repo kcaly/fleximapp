@@ -10,30 +10,32 @@
               <i class="fas fa-shopping-basket grey700color"></i>&nbsp;&nbsp;Zamówienia
             </h6>
           </div>
-        <div class="">
+        <div class="header">
             
-
-
             <div class="row mb-3 font-weight-light my-4">
                 <div class="col-md-6">
                     <div class="form-floating mb-3 mb-md-0">
                         
-                        {{-- <h4 class="text-center font-weight-light my-4">
-                            Lista zamówień
-                        </h4> --}}
+                        <h4 class="text-center font-weight-light my-4">
+                            <i class="fas fa-shopping-basket grey700color"></i> Zamówienia
+                        </h4>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="form-floating mb-3 mb-md-0">     
                     @if (session()->has('message'))
-                            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <div class="alert alert-dark alert-dismissible fade show" role="alert">
                             <h6>{{ Session::get('message') }}</h6>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif           
                     </div>
                 </div>
-            </div>     
+                <div class="col-md-1">
+                </div>
+            </div>
+            
+            
           </div>
         <div class="card-body">
             <table class="table table-striped table-hover">

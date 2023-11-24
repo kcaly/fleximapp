@@ -22,7 +22,7 @@
                 <div class="col-md-6">
                     <div class="form-floating mb-3 mb-md-0">     
                     @if (session()->has('message'))
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <div class="alert alert-dark alert-dismissible fade show" role="alert">
                             <h6>{{ Session::get('message') }}</h6>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>

@@ -90,7 +90,7 @@
                 <div class="row mb-3"></div>
 
                 <div class="form-floating mb-4">
-                    <select name="material_id" class="form-select" id="inputGroupSelect01">
+                    <select name="material_id" class="form-select" id="inputGroupSelect01" required>
                         @foreach (\App\Models\Material::orderBy('name', 'ASC')->get() as $material)
                         <option value="{{ $material->id }}">{{ $material->name }}</option>
                         @endforeach
