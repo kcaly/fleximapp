@@ -22,7 +22,7 @@
                 @method('put')
 
                 <div class="form-floating mb-4">
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nazwa" autofocus />
+                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nazwa" autofocus required />
                     <label for="name">Nazwa</label>
                             @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -33,7 +33,7 @@
 
                 <div class="form-floating mb-4">
                     
-                    <input id="date" type="date" class="form-control @error('date') is-invalid @enderror" name="date" value="{{ old('date') ?? date("Y-m-d")}}" placeholder="Data (RRRR-MM-DD)" autofocus />
+                    <input id="date" type="date" class="form-control @error('date') is-invalid @enderror" name="date" value="{{ old('date') ?? date("Y-m-d")}}" placeholder="Data (RRRR-MM-DD)" autofocus required />
                     <label for="date">Data zamówienia</label>
                             @error('date')
                                     <span class="invalid-feedback" role="alert">
