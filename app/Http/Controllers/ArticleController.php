@@ -8,6 +8,8 @@ use App\Models\Article;
 use App\Models\Element;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+
 
 class ArticleController extends Controller
 {
@@ -25,12 +27,20 @@ class ArticleController extends Controller
         {
                 
         }        
-        $code = '10'.$flexim_id[1].$flexim_id[2].'2';
+        $code = $flexim_id;
         $article->code = $code;
         $article->save();
             
+        $now = Carbon::now()->format('Y-m-d');
+    
+        $yyyy = Carbon::parse($now)->year;
+        $mm = Carbon::parse($now)->month;
+        $dd = Carbon::parse($now)->day;
+
+
+
         $article_add_id_to_code = Article::where('name', $request->name)->orderBy('id', 'DESC')->first();
-        $article_add_id_to_code->code = $code . $article_add_id_to_code->id;
+        $article_add_id_to_code->code = $mm . $article_add_id_to_code->id . '/' . $yyyy . '/A';
         $article_add_id_to_code->save();
 
         // $article->time = 0;

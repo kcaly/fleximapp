@@ -15,8 +15,8 @@
                     <div class="form-floating mb-3 mb-md-0">
                         <h5 class="text-center font-weight-light mb-md-0">
                             <i class="fas fa-boxes"></i><i class="fas fa-chalkboard"></i><i class="fas fa-bars"></i> Lista artykułów<br>
-                            <span class="badge text-dark mb-2"><a href="{{route('article.import')}}"><button class="btn btn-outline-link btn-sm" ><i class="far fa-file-alt grey700color"></i> <i class="fas fa-exchange-alt grey700color"></i> <i class="far fa-hdd grey700color"></i></button></a></span><br>
-                          </h5>
+                            {{-- <span class="badge text-dark mb-2"><a href="{{route('article.import')}}"><button class="btn btn-outline-link btn-sm" ><i class="far fa-file-alt grey700color"></i> <i class="fas fa-exchange-alt grey700color"></i> <i class="far fa-hdd grey700color"></i></button></a></span><br>
+                          </h5> --}}
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -36,7 +36,7 @@
                 <thead>
                   <tr>
                     <th scope="col"><a href="{{route('article.new')}}"><i class="fas fa-plus"></i> Nowy artykuł</a></th>
-                    <th scope="col">ID</th>
+                    <th scope="col">Kod</th>
                     <th scope="col">Nazwa</th>
                     <th scope="col"></th>
                   </tr>
@@ -50,7 +50,7 @@
             @method('get')
             <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-sign-in-alt"></i></button></form>
     </td>
-    <td>{{ $article->id }}</td>
+    <td>{{ $article->code }}</td>
     <td>{{ $article->name }}</td>
     <td>
         <form method="get" action={{route('article.details.show', ['id' => $article->id]) }} >

@@ -7,6 +7,8 @@ use App\Imports\ProductsImport;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+
 
 class ProductController extends Controller
 {
@@ -27,12 +29,20 @@ class ProductController extends Controller
         {
                 
         }        
-        $code = '10'.$flexim_id[1].$flexim_id[2].'3';
+        $code = $flexim_id;
         $product->code = $code;
         $product->save();
             
+
+        $now = Carbon::now()->format('Y-m-d');
+    
+        $yyyy = Carbon::parse($now)->year;
+        $mm = Carbon::parse($now)->month;
+        $dd = Carbon::parse($now)->day;
+
+
         $product_add_id_to_code = Product::where('name', $request->name)->orderBy('id', 'DESC')->first();
-        $product_add_id_to_code->code = $code . $product_add_id_to_code->id;
+        $product_add_id_to_code->code = $mm . $product_add_id_to_code->id . '/' . $yyyy . '/P';
         $product_add_id_to_code->save();
 
         return redirect()->route('product.list')->with('message', 'Pomyślnie dodano nowy produkt.');

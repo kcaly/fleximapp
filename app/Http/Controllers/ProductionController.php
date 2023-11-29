@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ArticleProduction;
 use App\Models\Production;
 use App\Models\ElementProduction;
 use App\Models\ElementJob;
 use App\Models\JobGroup;
 use App\Models\JobOrder;
 use App\Models\Order;
+use App\Models\ProductProduction;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Hamcrest\Core\HasToString;
@@ -92,16 +94,38 @@ class ProductionController extends Controller
     
             foreach ($products as $product)
             {
+                
+                $product_production_record = new ProductProduction();
+                $product_production_record->amount = $product->pivot->amount;
+                $product_production_record->date_production = $order->date_production;
+                $product_production_record->order_id = $order->id;
+                $product_production_record->product_info = $product->code .'   '. $product->name;
+
+                $product_production_record->status = 0;
+
+                $product_production_record->save();
+
                 $amount_product = $product->pivot->amount;
                 $articles = $product->articles;
-    
-    
+                
+
                 foreach($articles as $article)
                 {
     
+                    $article_production_record = new ArticleProduction();
+                    $article_production_record->amount = $article->pivot->amount;
+                    $article_production_record->date_production = $order->date_production;
+                    $article_production_record->order_id = $order->id;
+                    $article_production_record->article_info = $article->code .'   '. $article->name;
+
+                    $article_production_record->status = 0;
+
+                    $article_production_record->save();
+
                     $amount_article = $article->pivot->amount;
                     $elements = $article->elements;
     
+
                     foreach($elements as $element)
                     {   
                         if($element->job_group_id == null || $element->machine_id == null)
@@ -130,7 +154,8 @@ class ProductionController extends Controller
                         $element_production_record->article_quantity = $amount_article;
                         $element_production_record->product_info = $product->name;
                         $element_production_record->product_quantity = $amount_product;
-                        $element_production_record->order_info = '['.$order->id.'] '.$order->name.' ['.$order->date_order.']';
+                        $element_production_record->order_info = $order->code;
+                        // $element_production_record->order_info = '['.$order->id.'] '.$order->name.' ['.$order->date_order.']';
                         // $material_element = \App\Models\Material::find($element->material_id)->first();
                         $element_production_record->material = $element->material->name;
                         $element_production_record->weight = $element->weight;
@@ -344,6 +369,23 @@ class ProductionController extends Controller
                             $order->save();
                         }
 
+                        $articles_productions = \App\Models\ArticleProduction::where('date_production', $date->date_production)->get();
+                        foreach($articles_productions as $article_prod)
+                        {
+                            $article_prod->production_id = $production_id;
+                            $article_prod->status = 1;
+                            $article_prod->save();
+                        }
+
+                        $products_productions = \App\Models\ProductProduction::where('date_production', $date->date_production)->get();
+                        foreach($products_productions as $product_prod)
+                        {
+                            $product_prod->production_id = $production_id;
+                            $product_prod->status = 1;
+                            $product_prod->save();
+                        }
+
+
                         if($dates_all == '')
                         {
                             $dates_all = $date->date_production;
@@ -383,6 +425,23 @@ class ProductionController extends Controller
                             $order->status = 2;
                             $order->save();
                         }
+
+                        $articles_productions = \App\Models\ArticleProduction::where('date_production', $date->date_production)->get();
+                        foreach($articles_productions as $article_prod)
+                        {
+                            $article_prod->production_id = $production_id;
+                            $article_prod->status = 1;
+                            $article_prod->save();
+                        }
+
+                        $products_productions = \App\Models\ProductProduction::where('date_production', $date->date_production)->get();
+                        foreach($products_productions as $product_prod)
+                        {
+                            $product_prod->production_id = $production_id;
+                            $product_prod->status = 1;
+                            $product_prod->save();
+                        }
+
 
                         if($dates_all == '')
                         {
@@ -770,6 +829,31 @@ class ProductionController extends Controller
 
                             $element_job_record->status = 2;
                             $element_job_record->save();
+
+
+                        $article_productions = ArticleProduction::where('status', 1)
+                        ->where('production_id', $id)
+                        ->where('date_production', $element_job_record->date_production)
+                        ->get();
+
+                        foreach($article_productions as $article_production)
+                        {
+                            $article_production->status = 2;
+                            $article_production->save();
+                        }
+
+                        $product_productions = ProductProduction::where('status', 1)
+                        ->where('production_id', $id)
+                        ->where('date_production', $element_job_record->date_production)
+                        ->get();
+
+                        foreach($product_productions as $product_production)
+                        {
+                            $product_production->status = 2;
+                            $product_production->save();
+                        }
+
+                         
       
                     }
                 }             

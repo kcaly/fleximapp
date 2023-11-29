@@ -405,18 +405,27 @@
                                   <table class="table table-sm">
                                     <thead>
                                       <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Nazwa</th>
-                                        <th scope="col">Ilość</th>
+                                        <th scope="col">Data prod.</th>
+
+                                        <th scope="col">Ilość (szt.)</th>
+                                        <th scope="col">Nazwa artykułu</th>
+                                        <th scope="col">Zamówienie</th>
                                        
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      @foreach(\App\Models\ArticleProduction::get() as $article)
+                                      @foreach(\App\Models\ArticleProduction::where('production_id', $production->id)->get() as $article)
                                       <tr>
-                                        <td>{{$article->id}}</td>
-                                        <td>{{$article->name}}</td>
-                                        <td>{{$article->amount}}</td>
+                                        <td>{{$article->date_production}}</td>
+
+                                        <td><strong><h5>{{$article->amount}}x</h5></strong></td>
+
+                                        <td>{{$article->article_info}}</td>
+                                        <td>
+                                          {{\App\Models\Order::find($article->order_id)->first()->code}}
+                                          <small>{{\App\Models\Order::find($article->order_id)->first()->date_order}}</small>
+                                        </td>
+
                                       </tr>
                                       @endforeach
                                     </tbody>
@@ -434,22 +443,41 @@
                                   <table class="table table-sm">
                                     <thead>
                                       <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Nazwa</th>
-                                        <th scope="col">Ilość</th>
+                                        <th scope="col">Data prod.</th>
+
+                                        <th scope="col">Ilość (szt.)</th>
+                                        <th scope="col">Nazwa produktu</th>
+                                        <th scope="col">Zamówienie</th>
                                        
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      @foreach(\App\Models\ProductProduction::get() as $product)
+                                      @foreach(\App\Models\ProductProduction::where('production_id', $production->id)->get() as $product)
                                       <tr>
-                                        <td>{{$product->id}}</td>
-                                        <td>{{$product->name}}</td>
-                                        <td>{{$product->amount}}</td>
+                                        <td>{{$product->date_production}}</td>
+
+                                        <td><strong><h5>{{$product->amount}}x</h5></strong></td>
+
+                                        <td>{{$product->product_info}}</td>
+                                        <td>
+                                          {{\App\Models\Order::find($product->order_id)->first()->code}}
+                                          <small>{{\App\Models\Order::find($product->order_id)->first()->date_order}}</small>
+                                          
+                                        </td>
+                                        {{-- <td>
+                                          <form method="get" action={{route('order.edit', ['id' => $product->order_id]) }}>
+                                            @csrf
+                                            @method('get')
+                                            <button type="submit" class="btn btn-light btn-sm"><i class="fas fa-info"></i></button>
+                                        </form>
+                                      </td> --}}
+                                        </td>
+
                                       </tr>
                                       @endforeach
                                     </tbody>
                                   </table>
+                    
                     
                     
                                 </div>

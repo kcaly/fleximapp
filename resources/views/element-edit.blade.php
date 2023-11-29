@@ -10,7 +10,7 @@
         <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-header">
                 <h4 class="text-center font-weight-light my-4">
-                    Edytuj element <br />ID {{ $element->id}}
+                    Edytuj element <br />{{ $element->code}}
                 </h4>
               </div>
             <div class="card-body">
@@ -26,19 +26,8 @@
                     <input name="id" value="{{ $element->id }}" type="hidden">
     
                     <div class="row mb-3">
-                        <div class="col-md-2">
-                            <small class="grey600color">ID: {{$element->id}}</small>
-                            <div class="mb-3 mb-md-0">
-                                <input id="code" type="text" class="form-control form-control-sm @error('code') is-invalid @enderror" name="code" value="{{ old('code') ?? $element->code }}" autofocus placeholder="Kod"/>
-                                
-                                @error('code')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror 
-                            </div>
-                        </div>
-                        <div class="col-md-10">
+                        
+                        <div class="col-md-12">
                             <small class="grey600color"></small>
                             <div class="form-floating mb-4">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') ?? $element->name }}" placeholder="Nazwa" autofocus required />

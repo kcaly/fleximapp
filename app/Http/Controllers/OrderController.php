@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class OrderController extends Controller
 {
@@ -22,12 +24,19 @@ class OrderController extends Controller
         {
                 
         }        
-        $code = '10'.$flexim_id[1].$flexim_id[2].'4';
+        $code = $flexim_id;
         $order->code = $code;
         $order->save();
+
+        $now = Carbon::now()->format('Y-m-d');
+    
+        $yyyy = Carbon::parse($now)->year;
+        $mm = Carbon::parse($now)->month;
+        $dd = Carbon::parse($now)->day;
+
             
         $order_add_id_to_code = Order::where('name', $request->name)->orderBy('id', 'DESC')->first();
-        $order_add_id_to_code->code = $code . $order_add_id_to_code->id;
+        $order_add_id_to_code->code = $mm . $order_add_id_to_code->id . '/' . $yyyy . '/Z';
         $order_add_id_to_code->save();
 
         return redirect()->route('order.list')->with('message', 'Pomyślnie dodano nowe zamówienie.');

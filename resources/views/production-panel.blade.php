@@ -222,14 +222,14 @@
   
 
 
-  <div class="col-md-7">
+  <div class="col-md-8">
     <form method="post" action="{{ route('production.create')}}" >
       @csrf
       @method('put')
       <input id="production_name" type="hidden" name="production_name" class="form-floating small mt-3" value="{{ old('name') }}" placeholder="Nazwa (opcjonalnie)" autofocus @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) @else disabled @endif/>
-  <button type="submit" id="{{$check_number=0}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) class="btn btn-primary btn-sm mb-1" @else class="btn btn-outline-secondary btn-sm mb-1" disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres</button>&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="{{route('production.orders')}}" class="btn btn-outline-dark btn-sm mb-1"><i class="fas fa-vote-yea"></i> <i class="fas fa-list"></i>&nbsp;&nbsp;Lista</a>&nbsp;&nbsp;
-  <a href="{{route('production.orders.archive')}}" class="btn btn-outline-dark btn-sm mb-1"><i class="fas fa-book"></i> <i class="fas fa-mug-hot"></i>&nbsp;&nbsp;Archiwum</a>
+  <button type="submit" id="{{$check_number=0}}" @if(\App\Models\ElementProduction::where('status', 0)->select('date_production')->first() != null) class="btn btn-primary mb-1" @else class="btn btn-outline-secondary mb-1" disabled @endif><i class="fas fa-snowplow"></i> <i class="fas fa-suitcase"></i>&nbsp;&nbsp;Utwórz zakres zlecenia</button>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="{{route('production.orders')}}" class="btn btn-outline-dark mb-1"><i class="fas fa-vote-yea"></i> <i class="fas fa-list"></i>&nbsp;&nbsp;&nbsp;&nbsp;Lista aktywnych zleceń</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="{{route('production.orders.archive')}}" class="btn btn-outline-dark mb-1"><i class="fas fa-book"></i> <i class="fas fa-mug-hot"></i>&nbsp;&nbsp;Archiwum zakończonych</a>
   </div>
 </div>
          

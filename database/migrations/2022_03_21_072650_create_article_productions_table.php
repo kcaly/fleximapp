@@ -15,6 +15,16 @@ class CreateArticleProductionsTable extends Migration
     {
         Schema::create('article_productions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('amount')->default(0);
+            $table->unsignedBigInteger('production_id')->nullable();
+            $table->date('date_production');           
+            $table->unsignedBigInteger('order_id');
+            $table->tinyInteger('status')->default(0);
+
+            $table->string('article_info')->nullable();
+
+
+
             $table->timestamps();
 
             

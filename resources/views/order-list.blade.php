@@ -14,12 +14,12 @@
             
             <div class="row mb-3 font-weight-light my-4">
                 <div class="col-md-6">
-                    <div class="form-floating mb-3 mb-md-0">
+                    {{-- <div class="form-floating mb-3 mb-md-0"> --}}
                         
-                        <h4 class="text-center font-weight-light my-4">
+                        {{-- <h4 class="text-center font-weight-light my-4">
                             <i class="fas fa-shopping-basket grey700color"></i> Zamówienia
                         </h4>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-md-5">
                     <div class="form-floating mb-3 mb-md-0">     
@@ -43,7 +43,7 @@
                   <tr>
                     <th scope="col"><a href="{{route('order.new')}}"><i class="fas fa-plus"></i> Nowe zamówienie</a></th>
                     <th scope="col"></th>
-                    <th scope="col">ID</th>
+                    <th scope="col">Kod zam.</th>
                     <th scope="col">Nazwa</th>
                     
                     <th scope="col">Data zam.</th>
@@ -57,10 +57,11 @@
 @foreach ($orders as $order)
 <tr>
     <td>
-        <form method="get" action={{route('order.edit', ['id' => $order->id]) }} >
+        <form method="get" action={{route('order.edit', ['id' => $order->id]) }}>
             @csrf
             @method('get')
-            <button type="submit" class="btn btn-light btn-sm"><i class="fas fa-info"></i></button></form>
+            <button type="submit" class="btn btn-light btn-sm"><i class="fas fa-info"></i></button>
+        </form>
     </td>
     <td>@if ($order->date_production == null)
         <i class="fas fa-circle rediconcolor"></i>
@@ -71,7 +72,7 @@
     <i class="far fa-check-circle greeniconcolor"></i>
     @endif
     @endif</td>
-    <td>{{ $order->id }}</td>
+    <td>{{ $order->code }}</td>
     <td>{{ $order->name }}</td>
     
     <td>{{ $order->date_order}}</td>

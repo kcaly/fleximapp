@@ -7,7 +7,7 @@
         <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item small active"><i class="fas fa-toolbox"></i>&nbsp;&nbsp;<a href="{{route('production.panel')}}">Produkcja</a></li>
-            <li class="breadcrumb-item small active" aria-current="page"><strong>Archiwum zleceń</strong></li>
+            <li class="breadcrumb-item small active" aria-current="page"><strong>Archiwum zakończonych zleceń</strong></li>
           </ol>
         </nav>
         <div class="row">
@@ -43,9 +43,10 @@
               <table class="table table-sm">
                 <thead>
                   <tr>
+                    
                     <th scope="col"></th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nazwa</th>
+
+                    <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col">Ilość elementów</th>
                     <th scope="col"></th>
@@ -61,7 +62,7 @@
                       <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-sign-in-alt"></i></button>
                       </form>
                 </td>
-                    <td>{{$production->id}}</td>
+                    {{-- <td>{{$production->total}}</td> --}}
                     <td>{{$production->name}}</td>
                     <td>{{$production->dates_textcode}}</td>
                     <td>{{$production->sum_elements}}</td>
